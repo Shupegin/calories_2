@@ -1,0 +1,76 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "46cf968e60a1ef41327580624b129fe9",
+    "entities": [
+      {
+        "tableName": "food_name_list",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`food_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dataCurrent` TEXT, `food` TEXT, `desctription` TEXT, `calories` INTEGER, `error` INTEGER, `eating` TEXT, `gramm` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "food_id",
+            "columnName": "food_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dataCurrent",
+            "columnName": "dataCurrent",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "food",
+            "columnName": "food",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "desctription",
+            "columnName": "desctription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "calories",
+            "columnName": "calories",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "error",
+            "columnName": "error",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eating",
+            "columnName": "eating",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gramm",
+            "columnName": "gramm",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "food_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '46cf968e60a1ef41327580624b129fe9')"
+    ]
+  }
+}

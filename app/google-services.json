@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "964909450005",
+    "firebase_url": "https://calories-147ea-default-rtdb.firebaseio.com",
+    "project_id": "calories-147ea",
+    "storage_bucket": "calories-147ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964909450005:android:425639b6cec22facbd9f1c",
+        "android_client_info": {
+          "package_name": "cal.calor.caloriecounter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964909450005-g7no7nn8t7e326l2nnku2k009g7h3cj5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjRff36BagRqeezFphjEME0XmpIARGXL8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964909450005-g7no7nn8t7e326l2nnku2k009g7h3cj5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
