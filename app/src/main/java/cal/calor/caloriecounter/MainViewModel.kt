@@ -36,7 +36,6 @@ import java.util.*
 import kotlin.NoSuchElementException
 import kotlin.collections.ArrayList
 
-@RequiresApi(Build.VERSION_CODES.O)
 
 class MainViewModel(application: Application): AndroidViewModel(application){
     val mapper = FoodMapper()
@@ -231,7 +230,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         viewModelScope.launch {
             var calories = 0
             categoryFirebase(foodModel)
-            delay(300)
+            delay(400)
             val userReference: DatabaseReference?
             Log.d("RRR", "4 = ${result}")
 

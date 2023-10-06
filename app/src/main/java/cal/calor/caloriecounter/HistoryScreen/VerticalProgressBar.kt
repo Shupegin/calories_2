@@ -50,8 +50,7 @@ fun VerticalProgressBar(viewModel: MainViewModel,
 
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 100.dp, start = 30.dp, end = 30.dp),
+                    .padding(top = 70.dp, start = 30.dp, end = 30.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
 
