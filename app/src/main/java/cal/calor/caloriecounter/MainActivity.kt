@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -212,11 +214,11 @@ fun LoginApplication(viewModel: LoginViewModel,
 
 
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "login_page", builder ={
-        composable("login_page", content = { LoginScreen(navController = navController,viewModel= viewModel, owner = owner, context = context)})
-        composable("register_page", content = { RegistrationScreen(navController = navController, viewModel= viewModelRegistration,owner = owner, context = context)})
-        composable("activity_main", content = { MainScreen(mainViewModel = mainViewModel,viewModelProf = viewModelProf, historyViewModel = historyViewModel, owner = owner, context = context,navController = navController) })
-        composable("Add_food_screen", content = {AddFoodScreen(viewModel= viewModelAddFoodScreen,navController,context)})
+    NavHost(navController = navController, enterTransition = {EnterTransition.None}, exitTransition = {ExitTransition.None}, startDestination = "login_page", builder ={
+        composable(route = "login_page", content = { LoginScreen(navController = navController,viewModel= viewModel, owner = owner, context = context)})
+        composable(route ="register_page", content = { RegistrationScreen(navController = navController, viewModel= viewModelRegistration,owner = owner, context = context)})
+        composable(route ="activity_main", content = { MainScreen(mainViewModel = mainViewModel,viewModelProf = viewModelProf, historyViewModel = historyViewModel, owner = owner, context = context,navController = navController) })
+        composable(route ="Add_food_screen", content = {AddFoodScreen(viewModel= viewModelAddFoodScreen,navController,context)})
     })
 
 }
