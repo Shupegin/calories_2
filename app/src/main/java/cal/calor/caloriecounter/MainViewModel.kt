@@ -32,11 +32,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.Credentials
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.NoSuchElementException
 import kotlin.collections.ArrayList
 
-@RequiresApi(Build.VERSION_CODES.O)
 
 class MainViewModel(application: Application): AndroidViewModel(application){
     val mapper = FoodMapper()
@@ -130,10 +131,11 @@ class MainViewModel(application: Application): AndroidViewModel(application){
             listFood.clear()
             listFood.add(foodModel)
             db.foodsInfoDao().insertFoodList(foodModel)
-            var currentData  = removePunctuations(foodModel.dataCurrent.toString())
 
+            var currentData  = removePunctuations(foodModel.dataCurrent.toString())
+            val data = formatData(currentData)
             auth?.addAuthStateListener{
-                it.uid?.let { it1 -> userReference?.child(it1)?.child(currentData)?.
+                it.uid?.let { it1 -> userReference?.child(it1)?.child(data)?.
                 child(foodModel.food.toString())?.setValue(foodModel) }
             }
         }
@@ -145,6 +147,15 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
+    private fun formatData(_data : String) : String {
+        val readingFormatter = DateTimeFormatter.ofPattern("ddMMyyyy")
+        val date = LocalDate.parse(_data, readingFormatter)
+
+        val writingFormatter = DateTimeFormatter.ofPattern("yyyMMdd")
+        val formattedDate = date.format(writingFormatter)
+       return formattedDate
+    }
+
     fun removeInFirebaseDatabase(foodModel: FoodModel){
         var data = removePunctuations(foodModel.dataCurrent.toString())
         auth?.addAuthStateListener{
@@ -154,7 +165,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     }
 
 
-    fun removePunctuations(source : String) : String{
+    private fun removePunctuations(source : String) : String{
         return source.replace("\\p{Punct}".toRegex(),"")
     }
 
@@ -227,11 +238,14 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
+
+
+
     fun loadFirebaseFood(foodModel : FoodModel) {
         viewModelScope.launch {
             var calories = 0
             categoryFirebase(foodModel)
-            delay(300)
+            delay(400)
             val userReference: DatabaseReference?
             Log.d("RRR", "4 = ${result}")
 
@@ -241,9 +255,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
                     var result = 0
                     for (dataSnapshot in snapshot.children) {
                         val value = dataSnapshot.getValue(FoodSearchFirebase::class.java)
-                        Log.d("RRR", "5 = ${value?.name}")
                         if (value?.name?.equals(foodModel.food.toString())!!) {
-                            Log.d("RRR", "6 = ${value?.name}")
                             calories = value?.calories ?: 0
                         }
                     }
@@ -301,7 +313,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun getCurrentDate(): String {
+   fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("dd.MM.yyy")
         return dateFormat.format(Date())
     }

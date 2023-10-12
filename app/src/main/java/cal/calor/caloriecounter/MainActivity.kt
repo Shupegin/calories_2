@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,6 +39,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cal.calor.caloriecounter.AddNewFoodScreen.AddFoodScreen
 import cal.calor.caloriecounter.AddNewFoodScreen.AddFoodScreenViewModel
+import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
 import cal.calor.caloriecounter.InternetScreen.CheckInternetScreen
 import cal.calor.caloriecounter.LoginScreen.LoginScreen
 import cal.calor.caloriecounter.LoginScreen.LoginViewModel
@@ -70,6 +73,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var viewModelAddFoodScreen: AddFoodScreenViewModel
     private lateinit var viewModelProf: ProfileViewModel
     private lateinit var connectivityObserver: ConnectivityObserver
+    private lateinit var historyViewModel: HistoryViewModel
 
     private lateinit var appUpdateManager: AppUpdateManager
     private val updateType = AppUpdateType.FLEXIBLE
@@ -92,6 +96,7 @@ class MainActivity : ComponentActivity() {
         viewModelRegistration = ViewModelProvider(this)[RegistrationViewModel::class.java]
         viewModelAddFoodScreen = ViewModelProvider(this)[AddFoodScreenViewModel::class.java]
         viewModelProf = ViewModelProvider(this)[ProfileViewModel::class.java]
+        historyViewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
 
          mainViewModel.userListDAO.observe(this, Observer {
              mainViewModel.loadFirebaseData(it)
@@ -106,6 +111,7 @@ class MainActivity : ComponentActivity() {
                     LoginApplication(
                         viewModel = viewModelLogin,
                         viewModelProf= viewModelProf,
+                        historyViewModel = historyViewModel,
                         viewModelRegistration = viewModelRegistration,
                         mainViewModel = mainViewModel,
                         viewModelAddFoodScreen = viewModelAddFoodScreen,
@@ -199,6 +205,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun LoginApplication(viewModel: LoginViewModel,
                      viewModelRegistration: RegistrationViewModel,
+                     historyViewModel: HistoryViewModel,
                      viewModelProf: ProfileViewModel,
                      mainViewModel : MainViewModel,
                      viewModelAddFoodScreen : AddFoodScreenViewModel,
@@ -207,11 +214,11 @@ fun LoginApplication(viewModel: LoginViewModel,
 
 
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "login_page", builder ={
-        composable("login_page", content = { LoginScreen(navController = navController,viewModel= viewModel, owner = owner, context = context)})
-        composable("register_page", content = { RegistrationScreen(navController = navController, viewModel= viewModelRegistration,owner = owner, context = context)})
-        composable("activity_main", content = { MainScreen(mainViewModel = mainViewModel,viewModelProf = viewModelProf, owner = owner, context = context,navController = navController) })
-        composable("Add_food_screen", content = {AddFoodScreen(viewModel= viewModelAddFoodScreen,navController,context)})
+    NavHost(navController = navController, enterTransition = {EnterTransition.None}, exitTransition = {ExitTransition.None}, startDestination = "login_page", builder ={
+        composable(route = "login_page", content = { LoginScreen(navController = navController,viewModel= viewModel, owner = owner, context = context)})
+        composable(route ="register_page", content = { RegistrationScreen(navController = navController, viewModel= viewModelRegistration,owner = owner, context = context)})
+        composable(route ="activity_main", content = { MainScreen(mainViewModel = mainViewModel,viewModelProf = viewModelProf, historyViewModel = historyViewModel, owner = owner, context = context,navController = navController) })
+        composable(route ="Add_food_screen", content = {AddFoodScreen(viewModel= viewModelAddFoodScreen,navController,context)})
     })
 
 }

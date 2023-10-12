@@ -29,6 +29,7 @@ fun VerticalProgressBar(viewModel: MainViewModel,
 
     var progress by remember { mutableStateOf(0f) }
     var listUsers = viewModel.addListHistoryCalories.observeAsState(listOf())
+
     var day = viewModel.addDay.observeAsState()
 
     LazyRow(modifier = Modifier
@@ -37,6 +38,7 @@ fun VerticalProgressBar(viewModel: MainViewModel,
 
         items(listUsers.value){it
             if (it.dailyCalories != null) {
+
                 val caloriesPerDay = 2000
                 val calories  = it.dailyCalories!!.toFloat() / (caloriesPerDay)
 
@@ -50,8 +52,7 @@ fun VerticalProgressBar(viewModel: MainViewModel,
 
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 100.dp, start = 30.dp, end = 30.dp),
+                    .padding(top = 70.dp, start = 30.dp, end = 30.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
 
