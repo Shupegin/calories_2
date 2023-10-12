@@ -36,8 +36,6 @@ fun Chart(pointList : List<Point>, viewModel: MainViewModel, ){
     var listUsers = viewModel.addListHistoryCalories.observeAsState(listOf())
 
     val steps = 10
-    val max = getMax(pointList)
-    val min = getMin(pointList)
 
     val xAxisData = AxisData.Builder()
         .axisStepSize(30.dp)
@@ -53,9 +51,8 @@ fun Chart(pointList : List<Point>, viewModel: MainViewModel, ){
         .backgroundColor(BackgroundGray)
         .labelAndAxisLinePadding(15.dp)
         .labelData { i->
-            val yScale = (max- min) / steps.toFloat()
-            String.format("%.1f",((i * yScale) + min))
-
+            val yScale = 1000 / steps
+            (i * yScale).toString()
         }
         .build()
 
