@@ -37,6 +37,9 @@ fun Chart(pointList : List<Point>, viewModel: MainViewModel, ){
 
     val steps = 10
 
+    val max = getMax(pointList)
+    val min = getMin(pointList)
+
     val xAxisData = AxisData.Builder()
         .axisStepSize(30.dp)
         .backgroundColor(BackgroundGray)
@@ -49,10 +52,10 @@ fun Chart(pointList : List<Point>, viewModel: MainViewModel, ){
     val yAxisData = AxisData.Builder()
         .steps(steps)
         .backgroundColor(BackgroundGray)
-        .labelAndAxisLinePadding(15.dp)
+        .labelAndAxisLinePadding(20.dp)
         .labelData { i->
-            val yScale = 1000 / steps
-            (i * yScale).toString()
+            val yScale = (max- min) / steps.toFloat()
+            String.format("%.1f",((i * yScale) + min))
         }
         .build()
 
