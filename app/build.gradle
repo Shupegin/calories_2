@@ -15,8 +15,8 @@ android {
         applicationId "cal.calor.caloriecounter"
         minSdk 26
         targetSdk 34
-        versionCode 12
-        versionName "2.10"
+        versionCode 18
+        versionName "2.16"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
