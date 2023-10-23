@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -83,7 +85,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         connectivityObserver = NetworkConnectivityObserver(applicationContext)
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-
         if(false) {
 
             if (updateType == AppUpdateType.FLEXIBLE) {
@@ -91,23 +92,24 @@ class MainActivity : ComponentActivity() {
             }
             checkForAppUpdate()
         }
-        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        viewModelLogin = ViewModelProvider(this)[LoginViewModel::class.java]
-        viewModelRegistration = ViewModelProvider(this)[RegistrationViewModel::class.java]
-        viewModelAddFoodScreen = ViewModelProvider(this)[AddFoodScreenViewModel::class.java]
-        viewModelProf = ViewModelProvider(this)[ProfileViewModel::class.java]
-        historyViewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
 
-         mainViewModel.userListDAO.observe(this, Observer {
-             mainViewModel.loadFirebaseData(it)
-         })
         setContent {
             CalorieCounterTheme {
                 StatusBarColor(BackgroundGray)
                 val status by connectivityObserver.observe().collectAsState(
-                    initial = ConnectivityObserver.Status.Available
+                    initial = ConnectivityObserver.Status.Unavailable
                 )
-                if(status.name == AVAILABLE){
+                    if(status.name == AVAILABLE){
+                        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+                        viewModelLogin = ViewModelProvider(this)[LoginViewModel::class.java]
+                        viewModelRegistration = ViewModelProvider(this)[RegistrationViewModel::class.java]
+                        viewModelAddFoodScreen = ViewModelProvider(this)[AddFoodScreenViewModel::class.java]
+                        viewModelProf = ViewModelProvider(this)[ProfileViewModel::class.java]
+                        historyViewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
+
+                        mainViewModel.userListDAO.observe(this, Observer {
+                            mainViewModel.loadFirebaseData(it)
+                        })
                     LoginApplication(
                         viewModel = viewModelLogin,
                         viewModelProf= viewModelProf,
@@ -118,15 +120,12 @@ class MainActivity : ComponentActivity() {
                         owner = this,
                         context = this
                     )
-                }else{
-                    CheckInternetScreen()
-                }
+                    }else {
+                        CheckInternetScreen()
+                    }
             }
+
         }
-
-
-
-
     }
 
     override fun onResume() {
