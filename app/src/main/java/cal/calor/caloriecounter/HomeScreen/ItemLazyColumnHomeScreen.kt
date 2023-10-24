@@ -25,8 +25,11 @@ fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
 
         Row (verticalAlignment = Alignment.CenterVertically){
             Column() {
-                Text(text = "Название: ${foodModel.food}", modifier = Modifier.padding(start = 5.dp))
-                Text(text = "Колличество грамм = ${foodModel.gramm}", modifier = Modifier.padding(start = 5.dp))
+                Text(text = "Название: ${foodModel.food}", modifier = Modifier.padding(start = 5.dp)
+                    .width(300.dp))
+                Text(text = "Колличество грамм = ${foodModel.gramm}",
+                    modifier = Modifier.padding(start = 5.dp)
+                        .width(300.dp))
                 Text(text = "Калории = ${foodModel.calories}", modifier = Modifier.padding(start = 5.dp))
 
             }

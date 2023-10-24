@@ -52,6 +52,7 @@ fun HomeScreen(
         .background(BackgroundGray)
 
     ){
+
         val foodList = viewModel.foodListDAO.observeAsState(listOf())
         val list = foodList.value.asReversed().groupBy { it.dataCurrent }
 

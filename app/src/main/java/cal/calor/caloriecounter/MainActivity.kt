@@ -80,7 +80,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var appUpdateManager: AppUpdateManager
     private val updateType = AppUpdateType.FLEXIBLE
     private val AVAILABLE = "Available"
-    @SuppressLint("FlowOperatorInvokedInComposition", "CoroutineCreationDuringComposition")
+    @SuppressLint("FlowOperatorInvokedInComposition", "CoroutineCreationDuringComposition",
+        "SuspiciousIndentation"
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         connectivityObserver = NetworkConnectivityObserver(applicationContext)

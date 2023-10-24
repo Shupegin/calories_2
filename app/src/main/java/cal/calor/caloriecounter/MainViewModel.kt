@@ -28,6 +28,7 @@ import com.google.firebase.database.*
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.Credentials
@@ -110,7 +111,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     @SuppressLint("SuspiciousIndentation")
     fun loadSearchFood(foodModel : FoodModel) {
         val nameFood : String = foodModel.food.toString()
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = ApiFactory.getApi(token?: "").loadSearchFoods(search_expression = nameFood)
             val foodModelList = mapper.mapResponseToPosts(response)
             Log.d("TESTER","request 2= ${response.foods?.result?.food}")
@@ -142,7 +143,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     }
 
     fun deleteFood(foodModel: FoodModel){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             db.foodsInfoDao().remove( id = foodModel.food_id)
         }
     }
@@ -242,7 +243,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
 
 
     fun loadFirebaseFood(foodModel : FoodModel) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             var calories = 0
             categoryFirebase(foodModel)
             delay(400)
