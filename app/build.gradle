@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace 'cal.calor.caloriecounter'
-    compileSdk 34
+
 
     defaultConfig {
         applicationId "cal.calor.caloriecounter"
