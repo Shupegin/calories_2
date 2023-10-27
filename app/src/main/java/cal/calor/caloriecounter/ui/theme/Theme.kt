@@ -11,10 +11,10 @@ import androidx.compose.ui.graphics.Color
 
 @SuppressLint("ConflictingOnColor")
 private val DarkColorPalette = darkColors(
-    primary = Black900,
-    primaryVariant = Black900,
-    secondary = Black900,
-    onPrimary = Color.White,
+    primary = Color.White,
+    primaryVariant = Color.White,
+    secondary = Color.White,
+    onPrimary = Black900,
     onSecondary = Black500
 )
 @SuppressLint("ConflictingOnColor")
@@ -24,8 +24,6 @@ private val LightColorPalette = lightColors(
     secondary = Color.White,
     onPrimary = Black900,
     onSecondary = Black500
-
-
 )
 
 @Composable
