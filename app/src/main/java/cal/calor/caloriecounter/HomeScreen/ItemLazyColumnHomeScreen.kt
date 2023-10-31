@@ -21,37 +21,40 @@ fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(6.dp),
-        shape = RoundedCornerShape(12.dp)) {
+        shape = RoundedCornerShape(12.dp),
+        ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
 
-        Row (verticalAlignment = Alignment.CenterVertically){
             Column() {
-                Text(text = "Название: ${foodModel.food}", modifier = Modifier.padding(start = 5.dp)
-                    .width(300.dp))
-                Text(text = "Колличество грамм = ${foodModel.gramm}",
+                Text(
+                    text = "Название: ${foodModel.food}", modifier = Modifier.padding(start = 5.dp)
+                        .width(300.dp)
+                )
+                Text(
+                    text = "Колличество грамм = ${foodModel.gramm}",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp))
-                Text(text = "Калории = ${foodModel.calories}", modifier = Modifier.padding(start = 5.dp))
-
-            }
-            Spacer(Modifier.weight(1f))
-            Image(modifier = Modifier
-                .padding(end = 5.dp)
-                .width(50.dp)
-                .height(50.dp)
-                .clickable {
-                    viewModel.deleteFood(foodModel)
-                    viewModel.removeInFirebaseDatabase(foodModel)
-                },
-                painter = painterResource(id = cal.calor.caloriecounter.R.drawable.delete),
-                contentDescription = null,
-
-
+                        .width(300.dp)
+                )
+                Text(
+                    text = "Калории = ${foodModel.calories}",
+                    modifier = Modifier.padding(start = 5.dp)
                 )
 
+            }
+
+            Image(
+                modifier = Modifier
+                    .padding(end = 5.dp)
+                    .width(50.dp)
+                    .height(50.dp)
+                    .clickable {
+                        viewModel.deleteFood(foodModel)
+                        viewModel.removeInFirebaseDatabase(foodModel)
+                    },
+                painter = painterResource(id = cal.calor.caloriecounter.R.drawable.delete),
+                contentDescription = null,
+            )
         }
-
-
-
     }
 }
 

@@ -1,6 +1,7 @@
 package cal.calor.caloriecounter
 
 import android.annotation.SuppressLint
+import android.util.Log
 
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -28,7 +29,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.Сoral
@@ -43,8 +47,6 @@ fun HomeScreen(
     paddingValues: PaddingValues
 ){
 
-
-
     var calories by remember { mutableStateOf(0) }
 
     Box(modifier = Modifier
@@ -56,6 +58,8 @@ fun HomeScreen(
         val foodList = viewModel.foodListDAO.observeAsState(listOf())
         val list = foodList.value.asReversed().groupBy { it.dataCurrent }
 
+
+
         LazyColumn(modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 55.dp),
@@ -63,40 +67,29 @@ fun HomeScreen(
 
             list?.forEach{(dataCurrent,listFood)->
                 stickyHeader{
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(1.dp)
-                        .background(color = Сoral),
-                        contentAlignment = Alignment.Center
-                    ){
-                        Text(text = dataCurrent.toString(), style = MaterialTheme.typography.h6)
-                    }
+                        Text(text = dataCurrent.toString(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(color = Сoral),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h6,)
                 }
                 items(listFood, key= {it.food_id},){foodModel ->
                     cardFood(foodModel = foodModel,viewModel)
                 }
-                item() {
+                item {
                     Box(modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.BottomEnd,
+                        contentAlignment = Alignment.BottomEnd){
 
-
-                        ){
-                        Card(modifier = Modifier,
-                            shape = RoundedCornerShape(12.dp),
-                            backgroundColor = Color.Green,
-                            elevation =  10.dp
-
-                        ) {
-                            Box(modifier = Modifier
-                                .padding(6.dp),
-                            ) {
-                                val totalCalories = viewModel.getCalories(listFood)
-                                calories  = totalCalories
-                                Text(text = "Сумма калорий = $totalCalories ")
-                            }
-                        }
+                        val totalCalories = viewModel.getCalories(listFood)
+                        calories = totalCalories
+                        Text(modifier = Modifier.shadow(
+                            elevation = 4.dp,
+                            shape = RoundedCornerShape(8.dp)
+                        ).background(color = Color.Green),
+                            text = "Cумма калорий = ${calories}",
+                            textAlign = TextAlign.Right)
                     }
-
                 }
             }
         }
