@@ -4,14 +4,11 @@ package cal.calor.caloriecounter
 import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Bitmap
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.room.util.query
 import cal.calor.caloriecounter.data.mapper.MapFood
 import cal.calor.caloriecounter.database.AppDatabase
 import cal.calor.caloriecounter.database.UserDatabase
@@ -39,7 +36,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 
-class MainViewModel(application: Application): AndroidViewModel(application){
+class MainViewModel(application: Application): AndroidViewModel(application) {
     val mapper = FoodMapper()
     val mapperNew = MapFood()
     var food_id : Int? = 321312
@@ -77,9 +74,6 @@ class MainViewModel(application: Application): AndroidViewModel(application){
 
     private val _calories : MutableLiveData<String> = MutableLiveData()
     val calories : MutableLiveData<String> =  _calories
-
-    private var resultEnglish : MutableLiveData<String> = MutableLiveData()
-
 
     private val _imageQR : MutableLiveData<Bitmap> = MutableLiveData()
     val imageQR : MutableLiveData<Bitmap> = _imageQR
@@ -345,28 +339,30 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     }
 
     @SuppressLint("NewApi")
-    fun requestFood(foodModel : FoodModel){
-        viewModelScope.launch {
-            foodModel.food?.let { translator(it) }
-            delay(1000)
-            Toast.makeText(context,"${resultEnglish.value}",Toast.LENGTH_LONG).show()
+    fun requestFood(foodModel : FoodModel) {
+        foodModel.food?.let { food ->
+            translator(food) { text ->
+                Toast.makeText(context, text, Toast.LENGTH_LONG).show()
 
-            var calories = 0
-            val response = resultEnglish.value?.let { ApiFactory.getApi().getFood(it) }
-            val foodModelList = response?.let { mapperNew.mapResponseToPosts(it) }
-            if (foodModelList != null) {
-                for (item in foodModelList){
-                    calories = item.calories?: 0
+                text?.let { foodEnglish ->
+                    viewModelScope.launch {
+                        var calories = 0
+                        val response = ApiFactory.getApi().getFood(foodEnglish)
+                        val foodModelList = mapperNew.mapResponseToPosts(response)
+                        for (item in foodModelList) {
+                            calories = item.calories ?: 0
+                        }
+                        calories = (foodModel.gramm ?: 0) * calories / 100
+
+                        Toast.makeText(context, "количество = $calories", Toast.LENGTH_LONG)
+                            .show()
+                    }
                 }
             }
-            calories = (foodModel.gramm ?: 0) * calories / 100
-
-            Toast.makeText(context,"колличество = ${calories}",Toast.LENGTH_LONG).show()
-
         }
     }
 
-   private fun translator(text: String){
+   private fun translator(text: String, onSuccess: OnSuccessListener<String>){
            val translatorEnglish : Translator
            val translatorOptions = TranslatorOptions.Builder()
                .setSourceLanguage(TranslateLanguage.RUSSIAN)
@@ -375,12 +371,9 @@ class MainViewModel(application: Application): AndroidViewModel(application){
            translatorEnglish = Translation.getClient(translatorOptions)
 
            translatorEnglish.translate(text)
-               .addOnSuccessListener{text->
-                   resultEnglish.value = text
-
-               }
+               .addOnSuccessListener(onSuccess)
                .addOnFailureListener {textError->
-                   resultEnglish.value = text
+                   //resultEnglish.value = text
                }
    }
 }
