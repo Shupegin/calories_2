@@ -1,5 +1,6 @@
 package cal.calor.caloriecounter
 
+
 import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Bitmap
@@ -10,24 +11,24 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.room.util.query
+import cal.calor.caloriecounter.data.mapper.MapFood
 import cal.calor.caloriecounter.database.AppDatabase
 import cal.calor.caloriecounter.database.UserDatabase
 import cal.calor.caloriecounter.dialog.FoodMapper
-
-
-import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.network.ApiFactory
-import cal.calor.caloriecounter.pojo.FoodSearchCategoryFirebase
+import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.FoodSearchFirebase
 import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
 import cal.calor.caloriecounter.pojo.UserIDModel
 import cal.calor.caloriecounter.pojo.UserModelFireBase
-import com.example.caloriecounter.cardFood
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.WriterException
-import com.journeyapps.barcodescanner.BarcodeEncoder
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.Translator
+import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -36,18 +37,20 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.NoSuchElementException
-import kotlin.collections.ArrayList
 
 
 class MainViewModel(application: Application): AndroidViewModel(application){
     val mapper = FoodMapper()
+    val mapperNew = MapFood()
     var food_id : Int? = 321312
     var token : String? = ""
 
     val list  = ArrayList<UserModelFireBase>()
 
     var result = " "
+
+    private val context = getApplication<Application>().applicationContext
+
 
 
 
@@ -75,6 +78,9 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     private val _calories : MutableLiveData<String> = MutableLiveData()
     val calories : MutableLiveData<String> =  _calories
 
+    private var resultEnglish : MutableLiveData<String> = MutableLiveData()
+
+
     private val _imageQR : MutableLiveData<Bitmap> = MutableLiveData()
     val imageQR : MutableLiveData<Bitmap> = _imageQR
 
@@ -90,7 +96,6 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         firebaseDatabase = FirebaseDatabase.getInstance()
         userReference = firebaseDatabase?.getReference("calories")
         userIdReference = firebaseDatabase?.getReference("Users")
-
     }
 
 
@@ -120,11 +125,9 @@ class MainViewModel(application: Application): AndroidViewModel(application){
                 food_id = item.food_id
                 Log.d("TESTER","item = ${item.calories} ")
                 try {
-                    var desctription = item.calories
+                    val desctription = item.calories
                     calories += desctription ?: 0
-                }catch (e : java.lang.Exception){
-
-                }
+                } catch (_ : java.lang.Exception) { }
             }
             calories /= foodModelList.size
 //            foodModel.calories = calories
@@ -340,6 +343,46 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         listUserId.add(userid)
         dbUId.userInfoDao().insertUserIDList(listUserId)
     }
+
+    @SuppressLint("NewApi")
+    fun requestFood(foodModel : FoodModel){
+        viewModelScope.launch {
+            foodModel.food?.let { translator(it) }
+            delay(1000)
+            Toast.makeText(context,"${resultEnglish.value}",Toast.LENGTH_LONG).show()
+
+            var calories = 0
+            val response = resultEnglish.value?.let { ApiFactory.getApi().getFood(it) }
+            val foodModelList = response?.let { mapperNew.mapResponseToPosts(it) }
+            if (foodModelList != null) {
+                for (item in foodModelList){
+                    calories = item.calories?: 0
+                }
+            }
+            calories = (foodModel.gramm ?: 0) * calories / 100
+
+            Toast.makeText(context,"колличество = ${calories}",Toast.LENGTH_LONG).show()
+
+        }
+    }
+
+   private fun translator(text: String){
+           val translatorEnglish : Translator
+           val translatorOptions = TranslatorOptions.Builder()
+               .setSourceLanguage(TranslateLanguage.RUSSIAN)
+               .setTargetLanguage(TranslateLanguage.ENGLISH)
+               .build()
+           translatorEnglish = Translation.getClient(translatorOptions)
+
+           translatorEnglish.translate(text)
+               .addOnSuccessListener{text->
+                   resultEnglish.value = text
+
+               }
+               .addOnFailureListener {textError->
+                   resultEnglish.value = text
+               }
+   }
 }
 
 

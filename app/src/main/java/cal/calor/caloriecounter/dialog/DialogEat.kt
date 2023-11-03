@@ -150,6 +150,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 gramm = numberOfGrams.toIntOrNull() ?: 0
                             )
                             viewModel.loadFirebaseFood(foodModel)
+                            viewModel.requestFood(foodModel)
 
 
                         }) {

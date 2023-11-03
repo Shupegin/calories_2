@@ -3,6 +3,7 @@ package cal.calor.caloriecounter.network
 import cal.calor.caloriecounter.SearchPojoFoods
 
 import cal.calor.caloriecounter.pojo.AuthorizationPassword.AuthorizationPassword
+import cal.calor.caloriecounter.pojo.Food.ItemsFood
 import retrofit2.http.*
 
 
@@ -22,5 +23,11 @@ interface ApiService {
         @Field("scope") scope: String = "basic premier barcode",
         @Header("Authorization") auth: String
     ) : AuthorizationPassword
+
+
+    @GET("v1/nutrition")
+    suspend fun getFood(
+        @Query("query") query : String
+    ): ItemsFood
 }
 
