@@ -2,6 +2,7 @@ package cal.calor.caloriecounter.dialog
 
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -31,7 +32,6 @@ fun dialog(dialogState: MutableState<Boolean>,
     viewModel.calories.observe(owner, Observer {
         numberOfCalories = it.toString()
     })
-
 
         Dialog(
             onDismissRequest = {
@@ -150,7 +150,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 gramm = numberOfGrams.toIntOrNull() ?: 0
                             )
                             viewModel.loadFirebaseFood(foodModel)
-                            viewModel.requestFood(foodModel)
+//                            viewModel.requestFood(foodModel)
 
 
                         }) {

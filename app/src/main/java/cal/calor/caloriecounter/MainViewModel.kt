@@ -1,6 +1,7 @@
 package cal.calor.caloriecounter
 
 
+import android.R.attr
 import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Bitmap
@@ -24,10 +25,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
-import com.google.mlkit.nl.translate.Translator
 import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.Credentials
 import java.text.SimpleDateFormat
@@ -113,11 +112,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = ApiFactory.getApi(token?: "").loadSearchFoods(search_expression = nameFood)
             val foodModelList = mapper.mapResponseToPosts(response)
-            Log.d("TESTER","request 2= ${response.foods?.result?.food}")
             var calories = 0
             for (item in foodModelList){
                 food_id = item.food_id
-                Log.d("TESTER","item = ${item.calories} ")
                 try {
                     val desctription = item.calories
                     calories += desctription ?: 0
@@ -242,36 +239,49 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun loadFirebaseFood(foodModel : FoodModel) {
         viewModelScope.launch(Dispatchers.IO) {
             var calories = 0
-            categoryFirebase(foodModel)
-            delay(400)
-            val userReference: DatabaseReference?
-            Log.d("RRR", "4 = ${result}")
-
-            userReference = firebaseDatabase?.getReference("food/${result}")
+            var category = foodModel.category
+            val userReference : DatabaseReference?
+            userReference = firebaseDatabase?.getReference("food")
             userReference?.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    var result = 0
-                    for (dataSnapshot in snapshot.children) {
-                        val value = dataSnapshot.getValue(FoodSearchFirebase::class.java)
-                        if (value?.name?.equals(foodModel.food.toString())!!) {
-                            calories = value?.calories ?: 0
+                    for(dataSnapshot in snapshot.children){
+                        val _value = dataSnapshot.key
+                        if(_value?.contains(category.toString())!!){
+
+                            val userReference = firebaseDatabase?.getReference("food/${_value}")
+                            userReference?.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    var result = 0
+                                    for (dataSnapshot in snapshot.children) {
+                                        val value = dataSnapshot.getValue(FoodSearchFirebase::class.java)
+                                        if (value?.name?.equals(foodModel.food.toString())!!) {
+                                            calories = value?.calories ?: 0
+                                        }
+                                    }
+                                    if (calories != 0) {
+                                        result = (foodModel.gramm ?: 0) * calories / 100
+                                    }
+
+                                    _calories.value = result.toString()
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                }
+                            })
                         }
-                    }
-                    if (calories != 0) {
-//                    calories /= size
-                        result = (foodModel.gramm ?: 0) * calories / 100
+
                     }
 
-                    _calories.value = result.toString()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
+
         }
     }
 
-    private fun categoryFirebase(foodModel: FoodModel){
+    private fun categoryFirebase(foodModel: FoodModel, onSuccess: ValueEventListener){
 
         var category = foodModel.category
         val userReference : DatabaseReference?
@@ -338,42 +348,38 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         dbUId.userInfoDao().insertUserIDList(listUserId)
     }
 
-    @SuppressLint("NewApi")
-    fun requestFood(foodModel : FoodModel) {
+    @SuppressLint("NewApi", "SuspiciousIndentation")
+    fun requestFood(foodModel: FoodModel) {
         foodModel.food?.let { food ->
             translator(food) { text ->
-                Toast.makeText(context, text, Toast.LENGTH_LONG).show()
-
                 text?.let { foodEnglish ->
                     viewModelScope.launch {
                         var calories = 0
+
                         val response = ApiFactory.getApi().getFood(foodEnglish)
                         val foodModelList = mapperNew.mapResponseToPosts(response)
                         for (item in foodModelList) {
                             calories = item.calories ?: 0
                         }
                         calories = (foodModel.gramm ?: 0) * calories / 100
-
-                        Toast.makeText(context, "количество = $calories", Toast.LENGTH_LONG)
-                            .show()
+                            Toast.makeText(context, "количество = $calories", Toast.LENGTH_LONG)
+                                .show()
                     }
                 }
             }
         }
     }
 
-   private fun translator(text: String, onSuccess: OnSuccessListener<String>){
-           val translatorEnglish : Translator
+    private fun translator(text: String, onSuccess: OnSuccessListener<String>){
            val translatorOptions = TranslatorOptions.Builder()
                .setSourceLanguage(TranslateLanguage.RUSSIAN)
                .setTargetLanguage(TranslateLanguage.ENGLISH)
                .build()
-           translatorEnglish = Translation.getClient(translatorOptions)
+           val translatorEnglish = Translation.getClient(translatorOptions)
 
            translatorEnglish.translate(text)
                .addOnSuccessListener(onSuccess)
                .addOnFailureListener {textError->
-                   //resultEnglish.value = text
                }
    }
 }
