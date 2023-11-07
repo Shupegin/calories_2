@@ -9,3 +9,9 @@
 /captures
 .externalNativeBuild
 /release/*
+.lock
+.probe
+.bin
+/lock
+/probe
+/bin
