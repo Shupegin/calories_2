@@ -4,6 +4,7 @@ import cal.calor.caloriecounter.SearchPojoFoods
 
 import cal.calor.caloriecounter.pojo.AuthorizationPassword.AuthorizationPassword
 import cal.calor.caloriecounter.pojo.Food.ItemsFood
+import retrofit2.Call
 import retrofit2.http.*
 
 
@@ -26,8 +27,10 @@ interface ApiService {
 
 
     @GET("v1/nutrition")
-    suspend fun getFood(
-        @Query("query") query : String
-    ): ItemsFood
+    fun getFood(
+        @Query("query") query : String?
+    ):  Call<ItemsFood?>?
+
+
 }
 
