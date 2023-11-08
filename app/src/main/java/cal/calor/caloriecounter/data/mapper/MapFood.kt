@@ -1,22 +1,20 @@
 package cal.calor.caloriecounter.data.mapper
 
-import android.util.Log
-import cal.calor.caloriecounter.SearchPojoFoods
-import cal.calor.caloriecounter.pojo.Food.ItemsFood
 import cal.calor.caloriecounter.pojo.FoodModel
+import com.example.example.Items
 
 class MapFood {
-    fun mapResponseToPosts(responseDto: ItemsFood): List<FoodModel> {
+    fun mapResponseToPosts(responseDto: Items): List<FoodModel> {
         val result = mutableListOf<FoodModel>()
         val posts = responseDto
 
-        if (posts.items != null) {
-            for (post in posts.items!!) {
+        if (posts != null) {
+
                 val foodModel = FoodModel(
-                    calories = post.calories?.toInt()
+                    calories = posts.calories?.toInt()
                 )
                 result.add(foodModel)
-            }
+
         }
         return result
     }

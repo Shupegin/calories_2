@@ -1,7 +1,6 @@
 package cal.calor.caloriecounter
 
 
-import android.R.attr
 import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Bitmap
@@ -15,6 +14,7 @@ import cal.calor.caloriecounter.database.AppDatabase
 import cal.calor.caloriecounter.database.UserDatabase
 import cal.calor.caloriecounter.dialog.FoodMapper
 import cal.calor.caloriecounter.network.ApiFactory
+import cal.calor.caloriecounter.pojo.Food.ItemsFood
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.FoodSearchFirebase
 import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
@@ -29,6 +29,9 @@ import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.Credentials
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -350,20 +353,45 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     @SuppressLint("NewApi", "SuspiciousIndentation")
     fun requestFood(foodModel: FoodModel) {
+
         foodModel.food?.let { food ->
             translator(food) { text ->
                 text?.let { foodEnglish ->
                     viewModelScope.launch {
                         var calories = 0
 
+
+
                         val response = ApiFactory.getApi().getFood(foodEnglish)
-                        val foodModelList = mapperNew.mapResponseToPosts(response)
-                        for (item in foodModelList) {
-                            calories = item.calories ?: 0
-                        }
-                        calories = (foodModel.gramm ?: 0) * calories / 100
-                            Toast.makeText(context, "количество = $calories", Toast.LENGTH_LONG)
-                                .show()
+                        response?.enqueue(object : Callback<ItemsFood?> {
+                            override fun onResponse(
+                                call: Call<ItemsFood?>,
+                                response: Response<ItemsFood?>
+                            ) {
+                                if (response.isSuccessful) {
+                                    response.body()?.items?.forEach {
+                                        val foodModelList = mapperNew.mapResponseToPosts(it)
+                                        for (item in foodModelList) {
+                                            calories = item.calories ?: 0
+                                            calories = (foodModel.gramm ?: 0) * calories / 100
+                                             _calories.value = calories.toString()
+                                        }
+                                    }
+
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "NoSuccess = ${response.code()}",
+                                        Toast.LENGTH_LONG
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ItemsFood?>, t: Throwable) {
+                                TODO("Not yet implemented")
+                            }
+                        })
+
                     }
                 }
             }
@@ -376,10 +404,13 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                .setTargetLanguage(TranslateLanguage.ENGLISH)
                .build()
            val translatorEnglish = Translation.getClient(translatorOptions)
+            translatorEnglish.downloadModelIfNeeded()
 
            translatorEnglish.translate(text)
+
                .addOnSuccessListener(onSuccess)
                .addOnFailureListener {textError->
+                   Log.d("textError","$textError")
                }
    }
 }

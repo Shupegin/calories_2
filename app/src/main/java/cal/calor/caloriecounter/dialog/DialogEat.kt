@@ -129,8 +129,10 @@ fun dialog(dialogState: MutableState<Boolean>,
                                     calories = numberOfCalories.toIntOrNull() ?: 0,
                                     gramm = numberOfGrams.toIntOrNull() ?: 0
                                 )
+                                viewModel.requestFood(foodModel)
                                 viewModel.addInfoFoodBtn(foodModel)
-                                viewModel.loadFirebaseFood(foodModel)
+//                                viewModel.loadFirebaseFood(foodModel)
+
 
                                 dialogState.value = false
 
@@ -149,8 +151,8 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 calories = numberOfCalories.toIntOrNull() ?: 0,
                                 gramm = numberOfGrams.toIntOrNull() ?: 0
                             )
-                            viewModel.loadFirebaseFood(foodModel)
-//                            viewModel.requestFood(foodModel)
+//                            viewModel.loadFirebaseFood(foodModel)
+                            viewModel.requestFood(foodModel)
 
 
                         }) {
