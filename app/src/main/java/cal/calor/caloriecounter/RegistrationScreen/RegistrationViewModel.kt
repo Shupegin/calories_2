@@ -42,6 +42,7 @@ class RegistrationViewModel : ViewModel() {
 
                 user?.id?.let { it1 -> userReference?.child(it1)?.setValue(user) }
 
+                _error_e.value = false
             }?.addOnFailureListener{
                 error.value = it.message
             }

@@ -60,7 +60,7 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     fun getFirebaseData(){
         Log.d("BAlTICO","TEST 2")
 
-        var userReference : DatabaseReference?
+        val userReference : DatabaseReference?
         userReference = firebaseDatabase?.getReference("calories/${userId}")
 
         userReference?.addValueEventListener(object : ValueEventListener {
@@ -91,33 +91,24 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
             override fun onCancelled(error: DatabaseError) {}
         })
     }
-
-
-
     @SuppressLint("SimpleDateFormat")
     private fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("dd.MM.yyy")
         return dateFormat.format(Date())
     }
-
     private fun removePunctuations(source : String) : String{
         return source.replace("\\p{Punct}".toRegex(),"")
     }
-
-
     private fun getPointsList( _list : HashMap<String, Long>) {
         val  listPoint = ArrayList<Point>()
     // отсортировать список по возрастанию
-         var listSort = _list.entries.sortedBy { it.key }.associate { it.toPair() }
+         val listSort = _list.entries.sortedBy { it.key }.associate { it.toPair() }
             var ir = 1
          for (i in listSort ){
                 ir++
 
              listPoint.add(Point(ir.toFloat(),i.value.toFloat()))
          }
-
-
-
         _listPoint.value = listPoint
     }
 
