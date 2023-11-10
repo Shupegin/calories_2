@@ -50,7 +50,6 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
         auth?.addAuthStateListener{
 
             it.uid?.let {
-                Log.d("BAlTICO","TEST ")
                 userId = it
                 getFirebaseData()
             }
@@ -58,8 +57,6 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun getFirebaseData(){
-        Log.d("BAlTICO","TEST 2")
-
         val userReference : DatabaseReference?
         userReference = firebaseDatabase?.getReference("calories/${userId}")
 

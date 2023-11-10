@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cal.calor.caloriecounter.data.mapper.MapFood
@@ -76,6 +77,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     private val _calories : MutableLiveData<String> = MutableLiveData()
     val calories : MutableLiveData<String> =  _calories
+
+    private val _status : MutableLiveData<Boolean> = MutableLiveData()
+    val status : LiveData<Boolean> =  _status
 
     private val _imageQR : MutableLiveData<Bitmap> = MutableLiveData()
     val imageQR : MutableLiveData<Bitmap> = _imageQR
@@ -377,7 +381,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                                              _calories.value = calories.toString()
                                         }
                                     }
-
+                                    _status.value = true
                                 } else {
                                     Toast.makeText(
                                         context,

@@ -1,6 +1,7 @@
 package cal.calor.caloriecounter.dialog
 
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -20,6 +21,7 @@ import cal.calor.caloriecounter.pojo.FoodModel
 
 
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun dialog(dialogState: MutableState<Boolean>,
            viewModel: MainViewModel,
@@ -27,11 +29,20 @@ fun dialog(dialogState: MutableState<Boolean>,
 ){
     var userFood by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("") }
+    var isLoading  by remember { mutableStateOf( false) }
+    var editeTextVisibility  by remember { mutableStateOf( false) }
     var numberOfGrams by remember { mutableStateOf("") }
     var numberOfCalories by remember { mutableStateOf("") }
     viewModel.calories.observe(owner, Observer {
         numberOfCalories = it.toString()
     })
+    viewModel.status.observe(owner, Observer {
+        isLoading = false
+    })
+    isLoading = false
+    editeTextVisibility = true
+
+
 
         Dialog(
             onDismissRequest = {
@@ -59,6 +70,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                             onValueChange = { it.let {
                                 userFood = it
                             }},
+                            maxLines = 1,
                             label = {
                                 Text(
                                     text = "что ел?",
@@ -78,6 +90,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                             onValueChange = { it.let {
                                 numberOfGrams  = it
                             } },
+                            maxLines = 1,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             label = {
                                 Text(
@@ -93,26 +106,40 @@ fun dialog(dialogState: MutableState<Boolean>,
                             )
                         )
 
-                        OutlinedTextField(
-                            value = numberOfCalories,
-                            onValueChange = {it.let {
-                                numberOfCalories = it
-                            } },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            label = {
-                                Text(
-                                    text = "каллории?",
-                                    style = androidx.compose.ui.text.TextStyle(
-                                        color = Color.Black
-                                    )
-                                )
-                            }, colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = Color.Red,
-                                unfocusedBorderColor = Color.Green,
-                                cursorColor = Color.Red
 
+
+                        if(editeTextVisibility){
+                            OutlinedTextField(
+                                value = numberOfCalories,
+
+                                onValueChange = {it.let {
+                                    numberOfCalories = it
+                                } },
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                maxLines = 1,
+                                trailingIcon = {
+                                    if (isLoading) {
+                                        CircularProgressIndicator(
+                                            color = Color.Green
+                                        )
+                                    }
+                                },
+                                label = {
+                                    Text(
+                                        text = "каллории?",
+                                        style = androidx.compose.ui.text.TextStyle(
+                                            color = Color.Black
+                                        )
+                                    )
+                                }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedBorderColor = Color.Red,
+                                    unfocusedBorderColor = Color.Green,
+                                    cursorColor = Color.Red
+
+                                )
                             )
-                        )
+                        }
+
 
                         Row() {
                             Button(onClick = { dialogState.value = false}) {
@@ -153,7 +180,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                             )
 //                            viewModel.loadFirebaseFood(foodModel)
                             viewModel.requestFood(foodModel)
-
+                            isLoading = true
 
                         }) {
                             Text(text = "Обновить")

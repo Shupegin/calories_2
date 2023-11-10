@@ -108,7 +108,11 @@ fun RegistrationScreen(navController: NavController,viewModel: RegistrationViewM
             )
 
             Button(onClick = {
+                if(password.equals(repeatPassword)){
                     viewModel.singUp(email = email, password = password, calories = calories.toIntOrNull() ?: 0)
+                }else{
+                    Toast.makeText(context,"пароль введен не правильно",Toast.LENGTH_LONG).show()
+                }
             }) {
                 Text(text = "Регистрация")
             }
