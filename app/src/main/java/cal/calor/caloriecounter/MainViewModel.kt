@@ -117,17 +117,17 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun loadSearchFood(foodModel : FoodModel) {
         val nameFood : String = foodModel.food.toString()
         viewModelScope.launch(Dispatchers.IO) {
-            val response = ApiFactory.getApi(token?: "").loadSearchFoods(search_expression = nameFood)
-            val foodModelList = mapper.mapResponseToPosts(response)
-            var calories = 0
-            for (item in foodModelList){
-                food_id = item.food_id
-                try {
-                    val desctription = item.calories
-                    calories += desctription ?: 0
-                } catch (_ : java.lang.Exception) { }
-            }
-            calories /= foodModelList.size
+//            val response = ApiFactory.getApi(token?: "").loadSearchFoods(search_expression = nameFood)
+//            val foodModelList = mapper.mapResponseToPosts(response)
+//            var calories = 0
+//            for (item in foodModelList){
+//                food_id = item.food_id
+//                try {
+//                    val desctription = item.calories
+//                    calories += desctription ?: 0
+//                } catch (_ : java.lang.Exception) { }
+//            }
+//            calories /= foodModelList.size
 //            foodModel.calories = calories
             foodModel.dataCurrent = getCurrentDate()
             listFood.clear()
@@ -364,8 +364,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                     viewModelScope.launch {
                         var calories = 0
 
-
-
                         val response = ApiFactory.getApi().getFood(foodEnglish)
                         response?.enqueue(object : Callback<ItemsFood?> {
                             override fun onResponse(
@@ -379,8 +377,11 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                                             calories = item.calories ?: 0
                                             calories = (foodModel.gramm ?: 0) * calories / 100
                                              _calories.value = calories.toString()
+                                            foodModel.calories = calories
                                         }
                                     }
+
+                                    addInfoFoodBtn(foodModel)
                                     _status.value = true
                                 } else {
                                     Toast.makeText(
@@ -392,7 +393,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                             }
 
                             override fun onFailure(call: Call<ItemsFood?>, t: Throwable) {
-                                TODO("Not yet implemented")
                             }
                         })
 
@@ -417,6 +417,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                    Log.d("textError","$textError")
                }
    }
+
+    fun statusLoad(status : Boolean){
+        _status.value = status
+    }
 }
 
 

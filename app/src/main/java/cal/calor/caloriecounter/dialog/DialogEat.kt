@@ -157,8 +157,11 @@ fun dialog(dialogState: MutableState<Boolean>,
                                     gramm = numberOfGrams.toIntOrNull() ?: 0
                                 )
                                 viewModel.requestFood(foodModel)
-                                viewModel.addInfoFoodBtn(foodModel)
+
+//                                viewModel.addInfoFoodBtn(foodModel)
 //                                viewModel.loadFirebaseFood(foodModel)
+                                isLoading = true
+                                viewModel.statusLoad(true)
 
 
                                 dialogState.value = false
@@ -168,23 +171,23 @@ fun dialog(dialogState: MutableState<Boolean>,
                             }
                         }
 
-                        Button(onClick = {
-                            val _category = viewModel.splitName(userFood).lowercase().trim()
-                            val _userfood =  userFood.lowercase().trim()
-
-                            val foodModel = FoodModel(
-                                category= _category,
-                                food = _userfood,
-                                calories = numberOfCalories.toIntOrNull() ?: 0,
-                                gramm = numberOfGrams.toIntOrNull() ?: 0
-                            )
-//                            viewModel.loadFirebaseFood(foodModel)
-                            viewModel.requestFood(foodModel)
-                            isLoading = true
-
-                        }) {
-                            Text(text = "Обновить")
-                        }
+//                        Button(onClick = {
+//                            val _category = viewModel.splitName(userFood).lowercase().trim()
+//                            val _userfood =  userFood.lowercase().trim()
+//
+//                            val foodModel = FoodModel(
+//                                category= _category,
+//                                food = _userfood,
+//                                calories = numberOfCalories.toIntOrNull() ?: 0,
+//                                gramm = numberOfGrams.toIntOrNull() ?: 0
+//                            )
+////                            viewModel.loadFirebaseFood(foodModel)
+//                            viewModel.requestFood(foodModel)
+//                            isLoading = true
+//
+//                        }) {
+//                            Text(text = "Обновить")
+//                        }
                     }
                 }
 

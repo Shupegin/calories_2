@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
@@ -34,6 +35,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.Сoral
 import com.example.caloriecounter.cardFood
@@ -44,10 +47,18 @@ import com.example.caloriecounter.cardFood
 fun HomeScreen(
     viewModel: MainViewModel,
     onItem: () -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    owner: LifecycleOwner
 ){
 
     var calories by remember { mutableStateOf(0) }
+
+    var isLoading  by remember { mutableStateOf( false) }
+
+    viewModel.status.observe(owner, Observer {
+        isLoading = false
+    })
+    isLoading = false
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -64,7 +75,6 @@ fun HomeScreen(
             .fillMaxWidth()
             .padding(bottom = 55.dp),
         ){
-
             list?.forEach{(dataCurrent,listFood)->
                 stickyHeader{
                         Text(text = dataCurrent.toString(),
@@ -74,6 +84,15 @@ fun HomeScreen(
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.h6,)
                 }
+
+                item {
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            color = Color.Green
+                        )
+                    }
+                }
+
                 items(listFood, key= {it.food_id},){foodModel ->
                     cardFood(foodModel = foodModel,viewModel)
                 }
