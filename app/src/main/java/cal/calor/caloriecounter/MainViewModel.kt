@@ -380,9 +380,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                                             foodModel.calories = calories
                                         }
                                     }
-
                                     addInfoFoodBtn(foodModel)
-                                    _status.value = true
                                 } else {
                                     Toast.makeText(
                                         context,

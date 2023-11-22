@@ -55,16 +55,21 @@ fun HomeScreen(
 
     var isLoading  by remember { mutableStateOf( false) }
 
-    viewModel.status.observe(owner, Observer {
-        isLoading = false
-    })
     isLoading = false
+
+    viewModel.status.observe(owner, Observer {
+        isLoading = it
+    })
+
 
     Box(modifier = Modifier
         .fillMaxSize()
         .background(BackgroundGray)
 
     ){
+
+
+
 
         val foodList = viewModel.foodListDAO.observeAsState(listOf())
         val list = foodList.value.asReversed().groupBy { it.dataCurrent }
@@ -85,13 +90,7 @@ fun HomeScreen(
                             style = MaterialTheme.typography.h6,)
                 }
 
-                item {
-                    if (isLoading) {
-                        CircularProgressIndicator(
-                            color = Color.Green
-                        )
-                    }
-                }
+
 
                 items(listFood, key= {it.food_id},){foodModel ->
                     cardFood(foodModel = foodModel,viewModel)

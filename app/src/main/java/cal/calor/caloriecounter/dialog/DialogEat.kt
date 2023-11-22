@@ -3,6 +3,7 @@ package cal.calor.caloriecounter.dialog
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -29,6 +30,7 @@ fun dialog(dialogState: MutableState<Boolean>,
 ){
     var userFood by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("") }
+    var datavalue by remember { mutableStateOf("") }
     var isLoading  by remember { mutableStateOf( false) }
     var editeTextVisibility  by remember { mutableStateOf( false) }
     var numberOfGrams by remember { mutableStateOf("") }
@@ -41,6 +43,8 @@ fun dialog(dialogState: MutableState<Boolean>,
     })
     isLoading = false
     editeTextVisibility = true
+
+    datavalue = viewModel.getCurrentDate()
 
 
 
@@ -63,7 +67,28 @@ fun dialog(dialogState: MutableState<Boolean>,
                         horizontalAlignment = Alignment.CenterHorizontally
 
                     ) {
-                        Text(text = "Дата: ${viewModel.getCurrentDate()} ")
+
+
+
+                        OutlinedTextField(
+                            value = datavalue,
+                            onValueChange = { it.let {
+                                datavalue = it
+                            }},
+                            maxLines = 1,
+                            label = {
+                                Text(
+                                    text = "Дата:",
+                                    style = androidx.compose.ui.text.TextStyle(
+                                        color = Color.Black
+                                    )
+                                )
+                            }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedBorderColor = Color.Red,
+                                unfocusedBorderColor = Color.Green,
+                                cursorColor = Color.Red
+                            )
+                        )
 
                         OutlinedTextField(
                             value = userFood,
