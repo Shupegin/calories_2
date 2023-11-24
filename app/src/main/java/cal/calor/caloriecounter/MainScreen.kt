@@ -2,11 +2,8 @@ package cal.calor.caloriecounter
 
 
 import android.content.Context
-import androidx.compose.foundation.background
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
@@ -68,7 +65,7 @@ fun MainScreen(
         AppNavGraph(
             navHostController = navigationState.navHostController,
             homeScreenContent =    { HomeScreen(viewModel = mainViewModel, paddingValues = paddingValues, onItem = {dialogState.value = true}, owner = owner)},
-            historyScreenContent = { HistoryScreen(viewModel = mainViewModel, historyViewModel = historyViewModel, paddingValues = paddingValues,owner)},
+            historyScreenContent = { HistoryScreen(viewModel = mainViewModel, historyViewModel = historyViewModel, paddingValues = paddingValues,owner, context)},
             profileScreenContent = { ProfileScreen(viewModelProf = viewModelProf, paddingValues = paddingValues,owner,context, navController)})
     }
 }

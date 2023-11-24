@@ -1,14 +1,31 @@
 package cal.calor.caloriecounter.ProfileScreen
 
+import android.app.Application
 import android.graphics.Bitmap
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import cal.calor.caloriecounter.database.AppDatabase
+import cal.calor.caloriecounter.database.FoodsInfoDao
+import cal.calor.caloriecounter.database.UserInfoDao
+import cal.calor.caloriecounter.database.WeightDataBase
+import cal.calor.caloriecounter.pojo.FoodModel
+import cal.calor.caloriecounter.pojo.weight.WeightPogo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel (application: Application): AndroidViewModel(application) {
+
+    private val db = WeightDataBase.getInstance(application)
+    val wieghtListDAO = db.weightInfoDao().getUserIdList()
+
+
     private var auth:  FirebaseAuth? = null
     private val _clientID : MutableLiveData<String> = MutableLiveData()
     val client : MutableLiveData<String> =  _clientID
@@ -35,5 +52,24 @@ class ProfileViewModel : ViewModel() {
             _imageQR.value = bitmap
         } catch (e: WriterException){}
 
+    }
+
+    fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("dd.MM.yyy")
+        return dateFormat.format(Date())
+    }
+
+    fun addDao(weightPogo: WeightPogo){
+        viewModelScope.launch {
+            db.weightInfoDao().insertUserIDList(weightPogo)
+
+        }
+    }
+
+    fun deleteWeight(weightPogo: WeightPogo){
+        viewModelScope.launch(Dispatchers.IO) {
+
+            weightPogo.id?.let { db.weightInfoDao().remove(it)}
+        }
     }
 }

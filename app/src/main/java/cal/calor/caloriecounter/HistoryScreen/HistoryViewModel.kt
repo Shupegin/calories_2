@@ -2,6 +2,7 @@ package cal.calor.caloriecounter.HistoryScreen
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.graphics.Bitmap
 import android.util.Log
 
 import androidx.lifecycle.AndroidViewModel
@@ -19,6 +20,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.WriterException
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -39,6 +43,13 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     var result2 : HashMap<String, Long> = HashMap()
 
 
+    private val _imageQR : MutableLiveData<Bitmap> = MutableLiveData()
+    val imageQR : MutableLiveData<Bitmap> = _imageQR
+
+    private val _clientID : MutableLiveData<String> = MutableLiveData()
+    val client : MutableLiveData<String> =  _clientID
+
+
     private var auth:  FirebaseAuth? = null
     private var firebaseDatabase : FirebaseDatabase? = null
 
@@ -52,6 +63,10 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
             it.uid?.let {
                 userId = it
                 getFirebaseData()
+            }
+
+            if(it.currentUser != null){
+                _clientID.value = it.uid
             }
         }
     }
@@ -107,6 +122,16 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
              listPoint.add(Point(ir.toFloat(),i.value.toFloat()))
          }
         _listPoint.value = listPoint
+    }
+
+
+    fun generateQR(ui : String){
+        try {
+            val barcodeEncode = BarcodeEncoder()
+            val bitmap : Bitmap = barcodeEncode.encodeBitmap(ui, BarcodeFormat.QR_CODE, 750, 750)
+            _imageQR.value = bitmap
+        } catch (e: WriterException){}
+
     }
 
 }
