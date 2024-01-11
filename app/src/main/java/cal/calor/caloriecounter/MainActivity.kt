@@ -48,6 +48,7 @@ import cal.calor.caloriecounter.LoginScreen.LoginViewModel
 import cal.calor.caloriecounter.ProfileScreen.ProfileViewModel
 import cal.calor.caloriecounter.RegistrationScreen.RegistrationScreen
 import cal.calor.caloriecounter.RegistrationScreen.RegistrationViewModel
+import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.internet.ConnectivityObserver
 import cal.calor.caloriecounter.internet.NetworkConnectivityObserver
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
@@ -71,6 +72,7 @@ import kotlin.time.Duration.Companion.seconds
 class MainActivity : ComponentActivity() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var viewModelLogin: LoginViewModel
+    private lateinit var waterViewModel: WaterViewModel
     private lateinit var viewModelRegistration: RegistrationViewModel
     private lateinit var viewModelAddFoodScreen: AddFoodScreenViewModel
     private lateinit var viewModelProf: ProfileViewModel
@@ -108,6 +110,7 @@ class MainActivity : ComponentActivity() {
                         viewModelAddFoodScreen = ViewModelProvider(this)[AddFoodScreenViewModel::class.java]
                         viewModelProf = ViewModelProvider(this)[ProfileViewModel::class.java]
                         historyViewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
+                        waterViewModel = ViewModelProvider(this)[WaterViewModel::class.java]
 
                         mainViewModel.userListDAO.observe(this, Observer {
                             mainViewModel.loadFirebaseData(it)
@@ -116,6 +119,7 @@ class MainActivity : ComponentActivity() {
                         viewModel = viewModelLogin,
                         viewModelProf= viewModelProf,
                         historyViewModel = historyViewModel,
+                        waterViewModel = waterViewModel,
                         viewModelRegistration = viewModelRegistration,
                         mainViewModel = mainViewModel,
                         viewModelAddFoodScreen = viewModelAddFoodScreen,
@@ -207,6 +211,7 @@ class MainActivity : ComponentActivity() {
 fun LoginApplication(viewModel: LoginViewModel,
                      viewModelRegistration: RegistrationViewModel,
                      historyViewModel: HistoryViewModel,
+                     waterViewModel: WaterViewModel,
                      viewModelProf: ProfileViewModel,
                      mainViewModel : MainViewModel,
                      viewModelAddFoodScreen : AddFoodScreenViewModel,
@@ -218,7 +223,7 @@ fun LoginApplication(viewModel: LoginViewModel,
     NavHost(navController = navController, enterTransition = {EnterTransition.None}, exitTransition = {ExitTransition.None}, startDestination = "login_page", builder ={
         composable(route = "login_page", content = { LoginScreen(navController = navController,viewModel= viewModel, owner = owner, context = context)})
         composable(route ="register_page", content = { RegistrationScreen(navController = navController, viewModel= viewModelRegistration,owner = owner, context = context)})
-        composable(route ="activity_main", content = { MainScreen(mainViewModel = mainViewModel,viewModelProf = viewModelProf, historyViewModel = historyViewModel, owner = owner, context = context,navController = navController) })
+        composable(route ="activity_main", content = { MainScreen(mainViewModel = mainViewModel,viewModelProf = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , owner = owner, context = context,navController = navController) })
         composable(route ="Add_food_screen", content = {AddFoodScreen(viewModel= viewModelAddFoodScreen,navController,context)})
     })
 

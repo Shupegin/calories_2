@@ -2,9 +2,6 @@ package cal.calor.caloriecounter.dialog
 
 
 import android.annotation.SuppressLint
-import android.util.Log
-import android.widget.EditText
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*

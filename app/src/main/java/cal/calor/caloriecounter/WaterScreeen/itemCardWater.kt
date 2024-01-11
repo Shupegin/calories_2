@@ -1,0 +1,62 @@
+package cal.calor.caloriecounter.WaterScreeen
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme.typography
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import cal.calor.caloriecounter.MainViewModel
+import cal.calor.caloriecounter.R
+import cal.calor.caloriecounter.pojo.FoodModel
+import cal.calor.caloriecounter.pojo.WaterModel
+
+@Composable
+fun cardWater(waterModel: WaterModel, viewModel : WaterViewModel){
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(6.dp),
+        shape = RoundedCornerShape(12.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column() {
+                Text(
+                    text = "Вода: ",
+                    modifier = Modifier.width(300.dp),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "Колличество выпитой воды = ${waterModel.water_is_drunk} мл",
+                    modifier = Modifier.padding(start = 5.dp)
+                        .width(300.dp)
+                )
+
+            }
+
+            Image(
+                modifier = Modifier
+                    .padding(end = 5.dp)
+                    .width(50.dp)
+                    .height(50.dp)
+                    .clickable {
+                        viewModel.deleteWater(waterModel)
+
+                    },
+                painter = painterResource(id = R.drawable.delete),
+                contentDescription = null,
+            )
+        }
+    }
+}

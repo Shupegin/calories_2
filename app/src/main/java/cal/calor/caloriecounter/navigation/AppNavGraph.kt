@@ -18,9 +18,9 @@ import androidx.navigation.compose.composable
 fun AppNavGraph(
    navHostController: NavHostController,
    homeScreenContent: @Composable () -> Unit,
+   waterScreenContent: @Composable () -> Unit,
    historyScreenContent: @Composable () -> Unit,
-   profileScreenContent: @Composable () -> Unit,
-
+   profileScreenContent: @Composable () -> Unit
 
 ){
     NavHost(
@@ -31,6 +31,9 @@ fun AppNavGraph(
     ){
         composable(Screen.CaloriesFeed.route){
             homeScreenContent()
+        }
+        composable(Screen.Water.route){
+            waterScreenContent()
         }
         composable(Screen.History.route){
             historyScreenContent()

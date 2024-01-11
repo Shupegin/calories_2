@@ -72,36 +72,36 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun getFirebaseData(){
-        val userReference : DatabaseReference?
-        userReference = firebaseDatabase?.getReference("calories/${userId}")
+//        val userReference : DatabaseReference?
+//        userReference = firebaseDatabase?.getReference("calories/${userId}")
 
-        userReference?.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var key  = ""
-                var result : ArrayList<UserCaloriesFirebase> = ArrayList()
-                var keyList : ArrayList<String> = ArrayList()
-
-
-                result.clear()
-                for(dataSnapshot in snapshot.children){
-                    key = dataSnapshot.key.toString()
-                    keyList.add(key)
-
-                    val foods = dataSnapshot.value as HashMap<String, *>
-
-                    var caloriesTotal: Long = 0
-                    val foodNames = foods.keys
-                    for (foodName in foodNames) {
-                        val foodFields = foods[foodName] as HashMap<String, *>
-                        val calories = foodFields["calories"] as Long
-                        caloriesTotal += calories
-                    }
-                    result2[key] = caloriesTotal
-                }
-                getPointsList(result2)
-            }
-            override fun onCancelled(error: DatabaseError) {}
-        })
+//        userReference?.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                var key  = ""
+//                var result : ArrayList<UserCaloriesFirebase> = ArrayList()
+//                var keyList : ArrayList<String> = ArrayList()
+//
+//
+//                result.clear()
+//                for(dataSnapshot in snapshot.children){
+//                    key = dataSnapshot.key.toString()
+//                    keyList.add(key)
+//
+//                    val foods = dataSnapshot.value as HashMap<String, *>
+//
+//                    var caloriesTotal: Long = 0
+//                    val foodNames = foods.keys
+//                    for (foodName in foodNames) {
+//                        val foodFields = foods[foodName] as HashMap<String, *>
+//                        val calories = foodFields["calories"] as Long
+//                        caloriesTotal += calories
+//                    }
+//                    result2[key] = caloriesTotal
+//                }
+//                getPointsList(result2)
+//            }
+//            override fun onCancelled(error: DatabaseError) {}
+//        })
     }
     @SuppressLint("SimpleDateFormat")
     private fun getCurrentDate(): String {

@@ -122,4 +122,5 @@ dependencies {
     implementation ("com.google.android.play:app-update-ktx:2.1.0")
     implementation ("com.exyte:animated-navigation-bar:1.0.0")
     implementation ("com.google.accompanist:accompanist-navigation-animation:0.20.0")
+    implementation("androidx.compose.material:material-icons-extended-android:1.5.4")
 }
