@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -31,7 +30,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.LifecycleOwner
 
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
-import cal.calor.caloriecounter.pojo.WaterModel
+import cal.calor.caloriecounter.pojo.WaterModel_2
 
 
 @Composable
@@ -78,6 +77,8 @@ fun waterDialog(
                             }
                         },
                         maxLines = 1,
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+
                         label = {
                             Text(
                                 text = "Дата:",
@@ -89,7 +90,7 @@ fun waterDialog(
                             focusedBorderColor = Color.Red,
                             unfocusedBorderColor = Color.Green,
                             cursorColor = Color.Red
-                        )
+                        ),
                     )
 
                     OutlinedTextField(
@@ -97,9 +98,11 @@ fun waterDialog(
                         onValueChange = {
                             it.let {
                                 amount_water = it
+
                             }
                         },
                         maxLines = 1,
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                         label = {
                             Text(
                                 text = "Количество выпитой воды?",
@@ -111,18 +114,18 @@ fun waterDialog(
                             focusedBorderColor = Color.Red,
                             unfocusedBorderColor = Color.Green,
                             cursorColor = Color.Red
-                        )
+                        ),
+
                     )
 
                     OutlinedTextField(
                         value = quantity_drained_water,
                         onValueChange = {
-                            it.let {
-                                quantity_drained_water = it
-                            }
+                            it.let {quantity_drained_water = it }
                         },
                         maxLines = 1,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+
                         label = {
                             Text(
                                 text = "Количество слитой воды?",
@@ -130,11 +133,12 @@ fun waterDialog(
                                     color = Color.Black
                                 )
                             )
-                        }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                        },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
                             focusedBorderColor = Color.Red,
                             unfocusedBorderColor = Color.Green,
                             cursorColor = Color.Red
-                        )
+                        ),
                     )
 
                     Row() {
@@ -145,11 +149,10 @@ fun waterDialog(
 
                         Button(onClick = {
 
-
-                            val waterModel = WaterModel(
+                            val waterModel = WaterModel_2(
                                 dataCurrent = viewModel.getCurrentDate(),
-                                water_is_drunk = amount_water,
-                                drained_of_water = quantity_drained_water
+                                water_is_drunk = amount_water.toIntOrNull() ?: 0,
+                                drained_of_water = quantity_drained_water.toIntOrNull() ?: 0
                             )
 
                             viewModel.addWaterDataBase(waterModel)

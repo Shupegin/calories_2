@@ -1,0 +1,58 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "1dc9b229a8122397b8198afa9a88e077",
+    "entities": [
+      {
+        "tableName": "water_list",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`waterId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dataCurrent` TEXT, `water_is_drunk` INTEGER, `drained_of_water` INTEGER, `sum` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "waterId",
+            "columnName": "waterId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dataCurrent",
+            "columnName": "dataCurrent",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "water_is_drunk",
+            "columnName": "water_is_drunk",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "drained_of_water",
+            "columnName": "drained_of_water",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sum",
+            "columnName": "sum",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "waterId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1dc9b229a8122397b8198afa9a88e077')"
+    ]
+  }
+}

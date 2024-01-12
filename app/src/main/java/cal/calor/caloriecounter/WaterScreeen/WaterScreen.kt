@@ -3,6 +3,7 @@ package cal.calor.caloriecounter.WaterScreeen
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,6 +37,7 @@ import com.example.caloriecounter.cardFood
 fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
 
     var waters by remember { mutableStateOf(0) }
+    var drainedWater by remember { mutableStateOf(0) }
     val waterList = viewModel.waterListDAO.observeAsState(listOf())
     val list = waterList.value.asReversed().groupBy { it.dataCurrent }
 
@@ -65,6 +67,8 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                 items(listWater, key = { it.waterId }) { waterModel ->
                     cardWater(waterModel = waterModel,  viewModel = viewModel)
                 }
+
+
                 item {
                     Box(
                         modifier = Modifier.fillMaxWidth(),
@@ -80,7 +84,28 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                     shape = RoundedCornerShape(8.dp)
                                 )
                                 .background(color = Color.Green),
-                            text = "Cумма выпитой воды =  ${waters}",
+                            text = "Выпито воды =  ${waters}",
+                            textAlign = TextAlign.Right
+                        )
+                    }
+                }
+
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth().padding(top = 5.dp),
+                        contentAlignment = Alignment.BottomEnd
+                    ) {
+
+                        val totalWater = viewModel.getDrainedWater(listWater)
+                        drainedWater = totalWater
+                        Text(
+                            modifier = Modifier
+                                .shadow(
+                                    elevation = 4.dp,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                                .background(color = Color.Green),
+                            text = "Слито воды =  ${drainedWater}",
                             textAlign = TextAlign.Right
                         )
                     }
