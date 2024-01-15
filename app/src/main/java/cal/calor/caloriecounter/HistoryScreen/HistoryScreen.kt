@@ -71,27 +71,27 @@ fun HistoryScreen(viewModel: MainViewModel,
             horizontalAlignment = Alignment.CenterHorizontally) {
 
             DropMenu(viewModel = viewModel)
-            Row {
-                Button(
-                    onClick = { dialogStateQr.value = true
-                    },Modifier.width(120.dp)
-                ) {
-                    Text(text = "qr-code")
-                }
-
-                Button(onClick = {
-                    var intentIntegrator = IntentIntegrator(context as Activity?)
-                    intentIntegrator.setOrientationLocked(true)
-                    intentIntegrator.setPrompt("Scan a QR code")
-                    intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-                    intentIntegrator.initiateScan()
-                },
-                    Modifier.width(120.dp)
-                ) {
-                    Text(text = "Qr-scanner")
-                }
-
-            }
+//            Row {
+//                Button(
+//                    onClick = { dialogStateQr.value = true
+//                    },Modifier.width(120.dp)
+//                ) {
+//                    Text(text = "qr-code")
+//                }
+//
+//                Button(onClick = {
+//                    var intentIntegrator = IntentIntegrator(context as Activity?)
+//                    intentIntegrator.setOrientationLocked(true)
+//                    intentIntegrator.setPrompt("Scan a QR code")
+//                    intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+//                    intentIntegrator.initiateScan()
+//                },
+//                    Modifier.width(120.dp)
+//                ) {
+//                    Text(text = "Qr-scanner")
+//                }
+//
+//            }
             VerticalProgressBar(viewModel = viewModel, owner = owner)
             if(pointList.isNotEmpty()){
                 Text(text = "График калорий", fontSize = 25.sp)

@@ -22,7 +22,7 @@ import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
 import cal.calor.caloriecounter.pojo.UserIDModel
 import cal.calor.caloriecounter.pojo.UserModelFireBase
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.auth.FirebaseAuth
+//import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
@@ -72,7 +72,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private var firebaseDatabase : FirebaseDatabase? = null
     private var userReference : DatabaseReference? = null
     private var userIdReference : DatabaseReference? = null
-    private var auth:  FirebaseAuth? = null
+//    private var auth:  FirebaseAuth? = null
 
 
     private val _calories : MutableLiveData<String> = MutableLiveData()
@@ -92,7 +92,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     init {
         authorizationRequest()
         getCurrentDate()
-        auth = FirebaseAuth.getInstance()
+//        auth = FirebaseAuth.getInstance()
         firebaseDatabase = FirebaseDatabase.getInstance()
         userReference = firebaseDatabase?.getReference("calories")
         userIdReference = firebaseDatabase?.getReference("Users")
@@ -136,10 +136,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
             var currentData  = removePunctuations(foodModel.dataCurrent.toString())
             val data = formatData(currentData)
-            auth?.addAuthStateListener{
-                it.uid?.let { it1 -> userReference?.child(it1)?.child(data)?.
-                child(foodModel.food.toString())?.setValue(foodModel) }
-            }
+//            auth?.addAuthStateListener{
+//                it.uid?.let { it1 -> userReference?.child(it1)?.child(data)?.
+//                child(foodModel.food.toString())?.setValue(foodModel) }
+//            }
         }
     }
 
@@ -160,10 +160,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun removeInFirebaseDatabase(foodModel: FoodModel){
         var data = removePunctuations(foodModel.dataCurrent.toString())
-        auth?.addAuthStateListener{
-
-            it.uid?.let { it1 -> userReference?.child(it1)?.child(data)?.child(foodModel.food.toString())?.removeValue()}
-        }
+//        auth?.addAuthStateListener{
+//
+//            it.uid?.let { it1 -> userReference?.child(it1)?.child(data)?.child(foodModel.food.toString())?.removeValue()}
+//        }
     }
 
 

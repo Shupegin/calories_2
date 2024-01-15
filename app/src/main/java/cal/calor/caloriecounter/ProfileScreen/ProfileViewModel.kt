@@ -11,7 +11,7 @@ import cal.calor.caloriecounter.database.UserInfoDao
 import cal.calor.caloriecounter.database.WeightDataBase
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
-import com.google.firebase.auth.FirebaseAuth
+//import com.google.firebase.auth.FirebaseAuth
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
@@ -26,23 +26,23 @@ class ProfileViewModel (application: Application): AndroidViewModel(application)
     val wieghtListDAO = db.weightInfoDao().getUserIdList()
 
 
-    private var auth:  FirebaseAuth? = null
+//    private var auth:  FirebaseAuth? = null
     private val _clientID : MutableLiveData<String> = MutableLiveData()
     val client : MutableLiveData<String> =  _clientID
 
     private val _imageQR : MutableLiveData<Bitmap> = MutableLiveData()
     val imageQR : MutableLiveData<Bitmap> = _imageQR
 
-    init {
-        auth = FirebaseAuth.getInstance()
-        auth?.addAuthStateListener{
-            if(it.currentUser != null){
-                _clientID.value = it.uid
-            }
-
-        }
-
-    }
+//    init {
+//        auth = FirebaseAuth.getInstance()
+//        auth?.addAuthStateListener{
+//            if(it.currentUser != null){
+//                _clientID.value = it.uid
+//            }
+//
+//        }
+//
+//    }
 
 
     fun generateQR(ui : String){

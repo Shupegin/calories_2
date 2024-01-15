@@ -15,7 +15,7 @@ android {
         applicationId = "cal.calor.caloriecounter"
         minSdk = 26
         targetSdk = 34
-        versionCode = 28
+        versionCode = 29
         versionName = "2.26"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -70,7 +70,7 @@ dependencies {
     //noinspection GradleDependency
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.4")
     implementation ("androidx.compose.material:material:1.4.3")
-    implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
+//    implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
 
     implementation ("com.google.firebase:firebase-database:20.2.2")
     implementation ("androidx.appcompat:appcompat:1.6.1")

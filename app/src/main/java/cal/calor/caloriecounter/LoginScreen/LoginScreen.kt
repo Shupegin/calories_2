@@ -30,11 +30,14 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel,owner: L
     var password by remember { mutableStateOf("") }
     val error = viewModel.error.observeAsState("")
     val error_e = viewModel.error_e.observeAsState()
-    viewModel.user.observe(owner, androidx.lifecycle.Observer {
-        navController.navigate("activity_main") {
-            popUpTo(0)
+
+
+    navController.navigate("activity_main") {
+    popUpTo(0)
         }
-    })
+//    viewModel.user.observe(owner, androidx.lifecycle.Observer {
+
+//    })
 
     Box(modifier = Modifier
         .fillMaxSize()

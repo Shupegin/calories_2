@@ -3,7 +3,9 @@ package cal.calor.caloriecounter.WaterScreeen
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -59,7 +61,7 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                         text = dataCurrent.toString(),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(color = Сoral),
+                            .background(color = Color.Cyan ),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.h6,
                     )
@@ -68,13 +70,8 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                     cardWater(waterModel = waterModel,  viewModel = viewModel)
                 }
 
-
                 item {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.BottomEnd
-                    ) {
-
+                    Row (){
                         val totalWater = viewModel.getWater(listWater)
                         waters = totalWater
                         Text(
@@ -83,33 +80,47 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                     elevation = 4.dp,
                                     shape = RoundedCornerShape(8.dp)
                                 )
-                                .background(color = Color.Green),
+                                .background(color = Color.Cyan),
                             text = "Выпито воды =  ${waters}",
                             textAlign = TextAlign.Right
                         )
-                    }
-                }
 
-                item {
-                    Box(
-                        modifier = Modifier.fillMaxWidth().padding(top = 5.dp),
-                        contentAlignment = Alignment.BottomEnd
-                    ) {
+                        Spacer(Modifier.weight(1f))
 
-                        val totalWater = viewModel.getDrainedWater(listWater)
-                        drainedWater = totalWater
+
+                        val totalWater_2 = viewModel.getDrainedWater(listWater)
+                        drainedWater = totalWater_2
                         Text(
                             modifier = Modifier
                                 .shadow(
                                     elevation = 4.dp,
                                     shape = RoundedCornerShape(8.dp)
                                 )
-                                .background(color = Color.Green),
+                                .background(color = Color.Cyan),
                             text = "Слито воды =  ${drainedWater}",
                             textAlign = TextAlign.Right
                         )
                     }
+//                    Box(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        contentAlignment = Alignment.BottomEnd
+//                    ) {
+
+
+//                    }
+
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(top = 5.dp),
+//                        contentAlignment = Alignment.BottomEnd
+//                    ) {
+
+
+//                    }
                 }
+
+
             }
         }
 

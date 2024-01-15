@@ -14,7 +14,7 @@ import cal.calor.caloriecounter.database.AppDatabase
 import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
 import cal.calor.caloriecounter.pojo.UserIDModel
 import co.yml.charts.common.model.Point
-import com.google.firebase.auth.FirebaseAuth
+//import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -50,26 +50,26 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     val client : MutableLiveData<String> =  _clientID
 
 
-    private var auth:  FirebaseAuth? = null
+//    private var auth:  FirebaseAuth? = null
     private var firebaseDatabase : FirebaseDatabase? = null
 
     var userId : String = ""
 
-    init {
-        auth = FirebaseAuth.getInstance()
-        firebaseDatabase = FirebaseDatabase.getInstance()
-        auth?.addAuthStateListener{
-
-            it.uid?.let {
-                userId = it
-                getFirebaseData()
-            }
-
-            if(it.currentUser != null){
-                _clientID.value = it.uid
-            }
-        }
-    }
+//    init {
+//        auth = FirebaseAuth.getInstance()
+//        firebaseDatabase = FirebaseDatabase.getInstance()
+//        auth?.addAuthStateListener{
+//
+//            it.uid?.let {
+//                userId = it
+//                getFirebaseData()
+//            }
+//
+//            if(it.currentUser != null){
+//                _clientID.value = it.uid
+//            }
+//        }
+//    }
 
     fun getFirebaseData(){
 //        val userReference : DatabaseReference?

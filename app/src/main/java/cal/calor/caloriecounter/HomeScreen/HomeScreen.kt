@@ -81,7 +81,7 @@ fun HomeScreen(
                     cardFood(foodModel = foodModel,viewModel)
                 }
                 item {
-                    Box(modifier = Modifier.fillMaxWidth(),
+                    Box(modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp),
                         contentAlignment = Alignment.BottomEnd){
 
                         val totalCalories = viewModel.getCalories(listFood)
@@ -89,7 +89,7 @@ fun HomeScreen(
                         Text(modifier = Modifier.shadow(
                             elevation = 4.dp,
                             shape = RoundedCornerShape(8.dp)
-                        ).background(color = Color.Green),
+                        ).background(color = Сoral),
                             text = "Cумма калорий = ${calories}",
                             textAlign = TextAlign.Right)
                     }

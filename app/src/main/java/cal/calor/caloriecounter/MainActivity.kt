@@ -218,14 +218,15 @@ fun LoginApplication(viewModel: LoginViewModel,
                      owner: LifecycleOwner,
                      context: Context){
 
-
     val navController = rememberNavController()
-    NavHost(navController = navController, enterTransition = {EnterTransition.None}, exitTransition = {ExitTransition.None}, startDestination = "login_page", builder ={
-        composable(route = "login_page", content = { LoginScreen(navController = navController,viewModel= viewModel, owner = owner, context = context)})
-        composable(route ="register_page", content = { RegistrationScreen(navController = navController, viewModel= viewModelRegistration,owner = owner, context = context)})
-        composable(route ="activity_main", content = { MainScreen(mainViewModel = mainViewModel,viewModelProf = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , owner = owner, context = context,navController = navController) })
-        composable(route ="Add_food_screen", content = {AddFoodScreen(viewModel= viewModelAddFoodScreen,navController,context)})
-    })
+    MainScreen(mainViewModel = mainViewModel,viewModelProf = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , owner = owner, context = context,navController = navController)
+
+//    NavHost(navController = navController, enterTransition = {EnterTransition.None}, exitTransition = {ExitTransition.None}, startDestination = "login_page", builder ={
+////        composable(route = "login_page", content = { LoginScreen(navController = navController,viewModel= viewModel, owner = owner, context = context)})
+//        composable(route ="register_page", content = { RegistrationScreen(navController = navController, viewModel= viewModelRegistration,owner = owner, context = context)})
+//        composable(route ="activity_main", content = { MainScreen(mainViewModel = mainViewModel,viewModelProf = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , owner = owner, context = context,navController = navController) })
+//        composable(route ="Add_food_screen", content = {AddFoodScreen(viewModel= viewModelAddFoodScreen,navController,context)})
+//    })
 
 }
 

@@ -28,8 +28,8 @@ fun RegistrationScreen(navController: NavController,viewModel: RegistrationViewM
     var email by remember { mutableStateOf("") }
     var repeatPassword by remember { mutableStateOf("") }
     var calories by remember { mutableStateOf("") }
-    val error = viewModel.error.observeAsState("")
-    val user = viewModel.user.observeAsState("")
+//    val error = viewModel.error.observeAsState("")
+//    val user = viewModel.user.observeAsState("")
     val error_e = viewModel.error_e.observeAsState("")
 
     Box(modifier = Modifier
