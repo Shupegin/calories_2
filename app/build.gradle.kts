@@ -15,8 +15,8 @@ android {
         applicationId = "cal.calor.caloriecounter"
         minSdk = 26
         targetSdk = 34
-        versionCode = 29
-        versionName = "2.26"
+        versionCode = 30
+        versionName = "2.27"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -123,4 +123,6 @@ dependencies {
     implementation ("com.exyte:animated-navigation-bar:1.0.0")
     implementation ("com.google.accompanist:accompanist-navigation-animation:0.20.0")
     implementation("androidx.compose.material:material-icons-extended-android:1.5.4")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.5.4")
+
 }

@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
+import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
 import com.example.caloriecounter.cardFood
 
@@ -61,7 +62,7 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                         text = dataCurrent.toString(),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(color = Color.Cyan ),
+                            .background(color = СolorWater ),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.h6,
                     )
@@ -80,7 +81,7 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                     elevation = 4.dp,
                                     shape = RoundedCornerShape(8.dp)
                                 )
-                                .background(color = Color.Cyan),
+                                .background(color = СolorWater),
                             text = "Выпито воды =  ${waters}",
                             textAlign = TextAlign.Right
                         )
@@ -96,7 +97,7 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                     elevation = 4.dp,
                                     shape = RoundedCornerShape(8.dp)
                                 )
-                                .background(color = Color.Cyan),
+                                .background(color = СolorWater),
                             text = "Слито воды =  ${drainedWater}",
                             textAlign = TextAlign.Right
                         )

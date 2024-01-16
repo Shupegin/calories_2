@@ -5,28 +5,15 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
@@ -34,19 +21,15 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+
+
 import androidx.navigation.compose.rememberNavController
-import cal.calor.caloriecounter.AddNewFoodScreen.AddFoodScreen
 import cal.calor.caloriecounter.AddNewFoodScreen.AddFoodScreenViewModel
 import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
 import cal.calor.caloriecounter.InternetScreen.CheckInternetScreen
-import cal.calor.caloriecounter.LoginScreen.LoginScreen
 import cal.calor.caloriecounter.LoginScreen.LoginViewModel
 import cal.calor.caloriecounter.ProfileScreen.ProfileViewModel
-import cal.calor.caloriecounter.RegistrationScreen.RegistrationScreen
 import cal.calor.caloriecounter.RegistrationScreen.RegistrationViewModel
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.internet.ConnectivityObserver
@@ -64,8 +47,6 @@ import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
@@ -115,6 +96,8 @@ class MainActivity : ComponentActivity() {
                         mainViewModel.userListDAO.observe(this, Observer {
                             mainViewModel.loadFirebaseData(it)
                         })
+                        mainViewModel.downloadModel()
+
                     LoginApplication(
                         viewModel = viewModelLogin,
                         viewModelProf= viewModelProf,

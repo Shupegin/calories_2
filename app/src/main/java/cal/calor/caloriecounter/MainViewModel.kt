@@ -400,6 +400,17 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+
+     fun downloadModel (){
+        val translatorOptions = TranslatorOptions.Builder()
+            .setSourceLanguage(TranslateLanguage.RUSSIAN)
+            .setTargetLanguage(TranslateLanguage.ENGLISH)
+            .build()
+        val translatorEnglish = Translation.getClient(translatorOptions)
+        translatorEnglish.downloadModelIfNeeded()
+
+    }
+
     private fun translator(text: String, onSuccess: OnSuccessListener<String>){
            val translatorOptions = TranslatorOptions.Builder()
                .setSourceLanguage(TranslateLanguage.RUSSIAN)

@@ -1,5 +1,6 @@
 package cal.calor.caloriecounter.dialog
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,9 +8,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -32,6 +35,9 @@ import androidx.lifecycle.LifecycleOwner
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.pojo.WaterModel_2
 
+import cal.calor.caloriecounter.ui.theme.СolorWater
+import cal.calor.caloriecounter.ui.theme.Сoral
+
 
 @Composable
 fun waterDialog(
@@ -52,114 +58,115 @@ fun waterDialog(
         },
 
         ) {
-        Box(
+
+
+        Card(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp),
+            border = BorderStroke(1.dp, color = СolorWater)
         ) {
+            Column(
+                modifier = Modifier.padding(top = 20.dp, bottom = 20.dp,start = 20.dp,end =20.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
             ) {
-                Column(
-                    modifier = Modifier,
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-
-                ) {
-
-
-                    OutlinedTextField(
-                        value = datavalue,
-                        onValueChange = {
-                            it.let {
-                                datavalue = it
-                            }
-                        },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-
-                        label = {
-                            Text(
-                                text = "Дата:",
-                                style = TextStyle(
-                                    color = Color.Black
-                                )
-                            )
-                        }, colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color.Red,
-                            unfocusedBorderColor = Color.Green,
-                            cursorColor = Color.Red
-                        ),
-                    )
-
-                    OutlinedTextField(
-                        value = amount_water,
-                        onValueChange = {
-                            it.let {
-                                amount_water = it
-
-                            }
-                        },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                        label = {
-                            Text(
-                                text = "Количество выпитой воды?",
-                                style = TextStyle(
-                                    color = Color.Black
-                                )
-                            )
-                        }, colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color.Red,
-                            unfocusedBorderColor = Color.Green,
-                            cursorColor = Color.Red
-                        ),
-
-                    )
-
-                    OutlinedTextField(
-                        value = quantity_drained_water,
-                        onValueChange = {
-                            it.let {quantity_drained_water = it }
-                        },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-
-                        label = {
-                            Text(
-                                text = "Количество слитой воды?",
-                                style = TextStyle(
-                                    color = Color.Black
-                                )
-                            )
-                        },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color.Red,
-                            unfocusedBorderColor = Color.Green,
-                            cursorColor = Color.Red
-                        ),
-                    )
-
-                    Row() {
-                        Button(onClick = { waterDialogState.value = false }) {
-                            Text(text = "Закрыть ")
+                Text(text = "Добавление выпитой воды:",
+                    style = MaterialTheme.typography.body1
+                )
+                OutlinedTextField(
+                    value = datavalue,
+                    onValueChange = {
+                        it.let {
+                            datavalue = it
                         }
-                        Spacer(modifier = Modifier.padding(end = 20.dp))
+                    },
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
 
-                        Button(onClick = {
-
-                            val waterModel = WaterModel_2(
-                                dataCurrent = viewModel.getCurrentDate(),
-                                water_is_drunk = amount_water.toIntOrNull() ?: 0,
-                                drained_of_water = quantity_drained_water.toIntOrNull() ?: 0
+                    label = {
+                        Text(
+                            text = "Дата:",
+                            style = TextStyle(
+                                color = Color.Black
                             )
+                        )
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor =  СolorWater,
+                        unfocusedBorderColor = СolorWater,
+                        cursorColor = СolorWater
+                    ),
+                )
 
-                            viewModel.addWaterDataBase(waterModel)
-                            waterDialogState.value = false
-                        }) {
-                            Text(text = "Ок")
+                OutlinedTextField(
+                    value = amount_water,
+                    onValueChange = {
+                        it.let {
+                            amount_water = it
+
                         }
+                    },
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    label = {
+                        Text(
+                            text = "Количество выпитой воды?",
+                            style = TextStyle(
+                                color = Color.Black
+                            )
+                        )
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor =  СolorWater,
+                        unfocusedBorderColor = СolorWater,
+                        cursorColor = СolorWater
+                    ),
+
+                    )
+
+                OutlinedTextField(
+                    value = quantity_drained_water,
+                    onValueChange = {
+                        it.let { quantity_drained_water = it }
+                    },
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+
+                    label = {
+                        Text(
+                            text = "Количество слитой воды?",
+                            style = TextStyle(
+                                color = Color.Black
+                            )
+                        )
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor =  СolorWater,
+                        unfocusedBorderColor = СolorWater,
+                        cursorColor = СolorWater
+                    ),
+                )
+
+                Row() {
+                    Button(onClick = { waterDialogState.value = false }) {
+                        Text(text = "Закрыть ")
+                    }
+                    Spacer(modifier = Modifier.padding(end = 20.dp))
+
+                    Button(onClick = {
+
+                        val waterModel = WaterModel_2(
+                            dataCurrent = viewModel.getCurrentDate(),
+                            water_is_drunk = amount_water.toIntOrNull() ?: 0,
+                            drained_of_water = quantity_drained_water.toIntOrNull() ?: 0
+                        )
+
+                        viewModel.addWaterDataBase(waterModel)
+                        waterDialogState.value = false
+                    }) {
+                        Text(text = "Ок")
                     }
                 }
             }

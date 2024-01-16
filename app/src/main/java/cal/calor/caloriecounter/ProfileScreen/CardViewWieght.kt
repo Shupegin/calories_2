@@ -1,5 +1,6 @@
 package cal.calor.caloriecounter.ProfileScreen
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,11 +16,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
+import cal.calor.caloriecounter.ui.theme.Сoral
 
 @Composable
 fun cardViewWeight(weightPogo: WeightPogo,profileViewModel: ProfileViewModel){
@@ -27,6 +31,7 @@ fun cardViewWeight(weightPogo: WeightPogo,profileViewModel: ProfileViewModel){
         .fillMaxWidth()
         .padding(6.dp),
         shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(0.5.dp, color = Сoral)
     ) {
         Row(horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -38,14 +43,14 @@ fun cardViewWeight(weightPogo: WeightPogo,profileViewModel: ProfileViewModel){
 
 
             weightPogo.weight.let {
-                it?.let { it1-> Text(text = it1) }
+                it?.let { it1-> Text(text = it1 + " кг" ) }
             }
 
             Image(
                 modifier = Modifier
                     .padding(end = 5.dp)
-                    .width(50.dp)
-                    .height(50.dp)
+                    .width(40.dp)
+                    .height(40.dp)
                     .clickable {
                       profileViewModel.deleteWeight(weightPogo)
                     },

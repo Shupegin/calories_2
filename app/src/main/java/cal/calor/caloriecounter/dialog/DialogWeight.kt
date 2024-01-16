@@ -1,5 +1,6 @@
 package cal.calor.caloriecounter.dialog
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,10 +8,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -34,6 +37,7 @@ import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
 import cal.calor.caloriecounter.ProfileScreen.ProfileViewModel
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
+import cal.calor.caloriecounter.ui.theme.Сoral
 
 @Composable
 fun DialogWeight(dialogState: MutableState<Boolean>, profileViewModel: ProfileViewModel, owner : LifecycleOwner){
@@ -48,17 +52,16 @@ fun DialogWeight(dialogState: MutableState<Boolean>, profileViewModel: ProfileVi
         },
 
         ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
+            Card(modifier = Modifier
+                .fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                border = BorderStroke(1.dp, color = Сoral)
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Добавьте ваш вес", fontSize = 30.sp, textAlign = TextAlign.Center )
+                    Text(text = "Добавьте ваш вес",
+                        style = MaterialTheme.typography.body1,
+                        textAlign = TextAlign.Center )
 
                     OutlinedTextField(
                         value = weight,
@@ -66,6 +69,7 @@ fun DialogWeight(dialogState: MutableState<Boolean>, profileViewModel: ProfileVi
                             weight = it
                         }},
                         maxLines = 1,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = {
                             Text(
                                 text = "Ваш вес?",
@@ -73,10 +77,11 @@ fun DialogWeight(dialogState: MutableState<Boolean>, profileViewModel: ProfileVi
                                     color = Color.Black
                                 )
                             )
+
                         }, colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = Color.Red,
-                            unfocusedBorderColor = Color.Green,
-                            cursorColor = Color.Red
+                            focusedBorderColor =  Сoral,
+                            unfocusedBorderColor = Сoral,
+                            cursorColor = Сoral
                         )
                     )
 
@@ -100,7 +105,6 @@ fun DialogWeight(dialogState: MutableState<Boolean>, profileViewModel: ProfileVi
                 }
 
             }
-        }
 
     }
            

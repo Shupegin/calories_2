@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -34,6 +36,7 @@ import cal.calor.caloriecounter.dialog.DialogQrCode
 import cal.calor.caloriecounter.dialog.DialogWeight
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.Black900
+import cal.calor.caloriecounter.ui.theme.Сoral
 import com.example.caloriecounter.cardFood
 import com.google.zxing.integration.android.IntentIntegrator
 
@@ -52,7 +55,7 @@ fun ProfileScreen(viewModelProf: ProfileViewModel,
     }
     val weightList = viewModelProf.wieghtListDAO.observeAsState(listOf())
 
-
+    val list = weightList.value.asReversed()
 
     if (dialogStateWeight.value){
         DialogWeight(
@@ -69,21 +72,37 @@ fun ProfileScreen(viewModelProf: ProfileViewModel,
         contentAlignment = Alignment.TopCenter
     ){
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Текущая дата = $datavalue" )
-            Button(onClick = {dialogStateWeight.value = true
-            }) {
-                Text(text = "Взвесится")
-            }
+            Text(text = "Текущая дата = $datavalue",
+                modifier = Modifier.padding(top = 20.dp),
+                color = Сoral,
+                fontSize = 20.sp,
+
+                style = MaterialTheme.typography.body1 )
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+
 
             LazyColumn(modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 55.dp),
             ){
-                items(weightList.value, key= { it.id!! },){ weightList ->
+                items(list, key= { it.id!! },){ weightList ->
                     cardViewWeight(weightPogo = weightList, profileViewModel =viewModelProf )
                 }
             }
 
+        }
+
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 70.dp),
+            contentAlignment = Alignment.BottomCenter
+
+        ){
+            Button(onClick = {dialogStateWeight.value = true
+
+            }) {
+                Text(text = "Взвеситься")
+            }
         }
     }
 }
