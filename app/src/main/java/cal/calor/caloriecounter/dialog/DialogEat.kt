@@ -125,7 +125,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             label = {
                                 Text(
-                                    text = "колличество грамм?",
+                                    text = "количество грамм?",
                                     style = androidx.compose.ui.text.TextStyle(
                                         color = Color.Black
                                     )

@@ -44,6 +44,7 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import kotlinx.coroutines.delay
@@ -63,6 +64,8 @@ class MainActivity : ComponentActivity() {
     private lateinit var appUpdateManager: AppUpdateManager
     private val updateType = AppUpdateType.FLEXIBLE
     private val AVAILABLE = "Available"
+
+    private lateinit var firebaseAnalytics : FirebaseAnalytics
     @SuppressLint("FlowOperatorInvokedInComposition", "CoroutineCreationDuringComposition",
         "SuspiciousIndentation"
     )
@@ -85,6 +88,8 @@ class MainActivity : ComponentActivity() {
                     initial = ConnectivityObserver.Status.Unavailable
                 )
                     if(status.name == AVAILABLE){
+                        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
                         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
                         viewModelLogin = ViewModelProvider(this)[LoginViewModel::class.java]
                         viewModelRegistration = ViewModelProvider(this)[RegistrationViewModel::class.java]

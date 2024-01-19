@@ -15,8 +15,8 @@ android {
         applicationId = "cal.calor.caloriecounter"
         minSdk = 26
         targetSdk = 34
-        versionCode = 30
-        versionName = "2.27"
+        versionCode = 31
+        versionName = "2.28"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -77,6 +77,7 @@ dependencies {
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
 
     implementation("com.google.mlkit:translate:17.0.1")
+    implementation("com.google.firebase:firebase-analytics:21.0.0")
 
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")

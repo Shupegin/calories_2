@@ -34,7 +34,7 @@ fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
                         .width(300.dp)
                 )
                 Text(
-                    text = "Колличество грамм = ${foodModel.gramm}",
+                    text = "Количество грамм = ${foodModel.gramm}",
                     modifier = Modifier.padding(start = 5.dp)
                         .width(300.dp)
                 )
