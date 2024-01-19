@@ -10,10 +10,15 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
@@ -85,8 +90,9 @@ class MainActivity : ComponentActivity() {
             CalorieCounterTheme {
                 StatusBarColor(BackgroundGray)
                 val status by connectivityObserver.observe().collectAsState(
-                    initial = ConnectivityObserver.Status.Unavailable
+                    initial = ConnectivityObserver.Status.Available
                 )
+
                     if(status.name == AVAILABLE){
                         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
