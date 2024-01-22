@@ -10,8 +10,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import cal.calor.caloriecounter.HistoryScreen.HistoryScreen
 import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
-import cal.calor.caloriecounter.ProfileScreen.ProfileScreen
-import cal.calor.caloriecounter.ProfileScreen.ProfileViewModel
+import cal.calor.caloriecounter.ProfileScreen.WeightScreen
+import cal.calor.caloriecounter.ProfileScreen.WeightViewModel
 import cal.calor.caloriecounter.WaterScreeen.WaterScreen
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.dialog.dialog
@@ -23,7 +23,7 @@ import cal.calor.caloriecounter.ui.theme.BackgroundBottom
 @Composable
 fun MainScreen(
     mainViewModel: MainViewModel,
-    viewModelProf: ProfileViewModel,
+    viewModelWeight: WeightViewModel,
     historyViewModel: HistoryViewModel,
     waterViewModel: WaterViewModel,
     owner: LifecycleOwner,
@@ -58,8 +58,8 @@ fun MainScreen(
             val item = listOf(
                 NavigationItem.Home,
                 NavigationItem.Water,
-                NavigationItem.Favourite,
                 NavigationItem.Profile,
+                NavigationItem.Favourite,
             )
             item.forEach{ item ->
                 BottomNavigationItem(
@@ -81,8 +81,9 @@ fun MainScreen(
             navHostController = navigationState.navHostController,
             homeScreenContent =    { HomeScreen(viewModel = mainViewModel, paddingValues = paddingValues, onItem = {dialogState.value = true}, owner = owner)},
             waterScreenContent = { WaterScreen(onItem = {waterDialogState.value = true}, viewModel = waterViewModel)},
-            historyScreenContent = { HistoryScreen(viewModel = mainViewModel, historyViewModel = historyViewModel, paddingValues = paddingValues,owner, context)},
-            profileScreenContent = { ProfileScreen(viewModelProf = viewModelProf, paddingValues = paddingValues,owner,context, navController)})
+            weightScreenContent = { WeightScreen(viewModelWeight = viewModelWeight, paddingValues = paddingValues,owner,context, navController)},
+            historyScreenContent = { HistoryScreen(viewModel = mainViewModel, historyViewModel = historyViewModel, paddingValues = paddingValues,owner, context)}
+        )
     }
 }
 

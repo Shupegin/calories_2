@@ -10,15 +10,10 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
@@ -34,7 +29,7 @@ import cal.calor.caloriecounter.AddNewFoodScreen.AddFoodScreenViewModel
 import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
 import cal.calor.caloriecounter.InternetScreen.CheckInternetScreen
 import cal.calor.caloriecounter.LoginScreen.LoginViewModel
-import cal.calor.caloriecounter.ProfileScreen.ProfileViewModel
+import cal.calor.caloriecounter.ProfileScreen.WeightViewModel
 import cal.calor.caloriecounter.RegistrationScreen.RegistrationViewModel
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.internet.ConnectivityObserver
@@ -62,7 +57,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var waterViewModel: WaterViewModel
     private lateinit var viewModelRegistration: RegistrationViewModel
     private lateinit var viewModelAddFoodScreen: AddFoodScreenViewModel
-    private lateinit var viewModelProf: ProfileViewModel
+    private lateinit var viewModelProf: WeightViewModel
     private lateinit var connectivityObserver: ConnectivityObserver
     private lateinit var historyViewModel: HistoryViewModel
 
@@ -100,7 +95,7 @@ class MainActivity : ComponentActivity() {
                         viewModelLogin = ViewModelProvider(this)[LoginViewModel::class.java]
                         viewModelRegistration = ViewModelProvider(this)[RegistrationViewModel::class.java]
                         viewModelAddFoodScreen = ViewModelProvider(this)[AddFoodScreenViewModel::class.java]
-                        viewModelProf = ViewModelProvider(this)[ProfileViewModel::class.java]
+                        viewModelProf = ViewModelProvider(this)[WeightViewModel::class.java]
                         historyViewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
                         waterViewModel = ViewModelProvider(this)[WaterViewModel::class.java]
 
@@ -206,14 +201,14 @@ fun LoginApplication(viewModel: LoginViewModel,
                      viewModelRegistration: RegistrationViewModel,
                      historyViewModel: HistoryViewModel,
                      waterViewModel: WaterViewModel,
-                     viewModelProf: ProfileViewModel,
+                     viewModelProf: WeightViewModel,
                      mainViewModel : MainViewModel,
                      viewModelAddFoodScreen : AddFoodScreenViewModel,
                      owner: LifecycleOwner,
                      context: Context){
 
     val navController = rememberNavController()
-    MainScreen(mainViewModel = mainViewModel,viewModelProf = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , owner = owner, context = context,navController = navController)
+    MainScreen(mainViewModel = mainViewModel,viewModelWeight = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , owner = owner, context = context,navController = navController)
 
 //    NavHost(navController = navController, enterTransition = {EnterTransition.None}, exitTransition = {ExitTransition.None}, startDestination = "login_page", builder ={
 ////        composable(route = "login_page", content = { LoginScreen(navController = navController,viewModel= viewModel, owner = owner, context = context)})

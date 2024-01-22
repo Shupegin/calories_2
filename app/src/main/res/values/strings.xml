@@ -2,6 +2,6 @@
     <string name="app_name">Счетчик калорий</string>
     <string name="navigation_item_main">Eда</string>
     <string name="navigation_item_favourite">История</string>
-    <string name="navigation_item_profile">Профиль</string>
+    <string name="navigation_item_profile">Вес</string>
     <string name="navigation_item_water">Вода</string>
 </resources>

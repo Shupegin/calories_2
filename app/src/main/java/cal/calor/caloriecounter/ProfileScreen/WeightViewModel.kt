@@ -5,11 +5,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import cal.calor.caloriecounter.database.AppDatabase
-import cal.calor.caloriecounter.database.FoodsInfoDao
-import cal.calor.caloriecounter.database.UserInfoDao
 import cal.calor.caloriecounter.database.WeightDataBase
-import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
 //import com.google.firebase.auth.FirebaseAuth
 import com.google.zxing.BarcodeFormat
@@ -20,7 +16,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class ProfileViewModel (application: Application): AndroidViewModel(application) {
+class WeightViewModel (application: Application): AndroidViewModel(application) {
 
     private val db = WeightDataBase.getInstance(application)
     val wieghtListDAO = db.weightInfoDao().getUserIdList()

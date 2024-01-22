@@ -4,7 +4,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Fastfood
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LineWeight
+import androidx.compose.material.icons.outlined.MenuBook
+import androidx.compose.material.icons.outlined.MonitorWeight
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Scale
 import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.ui.graphics.vector.ImageVector
 import cal.calor.caloriecounter.R
@@ -28,12 +32,12 @@ sealed class NavigationItem (
     object Favourite : NavigationItem(
         screen = Screen.History,
         titleResId = R.string.navigation_item_favourite,
-        icon = Icons.Outlined.Favorite
+        icon = Icons.Outlined.MenuBook
     )
 
     object Profile : NavigationItem(
-        screen = Screen.Profile,
+        screen = Screen.Weight,
         titleResId = R.string.navigation_item_profile,
-        icon = Icons.Outlined.Person
+        icon = Icons.Outlined.Scale
     )
 }
