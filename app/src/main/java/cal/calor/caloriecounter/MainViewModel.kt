@@ -18,6 +18,7 @@ import cal.calor.caloriecounter.network.ApiFactory
 import cal.calor.caloriecounter.pojo.Food.ItemsFood
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.FoodSearchFirebase
+import cal.calor.caloriecounter.pojo.Management
 import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
 import cal.calor.caloriecounter.pojo.UserIDModel
 import cal.calor.caloriecounter.pojo.UserModelFireBase
@@ -85,6 +86,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val imageQR : MutableLiveData<Bitmap> = _imageQR
 
     val listFood : ArrayList<FoodModel> = ArrayList()
+
+    private val _management : MutableLiveData<Management> = MutableLiveData()
+    val management : LiveData<Management> =  _management
 
 
 
@@ -218,6 +222,27 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             list.reverse()
         }
     }
+
+
+    fun management(){
+        var userReference : DatabaseReference?
+
+            userReference = firebaseDatabase?.getReference("Management")
+            userReference?.addValueEventListener(object : ValueEventListener {
+                @SuppressLint("SuspiciousIndentation")
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for(dataSnapshot in snapshot.children){
+                        val value = dataSnapshot.getValue(Management::class.java)
+                        _management.value = value
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {}
+            })
+
+    }
+
+
+
 
     fun loadFirebaseData(listUser : List<UserIDModel>){
         var userReference : DatabaseReference?

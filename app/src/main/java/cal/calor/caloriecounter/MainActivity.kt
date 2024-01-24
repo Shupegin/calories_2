@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
@@ -32,6 +36,7 @@ import cal.calor.caloriecounter.LoginScreen.LoginViewModel
 import cal.calor.caloriecounter.ProfileScreen.WeightViewModel
 import cal.calor.caloriecounter.RegistrationScreen.RegistrationViewModel
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
+import cal.calor.caloriecounter.dialog.dialogUpdateApp
 import cal.calor.caloriecounter.internet.ConnectivityObserver
 import cal.calor.caloriecounter.internet.NetworkConnectivityObserver
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
@@ -84,10 +89,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             CalorieCounterTheme {
                 StatusBarColor(BackgroundGray)
+
+                val dialogUpdateAppState = remember {
+                    mutableStateOf(false)
+                }
+
                 val status by connectivityObserver.observe().collectAsState(
                     initial = ConnectivityObserver.Status.Available
                 )
-
                     if(status.name == AVAILABLE){
                         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
@@ -103,6 +112,25 @@ class MainActivity : ComponentActivity() {
                             mainViewModel.loadFirebaseData(it)
                         })
                         mainViewModel.downloadModel()
+
+
+                        if (true){
+                            mainViewModel.management()
+                            val version =  mainViewModel.management.observeAsState()
+
+                            val versionName = BuildConfig.VERSION_NAME
+                            if (version.value?.version_name != null ){
+                                if (!versionName.contentEquals(version.value?.version_name)){
+
+                                    dialogUpdateAppState.value = true
+                                    if (dialogUpdateAppState.value) {
+                                        dialogUpdateApp(dialogUpdateAppState)
+                                    }
+
+                                }
+                            }
+
+                        }
 
                     LoginApplication(
                         viewModel = viewModelLogin,
