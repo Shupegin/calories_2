@@ -18,7 +18,7 @@ val Gray500 = Color(0xff9a9b9d)
 val Сoral = Color(0xffff7f50)
 val BackgroundGray = Color( 0xff373C43)
 val BackgroundBottom = Color( 0xff444951)
-val СolorWater = Color(0xffd4f1f9 )
+val СolorWater = Color(0xff8ecae6)
 
 
 

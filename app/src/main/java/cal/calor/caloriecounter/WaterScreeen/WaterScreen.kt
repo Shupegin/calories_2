@@ -62,9 +62,10 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                         text = dataCurrent.toString(),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(color = СolorWater ),
+                            .background(color = СolorWater),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.h6,
+                        
                     )
                 }
                 items(listWater, key = { it.waterId }) { waterModel ->
@@ -72,6 +73,10 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                 }
 
                 item {
+                    Text(text = "Итого:",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        color = Color.White)
                     Row (){
                         val totalWater = viewModel.getWater(listWater)
                         waters = totalWater
@@ -81,7 +86,8 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                     elevation = 4.dp,
                                     shape = RoundedCornerShape(8.dp)
                                 )
-                                .background(color = СolorWater),
+                                .background(color = СolorWater)
+                                .padding(5.dp),
                             text = "Выпито воды =  ${waters}",
                             textAlign = TextAlign.Right
                         )
@@ -97,28 +103,14 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                     elevation = 4.dp,
                                     shape = RoundedCornerShape(8.dp)
                                 )
-                                .background(color = СolorWater),
+                                .background(color = СolorWater)
+                                .padding(5.dp),
+
                             text = "Слито воды =  ${drainedWater}",
                             textAlign = TextAlign.Right
                         )
                     }
-//                    Box(
-//                        modifier = Modifier.fillMaxWidth(),
-//                        contentAlignment = Alignment.BottomEnd
-//                    ) {
-
-
-//                    }
-
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(top = 5.dp),
-//                        contentAlignment = Alignment.BottomEnd
-//                    ) {
-
-
-//                    }
+                    Spacer(modifier = Modifier.padding(top = 5.dp))
                 }
 
 
