@@ -25,8 +25,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.LifecycleOwner
-import cal.calor.caloriecounter.ProfileScreen.WeightViewModel
+import cal.calor.caloriecounter.WeightScreen.WeightViewModel
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
+import cal.calor.caloriecounter.ui.theme.Green
 import cal.calor.caloriecounter.ui.theme.Сoral
 
 @Composable
@@ -46,7 +47,7 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
             Card(modifier = Modifier
                 .fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
-                border = BorderStroke(1.dp, color = Сoral)
+                border = BorderStroke(1.dp, color = Green)
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "Добавьте ваш вес",
@@ -69,9 +70,9 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                             )
 
                         }, colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor =  Сoral,
-                            unfocusedBorderColor = Сoral,
-                            cursorColor = Сoral
+                            focusedBorderColor =  Green,
+                            unfocusedBorderColor = Green,
+                            cursorColor = Green
                         )
                     )
 

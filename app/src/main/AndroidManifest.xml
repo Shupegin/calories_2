@@ -8,6 +8,7 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
+        android:name=".banner.App"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

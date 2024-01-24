@@ -1,4 +1,4 @@
-package cal.calor.caloriecounter.ProfileScreen
+package cal.calor.caloriecounter.WeightScreen
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -20,6 +20,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import cal.calor.caloriecounter.dialog.DialogWeight
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
+import cal.calor.caloriecounter.ui.theme.Green
 import cal.calor.caloriecounter.ui.theme.Сoral
 
 
@@ -56,7 +57,7 @@ fun WeightScreen(viewModelWeight: WeightViewModel,
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "Текущая дата = $datavalue",
                 modifier = Modifier.padding(top = 20.dp),
-                color = Сoral,
+                color = Green,
                 fontSize = 20.sp,
 
                 style = MaterialTheme.typography.body1 )

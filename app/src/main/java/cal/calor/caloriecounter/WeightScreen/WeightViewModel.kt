@@ -1,4 +1,4 @@
-package cal.calor.caloriecounter.ProfileScreen
+package cal.calor.caloriecounter.WeightScreen
 
 import android.app.Application
 import android.graphics.Bitmap

@@ -6,7 +6,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,7 +32,7 @@ import cal.calor.caloriecounter.AddNewFoodScreen.AddFoodScreenViewModel
 import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
 import cal.calor.caloriecounter.InternetScreen.CheckInternetScreen
 import cal.calor.caloriecounter.LoginScreen.LoginViewModel
-import cal.calor.caloriecounter.ProfileScreen.WeightViewModel
+import cal.calor.caloriecounter.WeightScreen.WeightViewModel
 import cal.calor.caloriecounter.RegistrationScreen.RegistrationViewModel
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.dialog.dialogUpdateApp

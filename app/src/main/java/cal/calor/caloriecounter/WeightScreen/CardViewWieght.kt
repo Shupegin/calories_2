@@ -1,10 +1,11 @@
-package cal.calor.caloriecounter.ProfileScreen
+package cal.calor.caloriecounter.WeightScreen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
+import cal.calor.caloriecounter.ui.theme.Green
 import cal.calor.caloriecounter.ui.theme.Сoral
 
 @Composable
@@ -27,14 +29,16 @@ fun cardViewWeight(weightPogo: WeightPogo, weightViewModel: WeightViewModel){
         .fillMaxWidth()
         .padding(6.dp),
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(0.5.dp, color = Сoral)
+        border = BorderStroke(0.5.dp, color = Green)
     ) {
+
         Row(horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-           weightPogo.data.let {
-               it?.let { it1 -> Text(text = it1) }
+
+            weightPogo.data.let {
+               it?.let { it1 -> Text(text = it1, Modifier.padding(start = 20.dp))}
            }
 
 
@@ -48,7 +52,7 @@ fun cardViewWeight(weightPogo: WeightPogo, weightViewModel: WeightViewModel){
                     .width(40.dp)
                     .height(40.dp)
                     .clickable {
-                      weightViewModel.deleteWeight(weightPogo)
+                        weightViewModel.deleteWeight(weightPogo)
                     },
                 painter = painterResource(id = R.drawable.delete),
                 contentDescription = null,

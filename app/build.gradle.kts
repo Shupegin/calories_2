@@ -126,4 +126,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended-android:1.5.4")
     implementation("androidx.compose.ui:ui-text-google-fonts:1.5.4")
 
+    //noinspection MobileAdsSdkOutdatedVersion
+    implementation("com.yandex.android:mobileads:5.8.0")
+
 }
