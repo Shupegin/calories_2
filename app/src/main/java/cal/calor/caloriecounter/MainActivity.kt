@@ -119,7 +119,7 @@ class MainActivity : ComponentActivity() {
 
                             val versionName = BuildConfig.VERSION_NAME
                             if (version.value?.version_name != null ){
-                                if (!versionName.contentEquals(version.value?.version_name)){
+                                if (versionName.toDouble() < version.value?.version_name!!.toDouble()){
 
                                     dialogUpdateAppState.value = true
                                     if (dialogUpdateAppState.value) {
