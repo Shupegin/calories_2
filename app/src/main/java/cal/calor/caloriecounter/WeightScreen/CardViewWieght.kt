@@ -29,7 +29,7 @@ fun cardViewWeight(weightPogo: WeightPogo, weightViewModel: WeightViewModel){
         .fillMaxWidth()
         .padding(6.dp),
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(0.5.dp, color = Green)
+        border = BorderStroke(1.dp, color = Green)
     ) {
 
         Row(horizontalArrangement = Arrangement.SpaceBetween,
