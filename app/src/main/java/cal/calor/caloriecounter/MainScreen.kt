@@ -3,6 +3,7 @@ package cal.calor.caloriecounter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -98,7 +99,7 @@ fun MainScreen(
             if (advertisement.value?.advertisement != null){
                 advertisement.value?.advertisement.let {
                     if(it == true){
-                        Banner(id = R.string.banner_1)
+                        advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
                     }
                 }
             }

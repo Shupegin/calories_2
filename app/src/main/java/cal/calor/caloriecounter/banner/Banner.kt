@@ -12,10 +12,10 @@ import com.yandex.mobile.ads.common.ImpressionData
 import kotlin.math.roundToInt
 
 @Composable
-fun Banner(id : Int){
+fun Banner(id : String){
     AndroidView(factory = { context->
         BannerAdView(context).apply {
-            setAdUnitId(context.getString(id))
+            setAdUnitId(id)
                 // Calculate the width of the ad, taking into account the padding in
                 var adWidthPixels = width
                 if (adWidthPixels == 0) {
