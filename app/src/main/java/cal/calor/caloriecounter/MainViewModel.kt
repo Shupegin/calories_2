@@ -395,27 +395,44 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                                 call: Call<ItemsFood?>,
                                 response: Response<ItemsFood?>
                             ) {
+
+
                                 if (response.isSuccessful) {
-                                    response.body()?.items?.forEach {
-                                        val foodModelList = mapperNew.mapResponseToPosts(it)
-                                        for (item in foodModelList) {
-                                            calories = item.calories ?: 0
-                                            calories = (foodModel.gramm ?: 0) * calories / 100
-                                             _calories.value = calories.toString()
-                                            foodModel.calories = calories
+                                    if (!response.body()?.items.isNullOrEmpty()){
+                                        response.body()?.items?.forEach {
+                                            val foodModelList = mapperNew.mapResponseToPosts(it)
+                                            for (item in foodModelList) {
+                                                calories = item.calories ?: 0
+                                                calories = (foodModel.gramm ?: 0) * calories / 100
+                                                _calories.value = calories.toString()
+                                                foodModel.calories = calories
+                                            }
+                                            _status.value = false
                                         }
+                                        addInfoFoodBtn(foodModel)
+                                    }else{
+                                        _status.value = false
+
+                                        Toast.makeText(
+                                            context,
+                                            "Блюдо не найдено,пример для заполнения <Хачапури с сыром>",
+                                            Toast.LENGTH_LONG
+                                        ).show()
                                     }
-                                    addInfoFoodBtn(foodModel)
+
                                 } else {
+                                    _status.value = false
                                     Toast.makeText(
                                         context,
                                         "NoSuccess = ${response.code()}",
                                         Toast.LENGTH_LONG
-                                    )
+                                    ).show()
                                 }
                             }
 
                             override fun onFailure(call: Call<ItemsFood?>, t: Throwable) {
+                                _status.value = false
+
                             }
                         })
 

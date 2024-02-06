@@ -43,10 +43,7 @@ fun dialog(dialogState: MutableState<Boolean>,
     viewModel.calories.observe(owner, Observer {
         numberOfCalories = it.toString()
     })
-    viewModel.status.observe(owner, Observer {
-        isLoading = false
-    })
-    isLoading = false
+
     editeTextVisibility = true
 
     datavalue = viewModel.getCurrentDate()
@@ -186,12 +183,12 @@ fun dialog(dialogState: MutableState<Boolean>,
                                     calories = numberOfCalories.toIntOrNull() ?: 0,
                                     gramm = numberOfGrams.toIntOrNull() ?: 0
                                 )
+                                viewModel.statusLoad(true)
                                 viewModel.requestFood(foodModel)
 
 //                                viewModel.addInfoFoodBtn(foodModel)
 //                                viewModel.loadFirebaseFood(foodModel)
                                 isLoading = true
-                                viewModel.statusLoad(true)
 
 
                                 dialogState.value = false
