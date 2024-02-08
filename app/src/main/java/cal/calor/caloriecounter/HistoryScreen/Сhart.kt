@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -27,9 +26,8 @@ import co.yml.charts.ui.linechart.model.ShadowUnderLine
 
 
 @Composable
-fun Chart(pointList : List<Point>, viewModel: MainViewModel, ){
+fun Chart(pointList : List<Point>, viewModel: MainViewModel,color: Color ){
 
-    var listUsers = viewModel.addListHistoryCalories.observeAsState(listOf())
 
     val steps = 10
     val max = getMax(pointList)
@@ -60,11 +58,11 @@ fun Chart(pointList : List<Point>, viewModel: MainViewModel, ){
             lines = listOf(
                 Line(
                     dataPoints = pointList,
-                    LineStyle(color = Color.Green, width = 5.0f),
-                    IntersectionPoint(Color.Green,3.dp),
+                    LineStyle(color = color, width = 5.0f),
+                    IntersectionPoint(color,3.dp),
                     SelectionHighlightPoint(Color.Red),
-                    ShadowUnderLine(Color.Green),
-                    SelectionHighlightPopUp(Color.Green),
+                    ShadowUnderLine(color),
+                    SelectionHighlightPopUp(color),
                 )
             ),
         ),

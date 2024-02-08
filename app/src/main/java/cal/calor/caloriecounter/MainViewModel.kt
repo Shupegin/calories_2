@@ -1,9 +1,9 @@
 package cal.calor.caloriecounter
 
-
 import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Bitmap
+import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -23,7 +23,6 @@ import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
 import cal.calor.caloriecounter.pojo.UserIDModel
 import cal.calor.caloriecounter.pojo.UserModelFireBase
 import com.google.android.gms.tasks.OnSuccessListener
-//import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
@@ -471,6 +470,18 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun statusLoad(status : Boolean){
         _status.value = status
+    }
+
+    fun recordPreference(toast : Boolean){
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        prefs.edit().putBoolean("toast", toast).apply()
+    }
+
+    fun dischargePreference() : Boolean{
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val data = prefs.getBoolean("toast",false)
+
+        return data
     }
 }
 

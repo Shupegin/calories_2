@@ -17,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import cal.calor.caloriecounter.MainViewModel
 import cal.calor.caloriecounter.ui.theme.Gray500
+import cal.calor.caloriecounter.ui.theme.СolorWater
 
 
 @Composable
@@ -32,6 +34,8 @@ fun VerticalProgressBar(viewModel: MainViewModel,
 
     var day = viewModel.addDay.observeAsState()
 
+    Text(text = "${day.value}", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,
+        color = Color.White)
     LazyRow(modifier = Modifier
         .fillMaxWidth()
         .padding(bottom = 55.dp),){
@@ -52,20 +56,14 @@ fun VerticalProgressBar(viewModel: MainViewModel,
 
             Column(
                 modifier = Modifier
-                    .padding(top = 70.dp, start = 30.dp, end = 30.dp),
+                    .padding(top = 10.dp, start = 30.dp, end = 30.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
 
 
             ) {
 
-                Box(
-                    modifier = Modifier,
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "${day.value}",
-                        color = Color.White)
-                }
+
                 Row(
                     modifier = Modifier
                         .height(150.dp)
@@ -88,10 +86,8 @@ fun VerticalProgressBar(viewModel: MainViewModel,
                                 .background(
                                     Brush.verticalGradient(
                                         listOf(
-                                            Color(0xffE000FF),
-                                            Color(0xffE000FF),
-                                            Color(0xFF7700FF),
-                                            Color(0xFF7700FF),
+                                            Color(0xffF7B42C),
+                                            Color(0xffFC575E),
                                         )
                                     )
                                 )
@@ -122,6 +118,71 @@ fun VerticalProgressBar(viewModel: MainViewModel,
                     }
                 }
             }
+
+//            Column(
+//                modifier = Modifier
+//                    .padding(top = 10.dp, start = 30.dp, end = 30.dp),
+//                verticalArrangement = Arrangement.Center,
+//                horizontalAlignment = Alignment.CenterHorizontally
+//
+//
+//            ) {
+//
+//                Row(
+//                    modifier = Modifier
+//                        .height(150.dp)
+//                ) {
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxHeight()
+//                            .width(40.dp)
+//                            .clip(RoundedCornerShape(9.dp))
+//                            .background(Gray500),
+//                        contentAlignment = Alignment.BottomEnd
+//                    ) {
+//
+//
+//                        Box(
+//                            modifier = Modifier
+//                                .width(40.dp)
+//                                .fillMaxHeight(size)
+//                                .clip(RoundedCornerShape(9.dp))
+//                                .background(
+//                                    Brush.verticalGradient(
+//                                        listOf(
+//                                            Color(0xff6dd5ed),
+//                                            Color(0xff2193b0)
+//
+//                                        )
+//                                    )
+//                                )
+//                                .animateContentSize(),
+//                            contentAlignment = Alignment.TopCenter
+//
+//
+//                        ) {}
+//                    }
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxHeight()
+//                            .padding(start = 3.dp, bottom = 16.dp),
+//                        contentAlignment = Alignment.BottomEnd
+//
+//                    ) {
+//                        Text(
+//                            modifier = Modifier
+//                                .fillMaxHeight(size)
+//
+//                            // .padding(horizontal = 20.dp)
+//                            //.fillMaxWidth()
+//                            ,
+//                            text = "${it.dailyCalories}",
+//                            color = Color.White
+//
+//                        )
+//                    }
+//                }
+//            }
         }
 
     }

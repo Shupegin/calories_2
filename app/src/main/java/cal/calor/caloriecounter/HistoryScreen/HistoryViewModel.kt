@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.compose.ui.input.key.Key.Companion.F
 
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -11,8 +12,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cal.calor.caloriecounter.database.AppDatabase
+import cal.calor.caloriecounter.database.WaterDataBase_2
+import cal.calor.caloriecounter.database.WeightDataBase
+import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
 import cal.calor.caloriecounter.pojo.UserIDModel
+import cal.calor.caloriecounter.pojo.WaterModel_2
+import cal.calor.caloriecounter.pojo.weight.WeightPogo
 import co.yml.charts.common.model.Point
 //import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -37,10 +43,26 @@ import kotlin.random.Random
 class HistoryViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDatabase.getInstance(application)
     val foodListDAO = db.foodsInfoDao().getFoodsList()
+
+    private val dbWater = WaterDataBase_2.getInstance(application)
+    val waterListDAO = dbWater.waterInfoDao_2().getWaterList()
+
+    private val dbWeight = WeightDataBase.getInstance(application)
+    val weightListDAO = dbWeight.weightInfoDao().getUserIdList()
+
     private var _listPoint : MutableLiveData<List<Point>> = MutableLiveData()
     var listPoint : LiveData<List<Point>> = _listPoint
+
+    private var _listPointWater : MutableLiveData<List<Point>> = MutableLiveData()
+    var listPointWater : LiveData<List<Point>> = _listPointWater
+
+    private var _listPointWeight : MutableLiveData<List<Point>> = MutableLiveData()
+    var listPointWeight : LiveData<List<Point>> = _listPointWeight
+
     var _listKey : MutableLiveData<ArrayList<String>> = MutableLiveData()
     var result2 : HashMap<String, Long> = HashMap()
+
+
 
 
     private val _imageQR : MutableLiveData<Bitmap> = MutableLiveData()
@@ -55,26 +77,15 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
 
     var userId : String = ""
 
-//    init {
-//        auth = FirebaseAuth.getInstance()
-//        firebaseDatabase = FirebaseDatabase.getInstance()
-//        auth?.addAuthStateListener{
-//
-//            it.uid?.let {
-//                userId = it
-//                getFirebaseData()
-//            }
-//
-//            if(it.currentUser != null){
-//                _clientID.value = it.uid
-//            }
-//        }
-//    }
+    init {
+    }
+
+
 
     fun getFirebaseData(){
 //        val userReference : DatabaseReference?
 //        userReference = firebaseDatabase?.getReference("calories/${userId}")
-
+//
 //        userReference?.addValueEventListener(object : ValueEventListener {
 //            override fun onDataChange(snapshot: DataSnapshot) {
 //                var key  = ""
@@ -122,6 +133,95 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
              listPoint.add(Point(ir.toFloat(),i.value.toFloat()))
          }
         _listPoint.value = listPoint
+    }
+
+
+     fun getPointsList_2( _list : List<FoodModel>? = null) {
+         val  listPoint = ArrayList<Point>()
+         val listSortPoint = sortElementEat(_list)
+         var ir = 1
+
+         listSortPoint.values.forEach{
+             ir++
+             listPoint.add(Point(ir.toFloat(),it.let { it!!.toFloat() }))
+
+         }
+
+        _listPoint.value = listPoint
+    }
+
+
+    fun getPointsListWater( _list : List<WaterModel_2>? = null) {
+        val  listPoint = ArrayList<Point>()
+
+        val listSortPoint = sortElementWater(_list)
+        // отсортировать список по возрастанию
+        var ir = 1
+
+        listSortPoint.values.forEach{
+            ir++
+            listPoint.add(Point(ir.toFloat(),it.let { it!!.toFloat() }))
+        }
+
+        _listPointWater.value = listPoint
+
+
+//        if (listSort != null) {
+//            for (i in listSort ){
+//                if (i.dataCurrent.equals(i.dataCurrent)){
+//                    ir++
+//                    if (i.water_is_drunk != null){
+//                        water += i.water_is_drunk
+//                    }
+//                }
+//
+//            }
+//            listPoint.add(Point(ir.toFloat(),water.let { it!!.toFloat() }))
+//        }
+    }
+
+
+
+
+
+    fun getPointsListWeight( _list : List<WeightPogo>? = null) {
+        val  listPoint = ArrayList<Point>()
+        // отсортировать список по возрастанию
+        val listSort = _list
+        var ir = 1
+        if (listSort != null) {
+            for (i in listSort ){
+                ir++
+
+                listPoint.add(Point(ir.toFloat(),i.weight.let { it!!.toFloat() }))
+            }
+        }
+        _listPointWeight.value = listPoint
+    }
+
+
+    fun sortElementEat(listSort : List<FoodModel>? = null) : MutableMap<String,Int> {
+        val mapPoint = mutableMapOf<String, Int>()
+
+
+        listSort?.forEach() {
+            val key = it.dataCurrent.toString()
+            mapPoint[key] = (mapPoint[key] ?: 0) + (it.calories ?: 0)
+        }
+
+        return mapPoint
+    }
+
+    fun sortElementWater(listSort : List<WaterModel_2>? = null) : MutableMap<String,Int> {
+        val mapPoint = mutableMapOf<String, Int>()
+
+
+        listSort?.forEach() {
+            val key = it.dataCurrent.toString()
+            mapPoint[key] = (mapPoint[key] ?: 0) + (it.water_is_drunk ?: 0)
+        }
+
+        return mapPoint
     }
 
 

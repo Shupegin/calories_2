@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -85,6 +86,8 @@ class MainActivity : ComponentActivity() {
             checkForAppUpdate()
         }
 
+
+
         setContent {
             CalorieCounterTheme {
                 StatusBarColor(BackgroundGray)
@@ -111,6 +114,15 @@ class MainActivity : ComponentActivity() {
                             mainViewModel.loadFirebaseData(it)
                         })
                         mainViewModel.downloadModel()
+
+                        if (true){
+                            val toast = mainViewModel.dischargePreference()
+
+                            if (!toast){
+                                Toast.makeText(this,"Устанавливается доп библиотека для работы с API",Toast.LENGTH_LONG).show()
+                                 mainViewModel.recordPreference(true)
+                            }
+                        }
 
 
                         if (true){

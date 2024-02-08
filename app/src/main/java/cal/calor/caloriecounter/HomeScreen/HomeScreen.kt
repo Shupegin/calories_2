@@ -111,11 +111,6 @@ fun HomeScreen(
          }
      }
 
-
-
-
-
-
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 70.dp),
