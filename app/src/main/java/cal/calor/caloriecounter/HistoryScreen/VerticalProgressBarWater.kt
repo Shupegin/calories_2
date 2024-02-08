@@ -1,5 +1,6 @@
 package cal.calor.caloriecounter.HistoryScreen
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -21,31 +22,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import cal.calor.caloriecounter.MainViewModel
+import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.ui.theme.Gray500
 import cal.calor.caloriecounter.ui.theme.СolorWater
 
 
 @Composable
-fun VerticalProgressBar(viewModel: MainViewModel,
+fun VerticalProgressBarWater(viewModel: WaterViewModel,
                         owner: LifecycleOwner) {
 
     var progress by remember { mutableStateOf(0f) }
-    var listUsers = viewModel.addListHistoryCalories.observeAsState(listOf())
 
+    var listWaterDB =  viewModel.waterListDAO.observeAsState()
 
+    listWaterDB.value?.let { viewModel.sumWater(it) }
 
-
-    LazyRow(modifier = Modifier
-        .padding(bottom = 55.dp),){
-
-        items(listUsers.value){it
-            if (it.dailyCalories != null) {
+    var listUsers = viewModel.sumWater.observeAsState(0)
 
                 val caloriesPerDay = 2000
-                val calories  = it.dailyCalories!!.toFloat() / (caloriesPerDay)
+                val calories  = listUsers.value.toFloat() / (caloriesPerDay)
 
                 progress = calories
-            }
+
             val  size by   animateFloatAsState(targetValue = progress,
                 tween(durationMillis = 1000,
                     delayMillis = 100,
@@ -60,7 +58,6 @@ fun VerticalProgressBar(viewModel: MainViewModel,
 
 
             ) {
-
 
                 Row(
                     modifier = Modifier
@@ -84,8 +81,9 @@ fun VerticalProgressBar(viewModel: MainViewModel,
                                 .background(
                                     Brush.verticalGradient(
                                         listOf(
-                                            Color(0xffF7B42C),
-                                            Color(0xffFC575E),
+                                            Color(0xff6dd5ed),
+                                            Color(0xff2193b0)
+
                                         )
                                     )
                                 )
@@ -109,80 +107,12 @@ fun VerticalProgressBar(viewModel: MainViewModel,
                             // .padding(horizontal = 20.dp)
                             //.fillMaxWidth()
                             ,
-                            text = "${it.dailyCalories}",
+                            text = "${listUsers.value}",
                             color = Color.White
 
                         )
                     }
                 }
             }
-
-//            Column(
-//                modifier = Modifier
-//                    .padding(top = 10.dp, start = 30.dp, end = 30.dp),
-//                verticalArrangement = Arrangement.Center,
-//                horizontalAlignment = Alignment.CenterHorizontally
-//
-//
-//            ) {
-//
-//                Row(
-//                    modifier = Modifier
-//                        .height(150.dp)
-//                ) {
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxHeight()
-//                            .width(40.dp)
-//                            .clip(RoundedCornerShape(9.dp))
-//                            .background(Gray500),
-//                        contentAlignment = Alignment.BottomEnd
-//                    ) {
-//
-//
-//                        Box(
-//                            modifier = Modifier
-//                                .width(40.dp)
-//                                .fillMaxHeight(size)
-//                                .clip(RoundedCornerShape(9.dp))
-//                                .background(
-//                                    Brush.verticalGradient(
-//                                        listOf(
-//                                            Color(0xff6dd5ed),
-//                                            Color(0xff2193b0)
-//
-//                                        )
-//                                    )
-//                                )
-//                                .animateContentSize(),
-//                            contentAlignment = Alignment.TopCenter
-//
-//
-//                        ) {}
-//                    }
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxHeight()
-//                            .padding(start = 3.dp, bottom = 16.dp),
-//                        contentAlignment = Alignment.BottomEnd
-//
-//                    ) {
-//                        Text(
-//                            modifier = Modifier
-//                                .fillMaxHeight(size)
-//
-//                            // .padding(horizontal = 20.dp)
-//                            //.fillMaxWidth()
-//                            ,
-//                            text = "${it.dailyCalories}",
-//                            color = Color.White
-//
-//                        )
-//                    }
-//                }
-//            }
-        }
-
-    }
 
 }

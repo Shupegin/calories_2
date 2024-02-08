@@ -15,6 +15,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 import androidx.compose.ui.unit.sp
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import cal.calor.caloriecounter.MainViewModel
+import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.dialog.DialogQrCode
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.Green
@@ -34,6 +36,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 
 @Composable
 fun HistoryScreen(viewModel: MainViewModel,
+                  waterViewModel: WaterViewModel,
                   historyViewModel: HistoryViewModel,
                   paddingValues: PaddingValues,
                   owner: LifecycleOwner,
@@ -96,22 +99,36 @@ fun HistoryScreen(viewModel: MainViewModel,
 
     historyViewModel.getFirebaseData()
 
+    val foodList = viewModel.foodListDAO.observeAsState(listOf())
+
+    viewModel.sendSelectedOptionText("День", listFood = foodList.value)
 
     Box(modifier = Modifier
-        .fillMaxWidth()
-        .fillMaxHeight()
+        .fillMaxSize()
         .background(BackgroundGray),
 
         ){
 
         LazyColumn(modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 100.dp),
+            .padding(bottom = 58.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
 
-           item { DropMenu(viewModel = viewModel)
+           item {
+               
+               Spacer(modifier = Modifier.padding(top = 10.dp))
+                Text(
+                    text = "День",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    color = Color.White,
+                    fontSize = 25.sp
+                )
+               Row {
+                   VerticalProgressBar(viewModel = viewModel, owner = owner)
+                   VerticalProgressBarWater(viewModel = waterViewModel, owner = owner)
+               }
 
-               VerticalProgressBar(viewModel = viewModel, owner = owner)
 
                if(pointList.isNotEmpty()){
                    Text(text = "График калорий", fontSize = 25.sp, color = Сoral)

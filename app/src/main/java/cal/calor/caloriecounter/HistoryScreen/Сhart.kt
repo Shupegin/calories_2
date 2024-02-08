@@ -36,6 +36,8 @@ fun Chart(pointList : List<Point>, viewModel: MainViewModel,color: Color ){
     val xAxisData = AxisData.Builder()
         .axisStepSize(30.dp)
         .backgroundColor(BackgroundGray)
+        .axisLabelColor(color)
+        .axisLineColor(color)
         .steps(pointList.size)
         .labelData { i-> i.toString() }
         .labelAndAxisLinePadding(10.dp)
@@ -45,6 +47,8 @@ fun Chart(pointList : List<Point>, viewModel: MainViewModel,color: Color ){
     val yAxisData = AxisData.Builder()
         .steps(steps)
         .backgroundColor(BackgroundGray)
+        .axisLabelColor(color)
+        .axisLineColor(color)
         .labelAndAxisLinePadding(15.dp)
         .labelData { i->
             val yScale = (max- min) / steps.toFloat()
@@ -78,9 +82,6 @@ fun Chart(pointList : List<Point>, viewModel: MainViewModel,color: Color ){
         .fillMaxWidth()
         .background(BackgroundGray)
         .height(300.dp), lineChartData = lineChartData)
-
-
-
 }
 
 private  fun getMax(list: List<Point>):Float{

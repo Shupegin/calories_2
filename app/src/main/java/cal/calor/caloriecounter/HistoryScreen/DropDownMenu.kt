@@ -13,7 +13,7 @@ fun DropMenu(viewModel: MainViewModel){
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selectedOptionText by rememberSaveable { mutableStateOf(options[0]) }
     val foodList = viewModel.foodListDAO.observeAsState(listOf())
-    viewModel.sendSelectedOptionText(selectedOptionText, listFood = foodList.value)
+    viewModel.sendSelectedOptionText("День", listFood = foodList.value)
 
     ExposedDropdownMenuBox(
         expanded = expanded,
