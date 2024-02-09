@@ -135,12 +135,12 @@ fun HistoryScreen(viewModel: MainViewModel,
                    Chart(pointList = pointList,viewModel = viewModel, color = Сoral)
                }
 
-               if(pointList.isNotEmpty()){
+               if(pointListWater.isNotEmpty()){
                    Text(text = "График воды", fontSize = 25.sp, color = СolorWater)
                    Chart(pointList = pointListWater,viewModel = viewModel, color = СolorWater)
                }
 
-               if(pointList.isNotEmpty()){
+               if(pointListWeight.isNotEmpty()){
                    Text(text = "График веса", fontSize = 25.sp, color = Green)
                    Chart(pointList = pointListWeight,viewModel = viewModel, color = Green)
                }
