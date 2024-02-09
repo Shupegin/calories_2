@@ -39,7 +39,7 @@ fun VerticalProgressBarWater(viewModel: WaterViewModel,
 
     var listUsers = viewModel.sumWater.observeAsState(0)
 
-                val caloriesPerDay = 2000
+                val caloriesPerDay = 2500
                 val calories  = listUsers.value.toFloat() / (caloriesPerDay)
 
                 progress = calories
