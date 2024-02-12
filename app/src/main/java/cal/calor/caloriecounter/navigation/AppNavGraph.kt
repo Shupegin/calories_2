@@ -17,6 +17,7 @@ fun AppNavGraph(
     homeScreenContent: @Composable () -> Unit,
     waterScreenContent: @Composable () -> Unit,
     historyScreenContent: @Composable () -> Unit,
+    pulseScreenContent: @Composable () -> Unit,
     weightScreenContent: @Composable () -> Unit
 
 ){
@@ -31,6 +32,10 @@ fun AppNavGraph(
         }
         composable(Screen.Water.route){
             waterScreenContent()
+        }
+
+        composable(Screen.Pulse.route){
+            pulseScreenContent()
         }
         composable(Screen.Weight.route){
             weightScreenContent()

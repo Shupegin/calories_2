@@ -1,6 +1,7 @@
 package cal.calor.caloriecounter.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Contrast
 import androidx.compose.material.icons.outlined.Fastfood
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
@@ -14,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.ui.theme.Brown
+import cal.calor.caloriecounter.ui.theme.ColorRed
 import cal.calor.caloriecounter.ui.theme.Green
 import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
@@ -49,5 +51,12 @@ sealed class NavigationItem (
         titleResId = R.string.navigation_item_profile,
         icon = Icons.Outlined.Scale,
         color = Green
+    )
+
+    object Pulse : NavigationItem(
+        screen = Screen.Pulse,
+        titleResId = R.string.navigation_item_pulse,
+        icon = Icons.Outlined.Contrast,
+        color = ColorRed
     )
 }

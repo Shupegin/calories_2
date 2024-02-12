@@ -3,29 +3,27 @@ package cal.calor.caloriecounter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import cal.calor.caloriecounter.HistoryScreen.HistoryScreen
 import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
+import cal.calor.caloriecounter.PulseScreen.PulseScreen
+import cal.calor.caloriecounter.PulseScreen.PulseViewModel
 import cal.calor.caloriecounter.WeightScreen.WeightScreen
 import cal.calor.caloriecounter.WeightScreen.WeightViewModel
 import cal.calor.caloriecounter.WaterScreeen.WaterScreen
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.banner.Banner
 import cal.calor.caloriecounter.dialog.dialog
+import cal.calor.caloriecounter.dialog.pulseDialog
 import cal.calor.caloriecounter.dialog.waterDialog
 import cal.calor.caloriecounter.navigation.*
 import cal.calor.caloriecounter.ui.theme.BackgroundBottom
@@ -38,6 +36,7 @@ fun MainScreen(
     viewModelWeight: WeightViewModel,
     historyViewModel: HistoryViewModel,
     waterViewModel: WaterViewModel,
+    pulseViewModel: PulseViewModel,
     owner: LifecycleOwner,
     context: Context,
     navController: NavController
@@ -48,6 +47,20 @@ fun MainScreen(
     val waterDialogState = remember {
         mutableStateOf(false)
     }
+
+    val pulseDialogState = remember {
+        mutableStateOf(false)
+    }
+
+    if (pulseDialogState.value){
+        pulseDialog(pulseDialogState = pulseDialogState,
+            viewModel = pulseViewModel, owner =  owner,
+            context = context)
+    }
+
+
+
+
     if (waterDialogState.value){
         waterDialog(waterDialogState = waterDialogState, viewModel = waterViewModel, owner )
     }
@@ -67,6 +80,7 @@ fun MainScreen(
                     val item = listOf(
                         NavigationItem.Home,
                         NavigationItem.Water,
+                        NavigationItem.Pulse,
                         NavigationItem.Profile,
                         NavigationItem.Favourite,
                     )
@@ -92,6 +106,7 @@ fun MainScreen(
                     homeScreenContent =    { HomeScreen(viewModel = mainViewModel, paddingValues = paddingValues, onItem = {dialogState.value = true}, owner = owner)},
                     waterScreenContent = { WaterScreen(onItem = {waterDialogState.value = true}, viewModel = waterViewModel)},
                     weightScreenContent = { WeightScreen(viewModelWeight = viewModelWeight, paddingValues = paddingValues,owner,context, navController)},
+                    pulseScreenContent = { PulseScreen(pulseViewModel = pulseViewModel, owner = owner, onItem = {pulseDialogState.value = true})},
                     historyScreenContent = { HistoryScreen(viewModel = mainViewModel, historyViewModel = historyViewModel, waterViewModel = waterViewModel, paddingValues = paddingValues, owner = owner, context =  context)}
                 )
             }

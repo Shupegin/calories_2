@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,7 +19,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
@@ -33,6 +36,7 @@ import cal.calor.caloriecounter.AddNewFoodScreen.AddFoodScreenViewModel
 import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
 import cal.calor.caloriecounter.InternetScreen.CheckInternetScreen
 import cal.calor.caloriecounter.LoginScreen.LoginViewModel
+import cal.calor.caloriecounter.PulseScreen.PulseViewModel
 import cal.calor.caloriecounter.WeightScreen.WeightViewModel
 import cal.calor.caloriecounter.RegistrationScreen.RegistrationViewModel
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
@@ -65,12 +69,14 @@ class MainActivity : ComponentActivity() {
     private lateinit var viewModelProf: WeightViewModel
     private lateinit var connectivityObserver: ConnectivityObserver
     private lateinit var historyViewModel: HistoryViewModel
+    private lateinit var pulseViewModel: PulseViewModel
 
     private lateinit var appUpdateManager: AppUpdateManager
     private val updateType = AppUpdateType.FLEXIBLE
     private val AVAILABLE = "Available"
 
     private lateinit var firebaseAnalytics : FirebaseAnalytics
+    @OptIn(ExperimentalComposeUiApi::class)
     @SuppressLint("FlowOperatorInvokedInComposition", "CoroutineCreationDuringComposition",
         "SuspiciousIndentation"
     )
@@ -102,12 +108,14 @@ class MainActivity : ComponentActivity() {
                     if(status.name == AVAILABLE){
                         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
+
                         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
                         viewModelLogin = ViewModelProvider(this)[LoginViewModel::class.java]
                         viewModelRegistration = ViewModelProvider(this)[RegistrationViewModel::class.java]
                         viewModelAddFoodScreen = ViewModelProvider(this)[AddFoodScreenViewModel::class.java]
                         viewModelProf = ViewModelProvider(this)[WeightViewModel::class.java]
                         historyViewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
+                        pulseViewModel = ViewModelProvider(this)[PulseViewModel::class.java]
                         waterViewModel = ViewModelProvider(this)[WaterViewModel::class.java]
 
                         mainViewModel.userListDAO.observe(this, Observer {
@@ -150,6 +158,7 @@ class MainActivity : ComponentActivity() {
                         waterViewModel = waterViewModel,
                         viewModelRegistration = viewModelRegistration,
                         mainViewModel = mainViewModel,
+                        pulseViewModel = pulseViewModel,
                         viewModelAddFoodScreen = viewModelAddFoodScreen,
                         owner = this,
                         context = this
@@ -241,13 +250,14 @@ fun LoginApplication(viewModel: LoginViewModel,
                      historyViewModel: HistoryViewModel,
                      waterViewModel: WaterViewModel,
                      viewModelProf: WeightViewModel,
+                     pulseViewModel: PulseViewModel,
                      mainViewModel : MainViewModel,
                      viewModelAddFoodScreen : AddFoodScreenViewModel,
                      owner: LifecycleOwner,
                      context: Context){
 
     val navController = rememberNavController()
-    MainScreen(mainViewModel = mainViewModel,viewModelWeight = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , owner = owner, context = context,navController = navController)
+    MainScreen(mainViewModel = mainViewModel,viewModelWeight = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , pulseViewModel = pulseViewModel, owner = owner, context = context,navController = navController)
 
 //    NavHost(navController = navController, enterTransition = {EnterTransition.None}, exitTransition = {ExitTransition.None}, startDestination = "login_page", builder ={
 ////        composable(route = "login_page", content = { LoginScreen(navController = navController,viewModel= viewModel, owner = owner, context = context)})
