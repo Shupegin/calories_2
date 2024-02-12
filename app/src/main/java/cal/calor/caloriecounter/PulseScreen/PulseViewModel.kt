@@ -1,12 +1,10 @@
 package cal.calor.caloriecounter.PulseScreen
 
+import android.annotation.SuppressLint
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import cal.calor.caloriecounter.database.PulseDataBase
-import cal.calor.caloriecounter.database.WaterDataBase_2
-import cal.calor.caloriecounter.pojo.WaterModel_2
 import cal.calor.caloriecounter.pojo.pulse.PulsePojo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,10 +34,15 @@ class PulseViewModel(application: Application,): AndroidViewModel(application){
         }
     }
 
-    fun currentTime(): String{
+    @SuppressLint("SimpleDateFormat")
+    fun currentTime(): String {
         val date = Calendar.getInstance().time
-        val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
-        return formatter.format(date)
+        val formatter = SimpleDateFormat("HH:mm") //or use getDateInstance()
+        val formatedDate = formatter.format(date)
+
+        return formatedDate
+
+
     }
 
 }
