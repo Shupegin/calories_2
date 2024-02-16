@@ -25,7 +25,7 @@ fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
         .padding(6.dp),
         shape = RoundedCornerShape(12.dp),
         ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 5.dp,bottom = 5.dp)) {
 
             Column() {
 

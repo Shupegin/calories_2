@@ -1,5 +1,6 @@
 package cal.calor.caloriecounter.WeightScreen
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -44,7 +45,10 @@ fun WeightScreen(viewModelWeight: WeightViewModel,
         DialogWeight(
             dialogState = dialogStateWeight,
             weightViewModel= viewModelWeight,
-            owner = owner)
+            owner = owner,
+        )
+
+
     }
 
     datavalue = viewModelWeight.getCurrentDate()

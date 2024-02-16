@@ -2,6 +2,7 @@ package cal.calor.caloriecounter
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
@@ -53,7 +54,7 @@ fun MainScreen(
     pulseViewModel: PulseViewModel,
     owner: LifecycleOwner,
     context: Context,
-    navController: NavController
+    navController: NavController,
 ){
 
 
