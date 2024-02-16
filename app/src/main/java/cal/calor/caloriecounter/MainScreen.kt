@@ -94,6 +94,9 @@ fun MainScreen(
 
 
     val navigationState = rememberNavigationState()
+    val advertisementInt = remember {
+        mutableStateOf(1)
+    }
 
         Column (modifier = Modifier.fillMaxSize()){
             Scaffold(modifier = Modifier.weight(1f, true), bottomBar ={
@@ -112,7 +115,10 @@ fun MainScreen(
                     item.forEach{ item ->
                         BottomNavigationItem(
                             selected = currentRout == item.screen.route,
-                            onClick = { navigationState.navigateTo(item.screen.route)},
+                            onClick = { navigationState.navigateTo(item.screen.route)
+                                advertisementInt.value = item.int
+
+                            },
                             icon = { Icon(item.icon , contentDescription = null) },
                             label = {
                                 Text(text = stringResource(id = item.titleResId), fontSize = 10.sp)
@@ -120,7 +126,9 @@ fun MainScreen(
                             selectedContentColor =  item.color,
                             unselectedContentColor = MaterialTheme.colors.onSecondary
                         )
+
                     }
+
                 }
             }){ paddingValues ->
                 AppNavGraph(
@@ -133,6 +141,67 @@ fun MainScreen(
                 )
             }
 
+
+//
+//            when(advertisementInt.value){
+//                1-> if (advertisement.value?.advertisement != null){
+//                    advertisement.value?.advertisement.let {
+//                        if(it == true){
+//                            advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
+//                        }
+//                    }
+//                }
+//
+//                2-> if (advertisement.value?.advertisement != null){
+//                    advertisement.value?.advertisement.let {
+//                        if(it == true){
+//                            Log.d("testorer","${advertisement.value?.advertisementKey2}")
+//                            advertisement.value?.advertisementKey2?.let { it1 -> Banner(id = it1) }
+//                        }
+//                    }
+//                }
+//
+//                3-> if (advertisement.value?.advertisement != null){
+//                    advertisement.value?.advertisement.let {
+//                        if(it == true){
+//                            Log.d("testorer","${advertisement.value?.advertisementKey3}")
+//
+//                            advertisement.value?.advertisementKey3?.let { it1 -> Banner(id = it1) }
+//                        }
+//                    }
+//                }
+//
+//                4-> if (advertisement.value?.advertisement != null){
+//                    advertisement.value?.advertisement.let {
+//                        if(it == true){
+//                            Log.d("testorer","${advertisement.value?.advertisementKey4}")
+//
+//                            advertisement.value?.advertisementKey4?.let { it1 -> Banner(id = it1) }
+//                        }
+//                    }
+//                }
+//
+//                5-> if (advertisement.value?.advertisement != null){
+//                    advertisement.value?.advertisement.let {
+//                        if(it == true){
+//                            Log.d("testorer","${advertisement.value?.advertisementKey5}")
+//
+//                            advertisement.value?.advertisementKey5?.let { it1 -> Banner(id = it1) }
+//                        }
+//                    }
+//                }
+//
+//                else {
+//                    if (advertisement.value?.advertisement != null){
+//                        advertisement.value?.advertisement.let {
+//                            if(it == true){
+//                                advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//            }
             if (advertisement.value?.advertisement != null){
                 advertisement.value?.advertisement.let {
                     if(it == true){
@@ -140,6 +209,7 @@ fun MainScreen(
                     }
                 }
             }
+
         }
 }
 

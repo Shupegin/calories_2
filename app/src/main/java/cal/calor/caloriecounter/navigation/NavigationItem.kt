@@ -29,39 +29,51 @@ sealed class NavigationItem (
     val screen : Screen,
     val titleResId: Int,
     val icon: ImageVector,
-    val color : Color
+    val color : Color,
+    var int : Int
 ){
     object Home : NavigationItem(
         screen = Screen.CaloriesFeed,
         titleResId = R.string.navigation_item_main,
         icon = Icons.Outlined.Fastfood,
-        color = Сoral
+        color = Сoral,
+        int = 1
     )
     object Water : NavigationItem(
         screen = Screen.Water,
         titleResId = R.string.navigation_item_water,
         icon = Icons.Outlined.WaterDrop,
-        color = СolorWater
-    )
-
-    object Favourite : NavigationItem(
-        screen = Screen.History,
-        titleResId = R.string.navigation_item_favourite,
-        icon = Icons.Outlined.MenuBook,
-        color = Brown
-    )
-
-    object Profile : NavigationItem(
-        screen = Screen.Weight,
-        titleResId = R.string.navigation_item_profile,
-        icon = Icons.Outlined.Scale,
-        color = Green
+        color = СolorWater,
+        int = 2
     )
 
     object Pulse : NavigationItem(
         screen = Screen.Pulse,
         titleResId = R.string.navigation_item_pulse,
         icon = Icons.Outlined.MonitorHeart,
-        color = ColorRed
+        color = ColorRed,
+        int = 3
     )
+
+
+
+    object Profile : NavigationItem(
+        screen = Screen.Weight,
+        titleResId = R.string.navigation_item_profile,
+        icon = Icons.Outlined.Scale,
+        color = Green,
+        int = 4
+
+    )
+
+    object Favourite : NavigationItem(
+        screen = Screen.History,
+        titleResId = R.string.navigation_item_favourite,
+        icon = Icons.Outlined.MenuBook,
+        color = Brown,
+        int = 5
+
+    )
+
+
 }
