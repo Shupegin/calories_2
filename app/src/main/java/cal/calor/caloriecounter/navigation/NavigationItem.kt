@@ -4,15 +4,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Contrast
 import androidx.compose.material.icons.outlined.Fastfood
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.HeartBroken
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LineWeight
 import androidx.compose.material.icons.outlined.MenuBook
+import androidx.compose.material.icons.outlined.MonitorHeart
 import androidx.compose.material.icons.outlined.MonitorWeight
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Scale
 import androidx.compose.material.icons.outlined.WaterDrop
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.ui.theme.Brown
 import cal.calor.caloriecounter.ui.theme.ColorRed
@@ -56,7 +61,7 @@ sealed class NavigationItem (
     object Pulse : NavigationItem(
         screen = Screen.Pulse,
         titleResId = R.string.navigation_item_pulse,
-        icon = Icons.Outlined.Contrast,
+        icon = Icons.Outlined.MonitorHeart,
         color = ColorRed
     )
 }

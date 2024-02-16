@@ -15,6 +15,7 @@ import cal.calor.caloriecounter.database.AppDatabase
 import cal.calor.caloriecounter.database.UserDatabase
 import cal.calor.caloriecounter.dialog.FoodMapper
 import cal.calor.caloriecounter.network.ApiFactory
+import cal.calor.caloriecounter.pojo.AuthorizationPassword.AuthorizationPassword
 import cal.calor.caloriecounter.pojo.Food.ItemsFood
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.FoodSearchFirebase
@@ -110,10 +111,31 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             val clientSecret= "0e8023668fa943b3ab9555065c53be4e";
 
             var auth = Credentials.basic(clientId, clientSecret)
-            val response = ApiFactory.getApiAuthorization().requestAuthorization(auth = auth)
-            Log.d("TESTER","request token = ${response.accessToken}")
+            val response = ApiFactory
+                .getApiAuthorization()
+                .requestAuthorization(auth = auth)
+            //Log.d("TESTER","request token = ${response?.accessToken}")
 
-            token = response.accessToken
+            response?.enqueue(object : Callback<AuthorizationPassword?> {
+                override fun onResponse(
+                    call: Call<AuthorizationPassword?>,
+                    response: Response<AuthorizationPassword?>
+                ) {
+                    if (response.isSuccessful) {
+                        token = response.body()?.accessToken
+                    } else {
+//                        _status.value = false
+//                        Toast.makeText(
+//                            context,
+//                            "NoSuccess = ${response.code()}",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<AuthorizationPassword?>, t: Throwable) {
+                }
+            })
         }
     }
     @SuppressLint("SuspiciousIndentation")

@@ -232,6 +232,7 @@ fun pulseDialog(
                         viewModel.addPulseDataBase(addPulseDataBase)
                         pulseDialogState.value = false
 
+
                     }) {
                         Text(text = "Ок")
                     }

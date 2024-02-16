@@ -3,6 +3,7 @@ package cal.calor.caloriecounter
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +12,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -20,9 +24,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
+import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -54,6 +61,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.annotations.concurrent.Background
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import kotlinx.coroutines.delay
@@ -73,15 +81,16 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var appUpdateManager: AppUpdateManager
     private val updateType = AppUpdateType.FLEXIBLE
-    private val AVAILABLE = "Available"
 
     private lateinit var firebaseAnalytics : FirebaseAnalytics
     @OptIn(ExperimentalComposeUiApi::class)
     @SuppressLint("FlowOperatorInvokedInComposition", "CoroutineCreationDuringComposition",
         "SuspiciousIndentation"
     )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         connectivityObserver = NetworkConnectivityObserver(applicationContext)
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         if(false) {
@@ -93,8 +102,8 @@ class MainActivity : ComponentActivity() {
         }
 
 
-
         setContent {
+
             CalorieCounterTheme {
                 StatusBarColor(BackgroundGray)
 
@@ -105,51 +114,52 @@ class MainActivity : ComponentActivity() {
                 val status by connectivityObserver.observe().collectAsState(
                     initial = ConnectivityObserver.Status.Available
                 )
-                    if(status.name == AVAILABLE){
-                        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+                if(status == ConnectivityObserver.Status.Unknow) {
 
+                } else if(status == ConnectivityObserver.Status.Available) {
+                    firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-                        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-                        viewModelLogin = ViewModelProvider(this)[LoginViewModel::class.java]
-                        viewModelRegistration = ViewModelProvider(this)[RegistrationViewModel::class.java]
-                        viewModelAddFoodScreen = ViewModelProvider(this)[AddFoodScreenViewModel::class.java]
-                        viewModelProf = ViewModelProvider(this)[WeightViewModel::class.java]
-                        historyViewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
-                        pulseViewModel = ViewModelProvider(this)[PulseViewModel::class.java]
-                        waterViewModel = ViewModelProvider(this)[WaterViewModel::class.java]
+                    mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+                    viewModelLogin = ViewModelProvider(this)[LoginViewModel::class.java]
+                    viewModelRegistration = ViewModelProvider(this)[RegistrationViewModel::class.java]
+                    viewModelAddFoodScreen = ViewModelProvider(this)[AddFoodScreenViewModel::class.java]
+                    viewModelProf = ViewModelProvider(this)[WeightViewModel::class.java]
+                    historyViewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
+                    pulseViewModel = ViewModelProvider(this)[PulseViewModel::class.java]
+                    waterViewModel = ViewModelProvider(this)[WaterViewModel::class.java]
 
-                        mainViewModel.userListDAO.observe(this, Observer {
-                            mainViewModel.loadFirebaseData(it)
-                        })
-                        mainViewModel.downloadModel()
+                    mainViewModel.userListDAO.observe(this, Observer {
+                        mainViewModel.loadFirebaseData(it)
+                    })
+                    mainViewModel.downloadModel()
 
-                        if (true){
-                            val toast = mainViewModel.dischargePreference()
+                    if (true){
+                        val toast = mainViewModel.dischargePreference()
 
-                            if (!toast){
-                                Toast.makeText(this,"Устанавливается доп библиотека для работы с API",Toast.LENGTH_LONG).show()
-                                 mainViewModel.recordPreference(true)
-                            }
+                        if (!toast){
+                            Toast.makeText(this,"Устанавливается доп библиотека для работы с API",Toast.LENGTH_LONG).show()
+                             mainViewModel.recordPreference(true)
                         }
+                    }
 
 
-                        if (true){
-                            mainViewModel.management()
-                            val version =  mainViewModel.management.observeAsState()
+                    if (true){
+                        mainViewModel.management()
+                        val version =  mainViewModel.management.observeAsState()
 
-                            val versionName = BuildConfig.VERSION_NAME
-                            if (version.value?.version_name != null ){
-                                if (versionName.toDouble() < version.value?.version_name!!.toDouble()){
+                        val versionName = BuildConfig.VERSION_NAME
+                        if (version.value?.version_name != null ){
+                            if (versionName.toDouble() < version.value?.version_name!!.toDouble()){
 
-                                    dialogUpdateAppState.value = true
-                                    if (dialogUpdateAppState.value) {
-                                        dialogUpdateApp(dialogUpdateAppState)
-                                    }
-
+                                dialogUpdateAppState.value = true
+                                if (dialogUpdateAppState.value) {
+                                    dialogUpdateApp(dialogUpdateAppState)
                                 }
-                            }
 
+                            }
                         }
+
+                    }
 
                     LoginApplication(
                         viewModel = viewModelLogin,
@@ -163,11 +173,10 @@ class MainActivity : ComponentActivity() {
                         owner = this,
                         context = this
                     )
-                    }else {
-                        CheckInternetScreen()
-                    }
+                } else {
+                    CheckInternetScreen()
+                }
             }
-
         }
     }
 
@@ -193,20 +202,20 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        var intentResult : IntentResult = IntentIntegrator.parseActivityResult(requestCode,resultCode, data)
-        if(intentResult != null){
-            var content = intentResult.contents
-            if (content != null){
-                mainViewModel.databaseEntryUser(intentResult.contents.toString())
-            }
-        }else{
-            super.onActivityResult(requestCode, resultCode, data)
-
-        }
-
-
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        var intentResult : IntentResult = IntentIntegrator.parseActivityResult(requestCode,resultCode, data)
+//        if(intentResult != null){
+//            var content = intentResult.contents
+//            if (content != null){
+//                mainViewModel.databaseEntryUser(intentResult.contents.toString())
+//            }
+//        }else{
+//            super.onActivityResult(requestCode, resultCode, data)
+//
+//        }
+//
+//
+//    }
 
     private val installStateUpdateListener = InstallStateUpdatedListener { state->
         if(state.installStatus() == InstallStatus.DOWNLOADED){

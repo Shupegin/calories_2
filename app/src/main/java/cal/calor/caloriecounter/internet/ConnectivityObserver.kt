@@ -7,6 +7,6 @@ interface ConnectivityObserver {
 
 
     enum class Status{
-        Available, Unavailable, Losing, Lost
+        Available, Unavailable, Losing, Lost, Unknow
     }
 }

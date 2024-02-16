@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-class NetworkConnectivityObserver(private val context : Context) : ConnectivityObserver{
+class NetworkConnectivityObserver(context : Context) : ConnectivityObserver{
 
     private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
      override fun observe(): Flow<ConnectivityObserver.Status> {
@@ -38,6 +38,7 @@ class NetworkConnectivityObserver(private val context : Context) : ConnectivityO
 
                 }
             }
+            send(if (connectivityManager.activeNetwork == null) ConnectivityObserver.Status.Unavailable else ConnectivityObserver.Status.Available)
             connectivityManager.registerDefaultNetworkCallback(callback)
             awaitClose{
                 connectivityManager.unregisterNetworkCallback(callback)

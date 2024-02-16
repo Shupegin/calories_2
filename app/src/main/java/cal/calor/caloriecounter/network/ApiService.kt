@@ -18,12 +18,12 @@ interface ApiService {
 
     @FormUrlEncoded
     @POST("token")
-    suspend fun requestAuthorization(
+    fun requestAuthorization(
         @Field("grant_type") grant_type: String = "client_credentials",
         //@Field("scope") scope: String = "basic",
         @Field("scope") scope: String = "basic premier barcode",
         @Header("Authorization") auth: String
-    ) : AuthorizationPassword
+    ) : Call<AuthorizationPassword?>?
 
 
     @GET("v1/nutrition")

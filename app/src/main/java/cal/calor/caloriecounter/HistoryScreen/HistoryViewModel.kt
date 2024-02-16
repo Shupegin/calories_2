@@ -1,44 +1,33 @@
 package cal.calor.caloriecounter.HistoryScreen
 
+//import com.google.firebase.auth.FirebaseAuth
+
+import android.R.attr.label
+import android.R.attr.text
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.graphics.Bitmap
-import android.util.Log
-import androidx.compose.ui.input.key.Key.Companion.F
-
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cal.calor.caloriecounter.database.AppDatabase
 import cal.calor.caloriecounter.database.WaterDataBase_2
 import cal.calor.caloriecounter.database.WeightDataBase
 import cal.calor.caloriecounter.pojo.FoodModel
-import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
-import cal.calor.caloriecounter.pojo.UserIDModel
 import cal.calor.caloriecounter.pojo.WaterModel_2
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
 import co.yml.charts.common.model.Point
-//import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Date
-import java.util.Objects
-import kotlin.math.log
-import kotlin.random.Random
+
 
 class HistoryViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDatabase.getInstance(application)
@@ -232,6 +221,13 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
             _imageQR.value = bitmap
         } catch (e: WriterException){}
 
+    }
+
+
+    fun saveCardInClipboard(context: Context){
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+        val clip = ClipData.newPlainText("card", "2200700162545817")
+        clipboard?.setPrimaryClip(clip)
     }
 
 }
