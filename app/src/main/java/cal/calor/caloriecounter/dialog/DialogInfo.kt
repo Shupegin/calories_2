@@ -58,13 +58,13 @@ fun dialogInfo(dialogState: MutableState<Boolean>, context: Context, historyView
                     style = MaterialTheme.typography.body1,
                     textAlign = TextAlign.Center )
 
-                Text(text = " Если вам приложение помогло, " +
-                        "и  хочется чтоб оно развивалось",
+                Text(text = "Привет! Буду рад, если приложение оказалось для вас полезным." +
+                        " Если у вас есть пожелания и предложения, пишите ALT7024@yandex.ru, буду рад обратной связи!" +
+                        " Поддержать нас можно: номер карты",
                     style = MaterialTheme.typography.body1,
                     textAlign = TextAlign.Center )
 
 
-                Text(text = "номер карты:")
                 Row {
                     Text(text = "2200 7001 6254 5817") 
                     Spacer(modifier = Modifier.padding(start = 10.dp))

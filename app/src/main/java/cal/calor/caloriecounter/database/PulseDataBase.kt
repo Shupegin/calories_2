@@ -8,8 +8,8 @@ import androidx.room.RoomDatabase
 import cal.calor.caloriecounter.pojo.WaterModel_2
 import cal.calor.caloriecounter.pojo.pulse.PulsePojo
 
-@Database(entities = [PulsePojo::class], version = 3, exportSchema = true,
-    autoMigrations = [AutoMigration(from = 2 ,3 )])
+@Database(entities = [PulsePojo::class], version = 4, exportSchema = true,
+    autoMigrations = [AutoMigration(from = 3 ,4 )])
 
 abstract class PulseDataBase : RoomDatabase() {
 

@@ -7,8 +7,12 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,7 +20,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -42,6 +48,7 @@ import cal.calor.caloriecounter.dialog.pulseDialog
 import cal.calor.caloriecounter.dialog.waterDialog
 import cal.calor.caloriecounter.navigation.*
 import cal.calor.caloriecounter.ui.theme.BackgroundBottom
+import cal.calor.caloriecounter.ui.theme.BackgroundGray
 
 
 @SuppressLint("SuspiciousIndentation")
@@ -98,7 +105,8 @@ fun MainScreen(
         mutableStateOf(1)
     }
 
-        Column (modifier = Modifier.fillMaxSize()){
+        Column (modifier = Modifier
+            .fillMaxSize()){
             Scaffold(modifier = Modifier.weight(1f, true), bottomBar ={
                 BottomNavigation(backgroundColor = BackgroundBottom) {
                     val navBackStackEntry  by navigationState.navHostController.currentBackStackEntryAsState()
@@ -142,74 +150,88 @@ fun MainScreen(
             }
 
 
-//
-//            when(advertisementInt.value){
-//                1-> if (advertisement.value?.advertisement != null){
-//                    advertisement.value?.advertisement.let {
-//                        if(it == true){
-//                            advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
-//                        }
-//                    }
-//                }
-//
-//                2-> if (advertisement.value?.advertisement != null){
-//                    advertisement.value?.advertisement.let {
-//                        if(it == true){
-//                            Log.d("testorer","${advertisement.value?.advertisementKey2}")
-//                            advertisement.value?.advertisementKey2?.let { it1 -> Banner(id = it1) }
-//                        }
-//                    }
-//                }
-//
-//                3-> if (advertisement.value?.advertisement != null){
-//                    advertisement.value?.advertisement.let {
-//                        if(it == true){
-//                            Log.d("testorer","${advertisement.value?.advertisementKey3}")
-//
-//                            advertisement.value?.advertisementKey3?.let { it1 -> Banner(id = it1) }
-//                        }
-//                    }
-//                }
-//
-//                4-> if (advertisement.value?.advertisement != null){
-//                    advertisement.value?.advertisement.let {
-//                        if(it == true){
-//                            Log.d("testorer","${advertisement.value?.advertisementKey4}")
-//
-//                            advertisement.value?.advertisementKey4?.let { it1 -> Banner(id = it1) }
-//                        }
-//                    }
-//                }
-//
-//                5-> if (advertisement.value?.advertisement != null){
-//                    advertisement.value?.advertisement.let {
-//                        if(it == true){
-//                            Log.d("testorer","${advertisement.value?.advertisementKey5}")
-//
-//                            advertisement.value?.advertisementKey5?.let { it1 -> Banner(id = it1) }
-//                        }
-//                    }
-//                }
-//
-//                else {
-//                    if (advertisement.value?.advertisement != null){
-//                        advertisement.value?.advertisement.let {
-//                            if(it == true){
-//                                advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
-//                            }
-//                        }
-//                    }
-//                }
-//
-//            }
-            if (advertisement.value?.advertisement != null){
-                advertisement.value?.advertisement.let {
-                    if(it == true){
-                        advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth().height(58.dp).background(BackgroundGray),
+                contentAlignment = Alignment.BottomCenter
+            ){
+
+                when(advertisementInt.value){
+                    1-> if (advertisement.value?.advertisement != null){
+                        advertisement.value?.advertisement.let {
+                            if(it == true){
+                                advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
+                            }
+                        }
                     }
+
+                    2-> if (advertisement.value?.advertisement != null){
+                        advertisement.value?.advertisement.let {
+                            if(it == true){
+                                advertisement.value?.advertisementKey2?.let { it1 -> Banner(id = it1) }
+                            }
+                        }
+                    }
+
+                    3-> if (advertisement.value?.advertisement != null){
+                        advertisement.value?.advertisement.let {
+                            if(it == true){
+
+                                advertisement.value?.advertisementKey3?.let { it1 -> Banner(id = it1) }
+                            }
+                        }
+                    }
+
+                    4-> if (advertisement.value?.advertisement != null){
+                        advertisement.value?.advertisement.let {
+                            if(it == true){
+
+                                advertisement.value?.advertisementKey4?.let { it1 -> Banner(id = it1) }
+                            }
+                        }
+                    }
+
+                    5-> if (advertisement.value?.advertisement != null){
+                        advertisement.value?.advertisement.let {
+                            if(it == true){
+
+                                advertisement.value?.advertisementKey5?.let { it1 -> Banner(id = it1) }
+                            }
+                        }
+                    }
+
+                    else {
+                        if (advertisement.value?.advertisement != null){
+                            advertisement.value?.advertisement.let {
+                                if(it == true){
+                                    advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
+                                }
+                            }
+                        }
+                    }
+
                 }
+
+//        if (advertisement.value?.advertisement != null){
+//            advertisement.value?.advertisement.let {
+//                if(it == true){
+//                    advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
+//                }
+//            }
+//        }
+
+
             }
 
+
+
+
+
         }
+
+
+
+
+
 }
 

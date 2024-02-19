@@ -28,6 +28,7 @@ fun Banner(id : String){
             val adRequest = AdRequest.Builder().build()
             setBannerAdEventListener(object : BannerAdEventListener{
                 override fun onAdLoaded() {
+
                 }
 
                 override fun onAdFailedToLoad(p0: AdRequestError) {
