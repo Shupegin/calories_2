@@ -50,7 +50,7 @@ fun dialogUpdateApp(dialogState: MutableState<Boolean>){
 
 
     val context = LocalContext.current
-    val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse("https://apps.rustore.ru/app/cal.calor.caloriecounter")) }
+    val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=cal.calor.caloriecounter")) }
 
 
     Dialog(
