@@ -1,6 +1,9 @@
 package cal.calor.caloriecounter.pojo
 
+import android.widget.Switch
+
 data class Management(
+    val advertisementSwitch: Boolean? = false,
     val version_name : String? = null,
     val advertisement : Boolean? = false,
     val advertisementKey : String? = null,
