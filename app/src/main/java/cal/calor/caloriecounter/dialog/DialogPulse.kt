@@ -158,10 +158,10 @@ fun pulseDialog(
 
 
                 OutlinedTextField(
-                    value = pulse,
+                    value = pressureLower,
                     onValueChange = {
                         it.let {
-                            pulse = it
+                            pressureLower = it
 
                         }
                     },
@@ -184,9 +184,9 @@ fun pulseDialog(
                     )
 
                 OutlinedTextField(
-                    value = pressureLower,
+                    value = pulse,
                     onValueChange = {
-                        it.let { pressureLower = it }
+                        it.let { pulse = it }
                     },
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),

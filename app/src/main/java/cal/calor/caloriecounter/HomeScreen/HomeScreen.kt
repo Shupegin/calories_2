@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 
 import androidx.compose.material.ExperimentalMaterialApi
@@ -55,61 +56,86 @@ fun HomeScreen(
         isLoading = it
     })
 
+    val foodList = viewModel.foodListDAO.observeAsState(listOf())
+    val list = foodList.value.asReversed().groupBy { it.dataCurrent }
+
 
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(BackgroundGray)
+        .background(BackgroundGray),
+
 
     ){
-     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-         if(isLoading){
-             CircularProgressIndicator(color = Сoral)
-         }
 
-         val foodList = viewModel.foodListDAO.observeAsState(listOf())
-         val list = foodList.value.asReversed().groupBy { it.dataCurrent }
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
 
-         LazyColumn(modifier = Modifier
-             .fillMaxWidth()
-             .padding(bottom = 55.dp),
-         ){
-             list?.forEach{(dataCurrent,listFood)->
-                 stickyHeader{
-                     Text(text = dataCurrent.toString(),
-                         modifier = Modifier
-                             .fillMaxWidth()
-                             .background(color = Сoral),
-                         textAlign = TextAlign.Center,
-                         style = MaterialTheme.typography.h6,)
-                 }
-                 items(listFood, key= {it.food_id},){foodModel ->
-                     cardFood(foodModel = foodModel,viewModel)
-                 }
-                 item {
-                     Row(modifier = Modifier
-                         .fillMaxWidth()
-                         .padding(bottom = 5.dp),
-                         Arrangement.End){
+        ){
+            if(isLoading){
+                CircularProgressIndicator(color = Сoral)
+            }
+        }
 
-                         val totalCalories = viewModel.getCalories(listFood)
-                         calories = totalCalories
-                         Text(modifier = Modifier
-                             .shadow(
-                                 elevation = 4.dp,
-                                 shape = RoundedCornerShape(8.dp)
-                             )
-                             .background(color = Сoral)
-                             .padding(5.dp),
-                             text = "Cумма калорий = ${calories}",
-                             textAlign = TextAlign.Right)
+      if (list.size == 0){
 
-                         Spacer(modifier = Modifier.padding(end = 5.dp))
-                     }
-                 }
-             }
-         }
-     }
+          Box(modifier = Modifier
+              .fillMaxSize(),
+              contentAlignment = Alignment.Center
+
+          ) {
+               Column(modifier = Modifier.background(BackgroundGray)) {
+                   Text(text = "Здесь пока ничего нет...", color = Color.White)
+                   Text(text = "Добавьте съеденную еду ", color = Color.White)
+               }
+
+          }
+
+      }else{
+          Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+
+              LazyColumn(modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(bottom = 55.dp),
+              ){
+                  list?.forEach{(dataCurrent,listFood)->
+                      stickyHeader{
+                          Text(text = dataCurrent.toString(),
+                              modifier = Modifier
+                                  .fillMaxWidth()
+                                  .background(color = Сoral),
+                              textAlign = TextAlign.Center,
+                              style = MaterialTheme.typography.h6,)
+                      }
+                      items(listFood, key= {it.food_id},){foodModel ->
+                          cardFood(foodModel = foodModel,viewModel)
+                      }
+                      item {
+                          Row(modifier = Modifier
+                              .fillMaxWidth()
+                              .padding(bottom = 5.dp),
+                              Arrangement.End){
+
+                              val totalCalories = viewModel.getCalories(listFood)
+                              calories = totalCalories
+                              Text(modifier = Modifier
+                                  .shadow(
+                                      elevation = 4.dp,
+                                      shape = RoundedCornerShape(8.dp)
+                                  )
+                                  .background(color = Сoral)
+                                  .padding(5.dp),
+                                  text = "Cумма калорий = ${calories}",
+                                  textAlign = TextAlign.Right)
+
+                              Spacer(modifier = Modifier.padding(end = 5.dp))
+                          }
+                      }
+                  }
+              }
+          }
+      }
+
 
         Box(modifier = Modifier
             .fillMaxSize()

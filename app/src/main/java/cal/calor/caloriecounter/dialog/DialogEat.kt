@@ -154,7 +154,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 },
                                 label = {
                                     Text(
-                                        text = "каллории?",
+                                        text = "калории?",
                                         style = androidx.compose.ui.text.TextStyle(
                                             color = Color.Black
                                         )

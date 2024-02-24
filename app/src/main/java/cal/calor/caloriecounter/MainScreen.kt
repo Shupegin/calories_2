@@ -149,96 +149,87 @@ fun MainScreen(
                 )
             }
 
+
+            if (advertisement.value?.advertisement != null){
+                advertisement.value?.advertisement.let {
+                    if(it == true){
+                        advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
+                    }
+                }
+            }
+
 //            if (advertisement.value?.advertisement != null){
 //
 //                advertisement.value!!.advertisementSwitch.let {
 //                    Log.d("TestReclama","$it")
 //                    if (it == true){
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth().height(58.dp).background(BackgroundGray),
-                            contentAlignment = Alignment.BottomCenter
-                        ){
-
-                            when(advertisementInt.value){
-                                1-> if (advertisement.value?.advertisement != null){
-                                    advertisement.value?.advertisement.let {
-                                        if(it == true){
-                                            advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
-                                        }
-                                    }
-                                }
-
-                                2-> if (advertisement.value?.advertisement != null){
-                                    advertisement.value?.advertisement.let {
-                                        if(it == true){
-                                            advertisement.value?.advertisementKey2?.let { it1 -> Banner(id = it1) }
-                                        }
-                                    }
-                                }
-
-                                3-> if (advertisement.value?.advertisement != null){
-                                    advertisement.value?.advertisement.let {
-                                        if(it == true){
-
-                                            advertisement.value?.advertisementKey3?.let { it1 -> Banner(id = it1) }
-                                        }
-                                    }
-                                }
-
-                                4-> if (advertisement.value?.advertisement != null){
-                                    advertisement.value?.advertisement.let {
-                                        if(it == true){
-
-                                            advertisement.value?.advertisementKey4?.let { it1 -> Banner(id = it1) }
-                                        }
-                                    }
-                                }
-
-                                5-> if (advertisement.value?.advertisement != null){
-                                    advertisement.value?.advertisement.let {
-                                        if(it == true){
-
-                                            advertisement.value?.advertisementKey5?.let { it1 -> Banner(id = it1) }
-                                        }
-                                    }
-                                }
-
-                                else {
-                                    if (advertisement.value?.advertisement != null){
-                                        advertisement.value?.advertisement.let {
-                                            if(it == true){
-                                                advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
-                                            }
-                                        }
-                                    }
-                                }
+//                        Box(
+//                            modifier = Modifier
+//                                .fillMaxWidth().height(58.dp).background(BackgroundGray),
+//                            contentAlignment = Alignment.BottomCenter
+//                        ){
+//
+//                            when(advertisementInt.value){
+//                                1-> if (advertisement.value?.advertisement != null){
+//                                    advertisement.value?.advertisement.let {
+//                                        if(it == true){
+//                                            advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
+//                                        }
+//                                    }
+//                                }
+//
+//                                2-> if (advertisement.value?.advertisement != null){
+//                                    advertisement.value?.advertisement.let {
+//                                        if(it == true){
+//                                            advertisement.value?.advertisementKey2?.let { it1 -> Banner(id = it1) }
+//                                        }
+//                                    }
+//                                }
+//
+//                                3-> if (advertisement.value?.advertisement != null){
+//                                    advertisement.value?.advertisement.let {
+//                                        if(it == true){
+//
+//                                            advertisement.value?.advertisementKey3?.let { it1 -> Banner(id = it1) }
+//                                        }
+//                                    }
+//                                }
+//
+//                                4-> if (advertisement.value?.advertisement != null){
+//                                    advertisement.value?.advertisement.let {
+//                                        if(it == true){
+//
+//                                            advertisement.value?.advertisementKey4?.let { it1 -> Banner(id = it1) }
+//                                        }
+//                                    }
+//                                }
+//
+//                                5-> if (advertisement.value?.advertisement != null){
+//                                    advertisement.value?.advertisement.let {
+//                                        if(it == true){
+//
+//                                            advertisement.value?.advertisementKey5?.let { it1 -> Banner(id = it1) }
+//                                        }
+//                                    }
+//                                }
+//
+//                                else {
+//                                    if (advertisement.value?.advertisement != null){
+//                                        advertisement.value?.advertisement.let {
+//                                            if(it == true){
+//                                                advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
+//                                            }
+//                                        }
+//                                    }
+//                                }
 
 //                            }
 //                        }
 //                    }else{
-//                        if (advertisement.value?.advertisement != null){
-//                            advertisement.value?.advertisement.let {
-//                                if(it == true){
-//                                    advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
-//                                }
-//                            }
-//                        }
+
 //                    }
-                }
-            }
-
-
-
-
-
-
-
+//                }
+//            }
         }
-
-
-
-
-
 }
 
