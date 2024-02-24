@@ -149,11 +149,11 @@ fun MainScreen(
                 )
             }
 
-            if (advertisement.value?.advertisement != null){
-
-                advertisement.value!!.advertisementSwitch.let {
-                    Log.d("TestReclama","$it")
-                    if (it == true){
+//            if (advertisement.value?.advertisement != null){
+//
+//                advertisement.value!!.advertisementSwitch.let {
+//                    Log.d("TestReclama","$it")
+//                    if (it == true){
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth().height(58.dp).background(BackgroundGray),
@@ -214,17 +214,17 @@ fun MainScreen(
                                     }
                                 }
 
-                            }
-                        }
-                    }else{
-                        if (advertisement.value?.advertisement != null){
-                            advertisement.value?.advertisement.let {
-                                if(it == true){
-                                    advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
-                                }
-                            }
-                        }
-                    }
+//                            }
+//                        }
+//                    }else{
+//                        if (advertisement.value?.advertisement != null){
+//                            advertisement.value?.advertisement.let {
+//                                if(it == true){
+//                                    advertisement.value?.advertisementKey?.let { it1 -> Banner(id = it1) }
+//                                }
+//                            }
+//                        }
+//                    }
                 }
             }
 
