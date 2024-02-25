@@ -1,10 +1,10 @@
 package cal.calor.caloriecounter.banner
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.viewinterop.AndroidView
-import com.yandex.mobile.ads.banner.AdSize
+
 import com.yandex.mobile.ads.banner.BannerAdEventListener
+import com.yandex.mobile.ads.banner.BannerAdSize.stickySize
 import com.yandex.mobile.ads.banner.BannerAdView
 import com.yandex.mobile.ads.common.AdRequest
 import com.yandex.mobile.ads.common.AdRequestError
@@ -24,7 +24,7 @@ fun Banner(id : String){
                 }
                 val adWidth = (adWidthPixels / resources.displayMetrics.density).roundToInt()
 
-            setAdSize(AdSize.stickySize(context,adWidth))
+            setAdSize(stickySize(context,adWidth))
             val adRequest = AdRequest.Builder().build()
             setBannerAdEventListener(object : BannerAdEventListener{
                 override fun onAdLoaded() {

@@ -31,6 +31,8 @@ android {
     }
 
 
+
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -62,6 +64,7 @@ android {
 
 dependencies {
     implementation ("co.yml:ycharts:2.1.0")
+    implementation ("org.codehaus.groovy:groovy-all:2.4.12")
     implementation ("androidx.core:core-ktx:1.10.1")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation ("androidx.activity:activity-compose:1.7.1")
@@ -126,7 +129,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended-android:1.5.4")
     implementation("androidx.compose.ui:ui-text-google-fonts:1.5.4")
 
+
     //noinspection MobileAdsSdkOutdatedVersion
-    implementation("com.yandex.android:mobileads:5.8.0")
+    implementation("com.yandex.android:mobileads:6.4.0")
 
 }
