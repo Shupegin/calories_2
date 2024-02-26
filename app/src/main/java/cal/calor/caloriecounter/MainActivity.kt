@@ -1,18 +1,25 @@
 package cal.calor.caloriecounter
 
 
+import android.Manifest
 import android.R.color
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -20,11 +27,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
+import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -37,6 +46,7 @@ import cal.calor.caloriecounter.InternetScreen.CheckInternetScreen
 import cal.calor.caloriecounter.LoginScreen.LoginViewModel
 import cal.calor.caloriecounter.PulseScreen.PulseViewModel
 import cal.calor.caloriecounter.RegistrationScreen.RegistrationViewModel
+import cal.calor.caloriecounter.Service.RunningService
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.WeightScreen.WeightViewModel
 import cal.calor.caloriecounter.dialog.dialogUpdateApp
@@ -80,6 +90,14 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                0
+            )
+        }
 
 
         connectivityObserver = NetworkConnectivityObserver(applicationContext)
@@ -98,6 +116,34 @@ class MainActivity : ComponentActivity() {
             CalorieCounterTheme {
 
                     StatusBarColor(BackgroundGray)
+
+                Column(modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                    ) {
+
+                    Button(onClick = {
+                        Intent(applicationContext, RunningService::class.java).also {
+                            it.action = RunningService.Action.START.toString()
+                            startService(it)
+                        }
+                    }) {
+                        Text("Старт")
+                    }
+
+                    Button(onClick = {
+                        Intent(applicationContext, RunningService::class.java).also {
+                            it.action = RunningService.Action.STOP.toString()
+                            startService(it)
+                        }
+                    }) {
+                        Text("Стоп")
+                    }
+
+                }
+
+
+
                     val dialogUpdateAppState = remember {
                         mutableStateOf(false)
                     }
@@ -162,7 +208,8 @@ class MainActivity : ComponentActivity() {
                             pulseViewModel = pulseViewModel,
                             viewModelAddFoodScreen = viewModelAddFoodScreen,
                             owner = this@MainActivity,
-                            context = this@MainActivity
+                            context = this@MainActivity,
+                            applicationContext = applicationContext
                         )
                     } else {
                         CheckInternetScreen()
@@ -254,10 +301,12 @@ fun LoginApplication(viewModel: LoginViewModel,
                      mainViewModel : MainViewModel,
                      viewModelAddFoodScreen : AddFoodScreenViewModel,
                      owner: LifecycleOwner,
-                     context: Context){
+                     context: Context,
+                     applicationContext: Context
+                     ){
 
     val navController = rememberNavController()
-    MainScreen(mainViewModel = mainViewModel,viewModelWeight = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , pulseViewModel = pulseViewModel, owner = owner, context = context,navController = navController)
+    MainScreen(mainViewModel = mainViewModel,viewModelWeight = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , pulseViewModel = pulseViewModel, owner = owner, context = context,navController = navController, aplicationContext = applicationContext)
 
 //    NavHost(navController = navController, enterTransition = {EnterTransition.None}, exitTransition = {ExitTransition.None}, startDestination = "login_page", builder ={
 ////        composable(route = "login_page", content = { LoginScreen(navController = navController,viewModel= viewModel, owner = owner, context = context)})

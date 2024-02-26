@@ -73,7 +73,10 @@ dependencies {
     //noinspection GradleDependency
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.4")
     implementation ("androidx.compose.material:material:1.4.3")
-//    implementation ("com.google.firebase:firebase-auth-ktx:22.0.0")
+
+
+    implementation ("androidx.compose.material3:material3:1.2.0")
+
 
     implementation ("com.google.firebase:firebase-database:20.2.2")
     implementation ("androidx.appcompat:appcompat:1.6.1")
@@ -132,5 +135,21 @@ dependencies {
 
     //noinspection MobileAdsSdkOutdatedVersion
     implementation("com.yandex.android:mobileads:6.4.0")
+
+    implementation ("androidx.work:work-runtime:2.9.0")
+
+
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
+    implementation ("androidx.work:work-gcm:2.9.0")
+    implementation ("androidx.work:work-multiprocess:2.9.0")
+
+//    def work_version = "2.9.0"
+//    //implementation "androidx.work:work-runtime:$work_version" // (Java only)
+//    implementation "androidx.work:work-runtime-ktx:$work_version" // Kotlin + coroutines
+//    //implementation "androidx.work:work-rxjava2:$work_version" // optional - RxJava2 support
+//    implementation "androidx.work:work-gcm:$work_version" // optional - GCMNetworkManager support
+//    //androidTestImplementation "androidx.work:work-testing:$work_version" // optional - Test helpers
+//    implementation "androidx.work:work-multiprocess:$work_version" // optional - Multiprocess support
+
 
 }

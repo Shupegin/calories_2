@@ -21,6 +21,7 @@ val BackgroundBottom = Color( 0xff444951)
 val СolorWater = Color(0xff8ecae6)
 val Brown = Color(0xff755C48)
 val ColorRed = Color(0xffE32636)
+val ColorGreyAgat = Color(0xffB5B8B1)
 
 
 
