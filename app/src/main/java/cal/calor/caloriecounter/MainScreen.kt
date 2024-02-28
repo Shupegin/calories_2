@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.widget.TextViewCompat.AutoSizeTextType
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -129,7 +131,7 @@ fun MainScreen(
                             },
                             icon = { Icon(item.icon , contentDescription = null) },
                             label = {
-                                Text(text = stringResource(id = item.titleResId), fontSize = 10.sp)
+                                Text(text = stringResource(id = item.titleResId), fontSize = 8.sp)
                             },
                             selectedContentColor =  item.color,
                             unselectedContentColor = MaterialTheme.colors.onSecondary
