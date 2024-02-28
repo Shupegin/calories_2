@@ -37,6 +37,8 @@ import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.Green
+import cal.calor.caloriecounter.ui.theme.brightBlue
+import cal.calor.caloriecounter.ui.theme.orange
 import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
 
@@ -139,10 +141,42 @@ fun HistoryScreen(viewModel: MainViewModel,
 
                }
 
-               Row {
-                   VerticalProgressBar(viewModel = viewModel, owner = owner)
-                   VerticalProgressBarWater(viewModel = waterViewModel, owner = owner)
+
+               var showDescription by remember {
+                   mutableStateOf(true)
                }
+
+               Box(
+                   modifier = Modifier
+                       .fillMaxSize()
+                       .padding(30.dp)
+                   ,
+                   contentAlignment = Alignment.TopCenter
+               ) {
+                   Column(
+                       modifier = Modifier
+                           .fillMaxSize(),
+                       verticalArrangement = Arrangement.spacedBy(20.dp),
+                       horizontalAlignment = Alignment.CenterHorizontally
+                   ) {
+
+                       BarChart(
+                           listOf(
+                               BarchartInput(28, "Еда", orange),
+                               BarchartInput(15, "Вода", brightBlue),
+
+                               ),
+                           modifier = Modifier
+                               .fillMaxWidth(),
+                           showDescription = showDescription
+                       )
+                   }
+               }
+
+//               Row {
+//                   VerticalProgressBar(viewModel = viewModel, owner = owner)
+//                   VerticalProgressBarWater(viewModel = waterViewModel, owner = owner)
+//               }
 
 
                if(pointList.isNotEmpty()){
