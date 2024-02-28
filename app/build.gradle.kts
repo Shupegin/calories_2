@@ -142,6 +142,7 @@ dependencies {
     implementation ("androidx.work:work-runtime-ktx:2.9.0")
     implementation ("androidx.work:work-gcm:2.9.0")
     implementation ("androidx.work:work-multiprocess:2.9.0")
+    androidTestImplementation ("androidx.work:work-testing:2.9.0")
 
 //    def work_version = "2.9.0"
 //    //implementation "androidx.work:work-runtime:$work_version" // (Java only)

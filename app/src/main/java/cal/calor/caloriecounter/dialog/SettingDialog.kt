@@ -1,10 +1,13 @@
 package cal.calor.caloriecounter.dialog
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
+import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -190,7 +193,7 @@ fun SettingDialog(dialogState: MutableState<Boolean>, applicationContext: Contex
                                     ).build()
 
                                     workManager.
-                                    enqueueUniquePeriodicWork("UpdateTaskWorker", ExistingPeriodicWorkPolicy.KEEP, periodicRefreshRequest);
+                                    enqueueUniquePeriodicWork("UpdateTaskWorker", ExistingPeriodicWorkPolicy.UPDATE, periodicRefreshRequest);
                                 } else {
                                     Toast.makeText(applicationContext,"Stop", Toast.LENGTH_LONG).show()
                                     workManager.cancelUniqueWork("UpdateTaskWorker");
@@ -241,9 +244,24 @@ fun SettingDialog(dialogState: MutableState<Boolean>, applicationContext: Contex
 
 class SS(val context: Context, params: WorkerParameters) : Worker(context, params) {
     companion object {
-        fun n(context: Context) {
+
+        private const val CHANNEL_ID = "Channel_id"
+        private const val CHANNEL_NAME = "Уведомление воды"
+
+        fun notification(context: Context) {
+
+
 
             //Toast.makeText(context,"Success", Toast.LENGTH_LONG).show()
+
+            val notificationManager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+            val notificationChannel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(notificationChannel)
 
             val resultIntent = Intent(context, MainActivity::class.java)
             val resultPendingIntent = PendingIntent.getActivity(
@@ -259,13 +277,16 @@ class SS(val context: Context, params: WorkerParameters) : Worker(context, param
                 .setContentIntent(resultPendingIntent)
                 .build()
 
-            val notificationManager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(1, notification)
         }
     }
     override fun doWork(): Result {
-        //Toast.makeText(context,"Запустили", Toast.LENGTH_LONG).show()
-        n(context)
+        Log.i("doWork", "start")
+        try {
+            //notification(context)
+        } catch (e: Exception) {
+            Log.i("doWork", "Exception: " + e.message)
+        }
         return Result.success()
     }
 
