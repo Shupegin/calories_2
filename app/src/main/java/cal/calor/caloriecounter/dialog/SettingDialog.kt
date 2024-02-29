@@ -1,14 +1,18 @@
 package cal.calor.caloriecounter.dialog
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkInfo
@@ -64,6 +69,7 @@ import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.Black900
 import cal.calor.caloriecounter.ui.theme.ColorGreyAgat
 import cal.calor.caloriecounter.ui.theme.СolorWater
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 
@@ -71,14 +77,14 @@ import java.util.concurrent.TimeUnit
 fun SettingDialog(dialogState: MutableState<Boolean>, applicationContext: Context){
     var notificationOn = false
     try {
-        val workManager = WorkManager.getInstance(applicationContext)
-        val infos: List<WorkInfo> =
-            workManager.getWorkInfosForUniqueWork("UpdateTaskWorker").get()
-
-        if (infos.size == 1) {
-            val info = infos.get(0)
-            notificationOn = info.state == WorkInfo.State.BLOCKED || info.state == WorkInfo.State.ENQUEUED || info.state == WorkInfo.State.RUNNING
-        }
+//        val workManager = WorkManager.getInstance(applicationContext)
+//        val infos: List<WorkInfo> =
+//            workManager.getWorkInfosForUniqueWork("UpdateTaskWorker").get()
+//
+//        if (infos.size == 1) {
+//            val info = infos.get(0)
+//            notificationOn = info.state == WorkInfo.State.BLOCKED || info.state == WorkInfo.State.ENQUEUED || info.state == WorkInfo.State.RUNNING
+//        }
     } catch (_: Exception) { }
 
     var switchON by remember {
@@ -177,30 +183,35 @@ fun SettingDialog(dialogState: MutableState<Boolean>, applicationContext: Contex
                             onCheckedChange = {switchState ->
                                 switchON = switchState
 
+                                val alarmManager =
+                                    applicationContext.getSystemService(ComponentActivity.ALARM_SERVICE) as AlarmManager
 
+                                val intent = AlarmReceiver.newIntent(applicationContext)
+                                val pendingIntent = PendingIntent.getBroadcast(
+                                    applicationContext, 100, intent,
+                                    PendingIntent.FLAG_MUTABLE
+                                )
 
-                                val workManager = WorkManager.getInstance(applicationContext)
                                 if (switchState){
 
-                                    Toast.makeText(applicationContext,"Created", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(applicationContext,"Start", Toast.LENGTH_LONG).show()
 
-                                    val periodicRefreshRequest = PeriodicWorkRequest.Builder(
-                                        SS::class.java, // Your worker class
-                                        15, // repeating interval
-                                        TimeUnit.MINUTES,
-                                        14, // flex interval - worker will run somewhen within this period of time, but at the end of repeating interval
-                                        TimeUnit.MINUTES
-                                    ).build()
 
-                                    workManager.
-                                    enqueueUniquePeriodicWork("UpdateTaskWorker", ExistingPeriodicWorkPolicy.UPDATE, periodicRefreshRequest);
+                                    val calendar = Calendar.getInstance()
+                                    calendar.add(Calendar.SECOND, 30)
+
+
+
+                                    alarmManager.setExactAndAllowWhileIdle(
+                                        AlarmManager.RTC_WAKEUP,
+                                        calendar.timeInMillis,
+                                        pendingIntent
+                                    )
                                 } else {
+                                    alarmManager.cancel(pendingIntent);
+
                                     Toast.makeText(applicationContext,"Stop", Toast.LENGTH_LONG).show()
-                                    workManager.cancelUniqueWork("UpdateTaskWorker");
-
                                 }
-
-
                                               },
 
                             thumbContent= thumbContent,
@@ -241,27 +252,18 @@ fun SettingDialog(dialogState: MutableState<Boolean>, applicationContext: Contex
         }
     }
 }
+class AlarmReceiver : BroadcastReceiver() {
+    @SuppressLint("NotificationPermission")
+    override fun onReceive(context: Context?, intent: Intent?) {
 
-class SS(val context: Context, params: WorkerParameters) : Worker(context, params) {
-    companion object {
+        context?.let {
+            val notificationManager = ContextCompat.getSystemService(
+                it,
+                NotificationManager::class.java
+            ) as NotificationManager
 
-        private const val CHANNEL_ID = "Channel_id"
-        private const val CHANNEL_NAME = "Уведомление воды"
+            createNotificationChannel(notificationManager)
 
-        fun notification(context: Context) {
-
-
-
-            //Toast.makeText(context,"Success", Toast.LENGTH_LONG).show()
-
-            val notificationManager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
-            val notificationChannel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            notificationManager.createNotificationChannel(notificationChannel)
 
             val resultIntent = Intent(context, MainActivity::class.java)
             val resultPendingIntent = PendingIntent.getActivity(
@@ -270,26 +272,39 @@ class SS(val context: Context, params: WorkerParameters) : Worker(context, param
                 resultIntent,
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
-            val notification = NotificationCompat.Builder(context,"running_channel")
-                .setSmallIcon(R.drawable.icon_exclamation_point_svg)
+
+            val notification = NotificationCompat.Builder(it, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("Включено")
                 .setContentText("Выпейте воды")
                 .setContentIntent(resultPendingIntent)
                 .build()
 
             notificationManager.notify(1, notification)
+
         }
-    }
-    override fun doWork(): Result {
-        Log.i("doWork", "start")
-        try {
-            //notification(context)
-        } catch (e: Exception) {
-            Log.i("doWork", "Exception: " + e.message)
-        }
-        return Result.success()
+
     }
 
+    private fun createNotificationChannel (notificationManager: NotificationManager){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val notificationChannel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
 
+    }
 
+    companion object {
+        private const val CHANNEL_ID = "Channel_id"
+        private const val CHANNEL_NAME = "Channel_name"
+
+        fun newIntent(context: Context) : Intent{
+            return Intent(context, AlarmReceiver::class.java)
+
+        }
+    }
 }

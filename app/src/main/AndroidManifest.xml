@@ -59,6 +59,9 @@
             </intent-filter>
         </activity>
         <service android:name=".Service.RunningService"/>
+
+        <receiver android:name="cal.calor.caloriecounter.dialog.AlarmReceiver" />
     </application>
+
 
 </manifest>
