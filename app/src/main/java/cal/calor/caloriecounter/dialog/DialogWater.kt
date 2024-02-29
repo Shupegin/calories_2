@@ -65,7 +65,7 @@ fun waterDialog(
     }
     val formattedDate by remember {
         derivedStateOf {
-            DateTimeFormatter.ofPattern(" dd.MM.yyyy").format(pickDate)
+            DateTimeFormatter.ofPattern("dd.MM.yyyy").format(pickDate)
         }
     }
 
