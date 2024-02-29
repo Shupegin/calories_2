@@ -29,6 +29,7 @@ import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
 import okhttp3.Credentials
 import retrofit2.Call
@@ -154,13 +155,15 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 //            }
 //            calories /= foodModelList.size
 //            foodModel.calories = calories
-            foodModel.dataCurrent = getCurrentDate()
+
+//            foodModel.dataCurrent = getCurrentDate()
+
             listFood.clear()
             listFood.add(foodModel)
             db.foodsInfoDao().insertFoodList(foodModel)
 
-            var currentData  = removePunctuations(foodModel.dataCurrent.toString())
-            val data = formatData(currentData)
+//            var currentData  = removePunctuations(foodModel.dataCurrent.toString())
+//            val data = formatData(currentData)
 //            auth?.addAuthStateListener{
 //                it.uid?.let { it1 -> userReference?.child(it1)?.child(data)?.
 //                child(foodModel.food.toString())?.setValue(foodModel) }

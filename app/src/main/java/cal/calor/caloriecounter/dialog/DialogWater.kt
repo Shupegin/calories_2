@@ -1,6 +1,7 @@
 package cal.calor.caloriecounter.dialog
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +39,11 @@ import cal.calor.caloriecounter.pojo.WaterModel_2
 
 import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 @Composable
@@ -51,6 +58,18 @@ fun waterDialog(
     var quantity_drained_water by remember { mutableStateOf("") }
 
     datavalue = viewModel.getCurrentDate()
+
+
+    var pickDate by remember {
+        mutableStateOf(LocalDate.now())
+    }
+    val formattedDate by remember {
+        derivedStateOf {
+            DateTimeFormatter.ofPattern(" dd.MM.yyyy").format(pickDate)
+        }
+    }
+
+    val dateDialogState  = rememberMaterialDialogState()
 
     Dialog(
         onDismissRequest = {
@@ -76,12 +95,10 @@ fun waterDialog(
                     style = MaterialTheme.typography.body1
                 )
                 OutlinedTextField(
-                    value = datavalue,
-                    onValueChange = {
-                        it.let {
-                            datavalue = it
-                        }
-                    },
+                    value = formattedDate,
+                    modifier = Modifier.clickable(onClick = {dateDialogState.show()}),
+                    enabled = false,
+                    onValueChange = {},
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
 
@@ -96,9 +113,34 @@ fun waterDialog(
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor =  СolorWater,
                         unfocusedBorderColor = СolorWater,
-                        cursorColor = СolorWater
+                        cursorColor = СolorWater,
+                        disabledTextColor = Color.Black,
+                        disabledBorderColor = СolorWater,
+                        disabledPlaceholderColor = СolorWater,
+                        disabledLabelColor = СolorWater,
+
                     ),
                 )
+
+                MaterialDialog(
+                    dialogState = dateDialogState,
+                    buttons = {
+                        positiveButton(text = "ок"){
+                        }
+                        negativeButton(text = "Закрыть")
+                    },
+                    backgroundColor = СolorWater
+                ) {
+                    datepicker(
+                        initialDate = LocalDate.now(),
+                        title = "Выберите дату",
+
+                        ){
+                        pickDate = it
+                    }
+                }
+
+
 
                 OutlinedTextField(
                     value = amount_water,
@@ -158,7 +200,7 @@ fun waterDialog(
                     Button(onClick = {
 
                         val waterModel = WaterModel_2(
-                            dataCurrent = viewModel.getCurrentDate(),
+                            dataCurrent = formattedDate,
                             water_is_drunk = amount_water.toIntOrNull() ?: 0,
                             drained_of_water = quantity_drained_water.toIntOrNull() ?: 0
                         )

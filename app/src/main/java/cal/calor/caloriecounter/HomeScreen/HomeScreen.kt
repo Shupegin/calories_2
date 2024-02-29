@@ -1,7 +1,6 @@
 package cal.calor.caloriecounter
 
 import android.annotation.SuppressLint
-import android.util.Log
 
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 
 import androidx.compose.material.ExperimentalMaterialApi
@@ -33,7 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
+import cal.calor.caloriecounter.banner.App
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.Сoral
 import com.example.caloriecounter.cardFood
@@ -52,12 +50,10 @@ fun HomeScreen(
 
     var isLoading  by remember { mutableStateOf( false) }
 
-    viewModel.status.observe(owner,Observer{
-        isLoading = it
-    })
+    viewModel.status.observe(owner) { isLoading = it }
 
-    val foodList = viewModel.foodListDAO.observeAsState(listOf())
-    val list = foodList.value.asReversed().groupBy { it.dataCurrent }
+    val foodList = viewModel.foodListDAO.observeAsState(null)
+    val list = foodList.value?.sortedByDescending { App.reverseStringDate(it.dataCurrent) + it.food_id + it.calories }?.groupBy { it.dataCurrent }
 
 
 
@@ -71,22 +67,20 @@ fun HomeScreen(
 
         Column (modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 55.dp),){
-
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
-
-            ){
-                if(isLoading){
+            .padding(bottom = 55.dp),) {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                if (list == null || isLoading) {
                     CircularProgressIndicator(color = Сoral)
                 }
             }
-
-            if (list.size == 0){
-
-                Box(modifier = Modifier
-                    .fillMaxSize(),
+            if (list != null) {
+            if (list.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
-
                 ) {
                     Column(modifier = Modifier.background(BackgroundGray)) {
                         Text(text = "Здесь пока ничего нет...", color = Color.White)
@@ -95,44 +89,50 @@ fun HomeScreen(
 
                 }
 
-            }else{
+            } else {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
 
-
-                    LazyColumn(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 55.dp),
-                    ){
-                        list?.forEach{(dataCurrent,listFood)->
-                            stickyHeader{
-                                Text(text = dataCurrent.toString(),
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 55.dp),
+                    ) {
+                        list.forEach { (dataCurrent, listFood) ->
+                            stickyHeader {
+                                Text(
+                                    text = dataCurrent.toString(),
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .background(color = Сoral),
                                     textAlign = TextAlign.Center,
-                                    style = MaterialTheme.typography.h6,)
+                                    style = MaterialTheme.typography.h6,
+                                )
                             }
-                            items(listFood, key= {it.food_id},){foodModel ->
-                                cardFood(foodModel = foodModel,viewModel)
+                            items(listFood, key = { it.food_id },) { foodModel ->
+                                cardFood(foodModel = foodModel, viewModel)
                             }
                             item {
-                                Row(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 5.dp),
-                                    Arrangement.End){
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 5.dp),
+                                    Arrangement.End
+                                ) {
 
                                     val totalCalories = viewModel.getCalories(listFood)
                                     calories = totalCalories
-                                    Text(modifier = Modifier
-                                        .shadow(
-                                            elevation = 4.dp,
-                                            shape = RoundedCornerShape(8.dp)
-                                        )
-                                        .background(color = Сoral)
-                                        .padding(5.dp),
+                                    Text(
+                                        modifier = Modifier
+                                            .shadow(
+                                                elevation = 4.dp,
+                                                shape = RoundedCornerShape(8.dp)
+                                            )
+                                            .background(color = Сoral)
+                                            .padding(5.dp),
                                         text = "Cумма калорий = ${calories}",
-                                        textAlign = TextAlign.Right)
+                                        textAlign = TextAlign.Right
+                                    )
 
                                     Spacer(modifier = Modifier.padding(end = 5.dp))
                                 }
@@ -141,7 +141,7 @@ fun HomeScreen(
                     }
                 }
             }
-
+        }
 
 
 

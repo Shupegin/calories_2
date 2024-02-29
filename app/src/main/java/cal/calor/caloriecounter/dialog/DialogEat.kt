@@ -2,8 +2,11 @@ package cal.calor.caloriecounter.dialog
 
 
 import android.annotation.SuppressLint
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -25,6 +28,12 @@ import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.ui.theme.fontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 
 @SuppressLint("SuspiciousIndentation")
@@ -40,6 +49,19 @@ fun dialog(dialogState: MutableState<Boolean>,
     var editeTextVisibility  by remember { mutableStateOf( false) }
     var numberOfGrams by remember { mutableStateOf("") }
     var numberOfCalories by remember { mutableStateOf("") }
+
+    var pickDate by remember {
+        mutableStateOf(LocalDate.now())
+    }
+    val formattedDate by remember {
+        derivedStateOf {
+            DateTimeFormatter.ofPattern("dd.MM.yyyy").format(pickDate)
+        }
+    }
+
+    val dateDialogState  = rememberMaterialDialogState()
+
+
     viewModel.calories.observe(owner, Observer {
         numberOfCalories = it.toString()
     })
@@ -74,11 +96,12 @@ fun dialog(dialogState: MutableState<Boolean>,
                         )
 
                         OutlinedTextField(
-                            value = datavalue,
-                            onValueChange = { it.let {
-                                datavalue = it
-                            }},
+                            value = formattedDate,
+                            modifier = Modifier.clickable(onClick = {dateDialogState.show()}),
+                            enabled = false,
+                            onValueChange = {},
                             maxLines = 1,
+
                             label = {
                                 Text(
                                     text = "Дата:",
@@ -89,9 +112,31 @@ fun dialog(dialogState: MutableState<Boolean>,
                             }, colors = TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor =  Сoral,
                                 unfocusedBorderColor = Сoral,
-                                cursorColor = Сoral
-                            )
+                                cursorColor = Сoral,
+                                disabledTextColor = Color.Black,
+                                disabledBorderColor = Сoral,
+                                disabledPlaceholderColor = Сoral,
+                                disabledLabelColor = Сoral,
+                            ),
                         )
+
+                        MaterialDialog(
+                            dialogState = dateDialogState,
+                            buttons = {
+                                positiveButton(text = "ок"){
+                                }
+                                negativeButton(text = "Закрыть")
+                            },
+                            backgroundColor = Сoral
+                        ) {
+                            datepicker(
+                                initialDate = LocalDate.now(),
+                                title = "Выберите дату",
+
+                                ){
+                                pickDate = it
+                            }
+                        }
 
                         OutlinedTextField(
                             value = userFood,
@@ -177,11 +222,17 @@ fun dialog(dialogState: MutableState<Boolean>,
 
                                 val _category = viewModel.splitName(userFood).lowercase().trim()
 
+                                Log.d("TESTORTIME","$formattedDate")
+
+                                val time = formattedDate
+
                                 val foodModel = FoodModel(
                                     category= _category,
                                     food = userFood.lowercase().trim(),
                                     calories = numberOfCalories.toIntOrNull() ?: 0,
-                                    gramm = numberOfGrams.toIntOrNull() ?: 0
+                                    gramm = numberOfGrams.toIntOrNull() ?: 0,
+                                    dataCurrent = time
+
                                 )
                                 viewModel.statusLoad(true)
                                 viewModel.requestFood(foodModel)
@@ -217,5 +268,7 @@ fun dialog(dialogState: MutableState<Boolean>,
 //                        }
                     }
                 }
+
+
         }
 }

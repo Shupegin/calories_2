@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +52,11 @@ import cal.calor.caloriecounter.ui.theme.ColorRed
 import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
 import com.exyte.animatednavbar.utils.noRippleClickable
+import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -69,6 +76,18 @@ fun pulseDialog(
 
     datavalue = viewModel.getCurrentDate()
     timeValue = viewModel.currentTime()
+
+
+    var pickDate by remember {
+        mutableStateOf(LocalDate.now())
+    }
+    val formattedDate by remember {
+        derivedStateOf {
+            DateTimeFormatter.ofPattern(" dd.MM.yyyy").format(pickDate)
+        }
+    }
+
+    val dateDialogState  = rememberMaterialDialogState()
 
 
 
@@ -103,12 +122,10 @@ fun pulseDialog(
                     style = MaterialTheme.typography.body1
                 )
                 OutlinedTextField(
-                    value = datavalue,
-                    onValueChange = {
-                        it.let {
-                            datavalue = it
-                        }
-                    },
+                    value = formattedDate,
+                    modifier = Modifier.clickable(onClick = {dateDialogState.show()}),
+                    enabled = false,
+                    onValueChange = {},
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
 
@@ -123,9 +140,31 @@ fun pulseDialog(
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor =  ColorRed,
                         unfocusedBorderColor = ColorRed,
-                        cursorColor = ColorRed
+                        cursorColor = ColorRed,
+                        disabledTextColor = Color.Black,
+                        disabledBorderColor = ColorRed,
+                        disabledPlaceholderColor = ColorRed,
+                        disabledLabelColor = ColorRed,
                     ),
                 )
+
+                MaterialDialog(
+                    dialogState = dateDialogState,
+                    buttons = {
+                        positiveButton(text = "ок"){
+                        }
+                        negativeButton(text = "Закрыть")
+                    },
+                    backgroundColor = ColorRed
+                ) {
+                    datepicker(
+                        initialDate = LocalDate.now(),
+                        title = "Выберите дату",
+
+                        ){
+                        pickDate = it
+                    }
+                }
                 
                 Text(text = "Показатели давления")
 
@@ -223,7 +262,7 @@ fun pulseDialog(
                     Button(onClick = {
 
                         val addPulseDataBase = PulsePojo(
-                            data = viewModel.getCurrentDate(),
+                            data = formattedDate,
                             pulse = pulse.toIntOrNull() ?: 0,
                             pressureTop = pressureTop.toIntOrNull() ?: 0,
                             pressureLower = pressureLower.toIntOrNull() ?: 0,

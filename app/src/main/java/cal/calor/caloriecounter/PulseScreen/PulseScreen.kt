@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleOwner
 import cal.calor.caloriecounter.WaterScreeen.cardWater
 import cal.calor.caloriecounter.WeightScreen.cardViewWeight
+import cal.calor.caloriecounter.banner.App
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.ColorRed
 import cal.calor.caloriecounter.ui.theme.Green
@@ -44,8 +45,8 @@ fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: ()
 
     datavalue = pulseViewModel.getCurrentDate()
 
-    val weightList = pulseViewModel.pulseListDAO.observeAsState(listOf())
-    val list = weightList.value.asReversed().groupBy { it.data }
+    val weightList = pulseViewModel.pulseListDAO.observeAsState(null)
+    val list = weightList.value?.sortedByDescending { App.reverseStringDate(it.data) + it.time}?.groupBy { it.data }
 
 
 
@@ -57,45 +58,48 @@ fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: ()
         contentAlignment = Alignment.TopCenter
     ) {
 
-        if (list.size == 0){
+        if (list != null) {
+            if (list.size == 0) {
 
-            Box(modifier = Modifier
-                .fillMaxSize(),
-                contentAlignment = Alignment.Center
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
 
-            ) {
-                Column(modifier = Modifier.background(BackgroundGray)) {
-                    Text(text = "Здесь пока ничего нет...", color = Color.White)
-                    Text(text = "Добавьте сегодняшнее давление ", color = Color.White)
+                ) {
+                    Column(modifier = Modifier.background(BackgroundGray)) {
+                        Text(text = "Здесь пока ничего нет...", color = Color.White)
+                        Text(text = "Добавьте сегодняшнее давление ", color = Color.White)
+                    }
+
                 }
 
-            }
+            } else {
 
-        }else{
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 55.dp),
+                    ) {
+                        list?.forEach { (dataCurrent, listWater) ->
+                            stickyHeader {
+                                Text(
+                                    text = dataCurrent.toString(),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(color = ColorRed),
+                                    textAlign = TextAlign.Center,
+                                    style = MaterialTheme.typography.h6,
 
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 55.dp),
-                ) {
-                    list?.forEach { (dataCurrent, listWater) ->
-                        stickyHeader {
-                            Text(
-                                text = dataCurrent.toString(),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(color = ColorRed),
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.h6,
+                                    )
+                            }
 
-                                )
-                        }
-
-                        items(listWater, key = { it.id!! },) { pulseList ->
-                            Spacer(modifier = Modifier.padding(top = 5.dp))
-                            cardPulse(pulseModel = pulseList, pulseViewModel = pulseViewModel)
+                            items(listWater, key = { it.id!! },) { pulseList ->
+                                Spacer(modifier = Modifier.padding(top = 5.dp))
+                                cardPulse(pulseModel = pulseList, pulseViewModel = pulseViewModel)
+                            }
                         }
                     }
                 }

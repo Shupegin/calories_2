@@ -146,37 +146,37 @@ fun HistoryScreen(viewModel: MainViewModel,
                    mutableStateOf(true)
                }
 
-               Box(
-                   modifier = Modifier
-                       .fillMaxSize()
-                       .padding(30.dp)
-                   ,
-                   contentAlignment = Alignment.TopCenter
-               ) {
-                   Column(
-                       modifier = Modifier
-                           .fillMaxSize(),
-                       verticalArrangement = Arrangement.spacedBy(20.dp),
-                       horizontalAlignment = Alignment.CenterHorizontally
-                   ) {
-
-                       BarChart(
-                           listOf(
-                               BarchartInput(28, "Еда", orange),
-                               BarchartInput(15, "Вода", brightBlue),
-
-                               ),
-                           modifier = Modifier
-                               .fillMaxWidth(),
-                           showDescription = showDescription
-                       )
-                   }
-               }
-
-//               Row {
-//                   VerticalProgressBar(viewModel = viewModel, owner = owner)
-//                   VerticalProgressBarWater(viewModel = waterViewModel, owner = owner)
+//               Box(
+//                   modifier = Modifier
+//                       .fillMaxSize()
+//                       .padding(30.dp)
+//                   ,
+//                   contentAlignment = Alignment.TopCenter
+//               ) {
+//                   Column(
+//                       modifier = Modifier
+//                           .fillMaxSize(),
+//                       verticalArrangement = Arrangement.spacedBy(20.dp),
+//                       horizontalAlignment = Alignment.CenterHorizontally
+//                   ) {
+//
+//                       BarChart(
+//                           listOf(
+//                               BarchartInput(28, "Еда", orange),
+//                               BarchartInput(15, "Вода", brightBlue),
+//
+//                               ),
+//                           modifier = Modifier
+//                               .fillMaxWidth(),
+//                           showDescription = showDescription
+//                       )
+//                   }
 //               }
+
+               Row {
+                   VerticalProgressBar(viewModel = viewModel, owner = owner)
+                   VerticalProgressBarWater(viewModel = waterViewModel, owner = owner)
+               }
 
 
                if(pointList.isNotEmpty()){

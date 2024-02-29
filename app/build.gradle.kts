@@ -133,4 +133,7 @@ dependencies {
     //noinspection MobileAdsSdkOutdatedVersion
     implementation("com.yandex.android:mobileads:6.4.0")
 
+    implementation("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+
 }
