@@ -3,8 +3,10 @@ package cal.calor.caloriecounter.PulseScreen
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cal.calor.caloriecounter.database.PulseDataBase
+import cal.calor.caloriecounter.pojo.WaterModel_2
 import cal.calor.caloriecounter.pojo.pulse.PulsePojo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,9 +16,24 @@ import java.util.Date
 
 class PulseViewModel(application: Application,): AndroidViewModel(application){
 
-    private val pulseDB= PulseDataBase.getInstance(application)
+    private val pulseDB = PulseDataBase.getInstance(application)
     val pulseListDAO = pulseDB.pulseInfoDao().getPulseList()
-//
+
+    val pulseListView : MutableLiveData<List<PulsePojo>> = MutableLiveData()
+    val pulseListFilter : MutableLiveData<String> = MutableLiveData()
+
+
+    init {
+        pulseListDAO.observeForever {
+            updatePulseListView()
+        }
+
+        pulseListFilter.observeForever {
+            updatePulseListView()
+        }
+    }
+
+    //
     fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("dd.MM.yyy")
         return dateFormat.format(Date())
@@ -43,6 +60,19 @@ class PulseViewModel(application: Application,): AndroidViewModel(application){
         return formatedDate
 
 
+    }
+
+
+    fun updatePulseListView() {
+        val filter = pulseListFilter.value?.trim() ?: ""
+        if (filter.isNotEmpty()) {
+            pulseListView.value = pulseListDAO.value?.filter {
+
+                it.data?.lowercase()?.contains(filter.lowercase())!!
+            }
+            return
+        }
+        pulseListView.value = pulseListDAO.value
     }
 
 }

@@ -18,8 +18,22 @@ class WaterViewModel (application: Application) : AndroidViewModel(application) 
     private val db = WaterDataBase_2.getInstance(application)
     val waterListDAO = db.waterInfoDao_2().getWaterList()
 
+    val waterListView : MutableLiveData<List<WaterModel_2>> = MutableLiveData()
+    val waterListFilter : MutableLiveData<String> = MutableLiveData()
+
     private val _sumWater : MutableLiveData<Int> = MutableLiveData()
     val sumWater : LiveData<Int> =  _sumWater
+
+
+    init {
+        waterListDAO.observeForever {
+            updateWaterListView()
+        }
+
+        waterListFilter.observeForever {
+            updateWaterListView()
+        }
+    }
 
 
     fun addWaterDataBase (waterModel_2: WaterModel_2) {
@@ -57,6 +71,19 @@ class WaterViewModel (application: Application) : AndroidViewModel(application) 
             }
         }
         _sumWater.value = water
+    }
+
+
+    fun updateWaterListView() {
+        val filter = waterListFilter.value?.trim() ?: ""
+        if (filter.isNotEmpty()) {
+            waterListView.value = waterListDAO.value?.filter {
+
+                it.dataCurrent?.lowercase()?.contains(filter.lowercase())!!
+            }
+            return
+        }
+        waterListView.value = waterListDAO.value
     }
 
 

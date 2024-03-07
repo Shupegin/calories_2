@@ -1,5 +1,6 @@
 package cal.calor.caloriecounter.PulseScreen
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -17,7 +19,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -38,17 +45,32 @@ import cal.calor.caloriecounter.ui.theme.ColorRed
 import cal.calor.caloriecounter.ui.theme.Green
 import cal.calor.caloriecounter.ui.theme.СolorWater
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: () -> Unit){
     var datavalue by remember { mutableStateOf("") }
 
     datavalue = pulseViewModel.getCurrentDate()
 
-    val weightList = pulseViewModel.pulseListDAO.observeAsState(null)
+    val weightList = pulseViewModel.pulseListView.observeAsState(null)
     val list = weightList.value?.sortedByDescending { App.reverseStringDate(it.data) + it.time}?.groupBy { it.data }
 
 
+    var textSearch  by remember {
+        mutableStateOf("")
+    }
+    var active by remember {
+        mutableStateOf(false)
+    }
+
+    val listState = rememberLazyListState()
+
+
+    val isScrolled by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex  == 0
+        }
+    }
 
 
 
@@ -57,55 +79,100 @@ fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: ()
         .background(BackgroundGray),
         contentAlignment = Alignment.TopCenter
     ) {
-
-        if (list != null) {
-            if (list.size == 0) {
-
-                Box(
+        Column (modifier = Modifier
+            .fillMaxSize()
+        ) {
+            AnimatedVisibility(visible = isScrolled) {
+                SearchBar(
                     modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    colors = SearchBarDefaults.colors(Color.White.copy(alpha = 0.7f)),
 
-                ) {
-                    Column(modifier = Modifier.background(BackgroundGray)) {
-                        Text(text = "Здесь пока ничего нет...", color = Color.White)
-                        Text(text = "Добавьте сегодняшнее давление ", color = Color.White)
-                    }
+
+                    query = textSearch,
+                    onQueryChange = { text ->
+                        pulseViewModel.pulseListFilter.value = text
+                        textSearch = text
+                    },
+
+                    onSearch = { text ->
+                        active = false
+                        pulseViewModel.pulseListFilter.value = text
+                    },
+                    active = active,
+                    onActiveChange = {
+                        active = false
+                    },
+                    placeholder = { Text(text = "Пример " + "03.04.2024") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = "Search"
+                        )
+                    },
+
+                    ) {
 
                 }
+            }
 
-            } else {
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-                    LazyColumn(
+
+
+            if (list != null) {
+                if (list.size == 0) {
+
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 55.dp),
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+
                     ) {
-                        list?.forEach { (dataCurrent, listWater) ->
-                            stickyHeader {
-                                Text(
-                                    text = dataCurrent.toString(),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(color = ColorRed),
-                                    textAlign = TextAlign.Center,
-                                    style = MaterialTheme.typography.h6,
+                        Column(modifier = Modifier.background(BackgroundGray)) {
+                            Text(text = "Здесь пока ничего нет...", color = Color.White)
+                            Text(text = "Добавьте сегодняшнее давление ", color = Color.White)
+                        }
 
+                    }
+
+                } else {
+
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 55.dp),
+                            state = listState
+                        ) {
+                            list?.forEach { (dataCurrent, listWater) ->
+                                stickyHeader {
+                                    Text(
+                                        text = dataCurrent.toString(),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(color = ColorRed),
+                                        textAlign = TextAlign.Center,
+                                        style = MaterialTheme.typography.h6,
+
+                                        )
+                                }
+
+                                items(listWater, key = { it.id!! },) { pulseList ->
+                                    Spacer(modifier = Modifier.padding(top = 5.dp))
+                                    cardPulse(
+                                        pulseModel = pulseList,
+                                        pulseViewModel = pulseViewModel
                                     )
-                            }
-
-                            items(listWater, key = { it.id!! },) { pulseList ->
-                                Spacer(modifier = Modifier.padding(top = 5.dp))
-                                cardPulse(pulseModel = pulseList, pulseViewModel = pulseViewModel)
+                                }
                             }
                         }
                     }
                 }
             }
         }
-
 
 
 

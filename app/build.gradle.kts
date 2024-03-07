@@ -81,6 +81,7 @@ dependencies {
 
     implementation("com.google.mlkit:translate:17.0.1")
     implementation("com.google.firebase:firebase-analytics:21.0.0")
+    implementation("androidx.compose.material3:material3-android:1.2.0")
 
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
@@ -135,5 +136,9 @@ dependencies {
 
     implementation("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
+
+
 
 }

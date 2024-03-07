@@ -59,6 +59,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val db = AppDatabase.getInstance(application)
     private val dbUId = UserDatabase.getInstance(application)
     val foodListDAO = db.foodsInfoDao().getFoodsList()
+    val foodListView : MutableLiveData<List<FoodModel>> = MutableLiveData()
+    val foodListFilter : MutableLiveData<String> = MutableLiveData()
     val userListDAO = dbUId.userInfoDao().getUserIdList()
 
     private val _historyCalories : MutableLiveData<Int> = MutableLiveData()
@@ -101,6 +103,13 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         firebaseDatabase = FirebaseDatabase.getInstance()
         userReference = firebaseDatabase?.getReference("calories")
         userIdReference = firebaseDatabase?.getReference("Users")
+
+        foodListDAO.observeForever {
+            updateFoodListView()
+        }
+        foodListFilter.observeForever {
+            updateFoodListView()
+        }
     }
 
 
@@ -507,6 +516,19 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         val data = prefs.getBoolean("toast",false)
 
         return data
+    }
+
+
+    fun updateFoodListView() {
+        val filter = foodListFilter.value?.trim() ?: ""
+        if (filter.isNotEmpty()) {
+            foodListView.value = foodListDAO.value?.filter {
+
+                it.dataCurrent?.lowercase()?.contains(filter.lowercase())!!
+            }
+            return
+        }
+        foodListView.value = foodListDAO.value
     }
 }
 
