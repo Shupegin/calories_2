@@ -11,6 +11,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -23,25 +25,31 @@ import cal.calor.caloriecounter.pojo.FoodModel
 fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
     Card(modifier = Modifier
         .fillMaxWidth()
-        .padding(6.dp),
-        shape = RoundedCornerShape(12.dp),
-        ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 5.dp,bottom = 5.dp)) {
+        .padding(10.dp),
 
-            Column() {
+
+        shape = RoundedCornerShape(25.dp),
+        ) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(10.dp)) {
+
+            Column(modifier = Modifier.width(270.dp)) {
 
                 Text(
                     text = "Название: ${foodModel.food}", modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp)
+                        .width(300.dp),
+                    color = Color.White
+
                 )
                 Text(
                     text = "Количество грамм = ${foodModel.gramm}",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp)
+                        .width(300.dp),
+                    color = Color.White
                 )
                 Text(
                     text = "Калории = ${foodModel.calories}",
-                    modifier = Modifier.padding(start = 5.dp)
+                    modifier = Modifier.padding(start = 5.dp),
+                    color = Color.White
                 )
 
             }

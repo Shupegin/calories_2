@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -105,15 +106,16 @@ fun dialog(dialogState: MutableState<Boolean>,
                             label = {
                                 Text(
                                     text = "Дата:",
-                                    style = androidx.compose.ui.text.TextStyle(
-                                        color = Color.Black
+                                    style = TextStyle(
+                                        color = MaterialTheme.colors.primary
                                     )
+
                                 )
                             }, colors = TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor =  Сoral,
                                 unfocusedBorderColor = Сoral,
                                 cursorColor = Сoral,
-                                disabledTextColor = Color.Black,
+                                disabledTextColor = MaterialTheme.colors.primary,
                                 disabledBorderColor = Сoral,
                                 disabledPlaceholderColor = Сoral,
                                 disabledLabelColor = Сoral,
@@ -147,8 +149,8 @@ fun dialog(dialogState: MutableState<Boolean>,
                             label = {
                                 Text(
                                     text = "что ел?",
-                                    style = androidx.compose.ui.text.TextStyle(
-                                        color = Color.Black
+                                    style = TextStyle(
+                                        color = MaterialTheme.colors.primary
                                     )
                                 )
                             }, colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -169,7 +171,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 Text(
                                     text = "количество грамм?",
                                     style = androidx.compose.ui.text.TextStyle(
-                                        color = Color.Black
+                                        color = MaterialTheme.colors.primary
                                     )
                                 )
                             }, colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -201,7 +203,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                                     Text(
                                         text = "калории?",
                                         style = androidx.compose.ui.text.TextStyle(
-                                            color = Color.Black
+                                            color = MaterialTheme.colors.primary
                                         )
                                     )
                                 }, colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -222,7 +224,6 @@ fun dialog(dialogState: MutableState<Boolean>,
 
                                 val _category = viewModel.splitName(userFood).lowercase().trim()
 
-                                Log.d("TESTORTIME","$formattedDate")
 
                                 val time = formattedDate
 

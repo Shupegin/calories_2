@@ -81,7 +81,7 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                             Text(
                                 text = "Ваш вес?",
                                 style = androidx.compose.ui.text.TextStyle(
-                                    color = Color.Black
+                                    color = MaterialTheme.colors.primary
                                 )
                             )
 

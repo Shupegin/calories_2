@@ -6,14 +6,19 @@ import androidx.compose.animation.AnimatedVisibility
 
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 
 import androidx.compose.material.ExperimentalMaterialApi
@@ -21,6 +26,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -34,6 +40,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,10 +54,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
@@ -69,6 +81,7 @@ import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class,
     ExperimentalMaterial3Api::class
@@ -113,6 +126,8 @@ fun HomeScreen(
         }
     }
 
+    var userFood by remember { mutableStateOf("") }
+
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -125,36 +140,58 @@ fun HomeScreen(
             .fillMaxSize()
             ) {
 
+
+
             AnimatedVisibility(visible = isScrolled) {
 
+                Row(modifier = Modifier
+                    .height(70.dp)
+                    .fillMaxWidth()
+                    .padding(10.dp),
 
-                SearchBar(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    colors = SearchBarDefaults.colors(Color.White.copy(alpha = 0.7f)),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                    Image(painterResource(R.drawable.setting),contentDescription = "" , modifier = Modifier
+                        .padding(start = 10.dp)
+                        .size(30.dp)
+                        .clickable { }
+                    )
+                   val   interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 
 
-                    query = textSearch,
-                    onQueryChange = {text->
-                        viewModel.foodListFilter.value = text
-                        textSearch = text
-                    },
 
-                    onSearch = { text->
-                        active = false
-                        viewModel.foodListFilter.value = text
-                    },
-                    active = active,
-                    onActiveChange = {
-                        active = false
-                    },
-                    placeholder = { Text(text = "Пример " + "03.04.2024" )},
-                    leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")},
+                    SearchBar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 10.dp),
 
-                ) {
+                        colors = SearchBarDefaults.colors(Color.White.copy(alpha = 0.7f)),
 
+
+//
+                        query = textSearch,
+                        onQueryChange = {text->
+                            viewModel.foodListFilter.value = text
+                            textSearch = text
+                        },
+
+                        onSearch = { text->
+                            active = false
+                            viewModel.foodListFilter.value = text
+                        },
+                        active = active,
+                        onActiveChange = {
+                            active = false
+                        },
+                        placeholder = { Text(text = "Пример " + "03.04.2024")},
+                        leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")},
+                        ) {
+
+                    }
                 }
+
             }
 
 
@@ -198,6 +235,7 @@ fun HomeScreen(
                                             .background(color = Сoral),
                                         textAlign = TextAlign.Center,
                                         style = MaterialTheme.typography.h6,
+
                                     )
                                 }
                                 items( items = listFood, key = { it.food_id }, ) { foodModel ->
@@ -245,6 +283,8 @@ fun HomeScreen(
             contentAlignment = Alignment.BottomCenter
 
         ){
+
+
 
             FloatingActionButton(onClick = {
                 onItem.invoke()

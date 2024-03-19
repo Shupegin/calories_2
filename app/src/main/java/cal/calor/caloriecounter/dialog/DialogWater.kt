@@ -106,7 +106,7 @@ fun waterDialog(
                         Text(
                             text = "Дата:",
                             style = TextStyle(
-                                color = Color.Black
+                                color = MaterialTheme.colors.primary
                             )
                         )
                     },
@@ -114,7 +114,7 @@ fun waterDialog(
                         focusedBorderColor =  СolorWater,
                         unfocusedBorderColor = СolorWater,
                         cursorColor = СolorWater,
-                        disabledTextColor = Color.Black,
+                        disabledTextColor = MaterialTheme.colors.primary,
                         disabledBorderColor = СolorWater,
                         disabledPlaceholderColor = СolorWater,
                         disabledLabelColor = СolorWater,
@@ -156,7 +156,7 @@ fun waterDialog(
                         Text(
                             text = "Количество выпитой воды?",
                             style = TextStyle(
-                                color = Color.Black
+                                color = MaterialTheme.colors.primary
                             )
                         )
                     },
@@ -180,7 +180,7 @@ fun waterDialog(
                         Text(
                             text = "Количество слитой воды?",
                             style = TextStyle(
-                                color = Color.Black
+                                color = MaterialTheme.colors.primary
                             )
                         )
                     },

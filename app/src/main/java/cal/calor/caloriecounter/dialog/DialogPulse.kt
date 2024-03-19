@@ -133,7 +133,7 @@ fun pulseDialog(
                         Text(
                             text = "Дата:",
                             style = TextStyle(
-                                color = Color.Black
+                                color = MaterialTheme.colors.primary
                             )
                         )
                     },
@@ -141,7 +141,7 @@ fun pulseDialog(
                         focusedBorderColor =  ColorRed,
                         unfocusedBorderColor = ColorRed,
                         cursorColor = ColorRed,
-                        disabledTextColor = Color.Black,
+                        disabledTextColor = MaterialTheme.colors.primary,
                         disabledBorderColor = ColorRed,
                         disabledPlaceholderColor = ColorRed,
                         disabledLabelColor = ColorRed,
@@ -181,7 +181,7 @@ fun pulseDialog(
                         Text(
                             text = "Верхнее?",
                             style = TextStyle(
-                                color = Color.Black
+                                color = MaterialTheme.colors.primary
                             )
                         )
                     },
@@ -210,7 +210,7 @@ fun pulseDialog(
                         Text(
                             text = "Нижнее?",
                             style = TextStyle(
-                                color = Color.Black
+                                color = MaterialTheme.colors.primary
                             )
                         )
                     },
@@ -240,7 +240,7 @@ fun pulseDialog(
                         Text(
                             text = "Показатели пульса?",
                             style = TextStyle(
-                                color = Color.Black
+                                color = MaterialTheme.colors.primary
                             )
                         )
                     },
