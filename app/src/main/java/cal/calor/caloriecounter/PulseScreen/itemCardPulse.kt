@@ -26,42 +26,42 @@ fun cardPulse(pulseModel: PulsePojo, pulseViewModel: PulseViewModel){
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(6.dp),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(25.dp),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top= 5.dp, bottom = 10.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(12.dp)) {
             Column() {
                 Text(
                     text = "Давление/Пульс: ",
-                    modifier = Modifier.width(300.dp),
+                    modifier = Modifier.width(270.dp),
                     textAlign = TextAlign.Center
                 )
                 Text(
                     text = "Время: ${pulseModel.time} ",
-                    modifier = Modifier.width(300.dp),
+                    modifier = Modifier.width(270.dp),
                     textAlign = TextAlign.Center
                 )
                 Text(
                     text = "Показатели давления:",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp)
+                        .width(270.dp)
                 )
 
                 Text(
                     text = "Верхнее = ${pulseModel.pressureTop}",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp)
+                        .width(270.dp)
                 )
 
                 Text(
                     text = "Нижнее = ${pulseModel.pressureLower}",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp)
+                        .width(270.dp)
                 )
 
                 Text(
                     text = "Показатели пульса = ${pulseModel.pulse}",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp)
+                        .width(270.dp)
                 )
 
             }
@@ -69,8 +69,8 @@ fun cardPulse(pulseModel: PulsePojo, pulseViewModel: PulseViewModel){
             Image(
                 modifier = Modifier
                     .padding(end = 5.dp)
-                    .width(50.dp)
-                    .height(50.dp)
+                    .width(35.dp)
+                    .height(35.dp)
                     .clickable {
                         pulseViewModel.deletePulse(pulseModel)
 

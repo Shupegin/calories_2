@@ -24,20 +24,20 @@ fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(6.dp),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(30.dp),
         ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 5.dp,bottom = 5.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(12.dp)) {
 
             Column() {
 
                 Text(
                     text = "Название: ${foodModel.food}", modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp)
+                        .width(270.dp)
                 )
                 Text(
                     text = "Количество грамм = ${foodModel.gramm}",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp)
+                        .width(270.dp)
                 )
                 Text(
                     text = "Калории = ${foodModel.calories}",
@@ -49,8 +49,8 @@ fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
             Image(
                 modifier = Modifier
                     .padding(end = 5.dp)
-                    .width(50.dp)
-                    .height(50.dp)
+                    .width(35.dp)
+                    .height(35.dp)
                     .clickable {
                         viewModel.deleteFood(foodModel)
                         viewModel.removeInFirebaseDatabase(foodModel)

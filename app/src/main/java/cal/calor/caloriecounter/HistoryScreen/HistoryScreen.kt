@@ -122,21 +122,20 @@ fun HistoryScreen(viewModel: MainViewModel,
 
                    Text(
                        text = "День",
-                       modifier = Modifier.weight(1.1f).padding(start = 140.dp),
+                       modifier = Modifier
+                           .weight(1.1f)
+                           .padding(start = 140.dp),
                        color = Color.White,
                        fontSize = 25.sp
                    )
 
-                   Button(onClick = { onItem.invoke() },
-                       modifier= Modifier.weight(0.1f).size(25.dp),
-                       shape = CircleShape,
-                       contentPadding = PaddingValues(0.dp),
-                   ) {
-                       Image(
-                           painter = painterResource(R.drawable.icon_exclamation_point_svg),
-                           contentDescription = null
-                       )
-                   }
+                   Image(
+                       painterResource(R.drawable.icon_exclamation_point_svg),
+                       contentDescription = "",modifier= Modifier
+                       .weight(0.1f)
+                       .size(25.dp)
+                       .clickable {onItem.invoke()},)
+
                    Spacer(modifier = Modifier.padding(end = 10.dp))
 
                }

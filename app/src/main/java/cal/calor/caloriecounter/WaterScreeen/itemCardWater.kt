@@ -25,25 +25,25 @@ fun cardWater(waterModel: WaterModel_2, viewModel : WaterViewModel){
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(6.dp),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(25.dp),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top= 5.dp, bottom = 5.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(12.dp)) {
             Column() {
                 Text(
                     text = "Вода: ",
-                    modifier = Modifier.width(300.dp),
+                    modifier = Modifier.width(270.dp),
                     textAlign = TextAlign.Center
                 )
                 Text(
                     text = "Выпито воды = ${waterModel.water_is_drunk} мл",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp)
+                        .width(270.dp)
                 )
 
                 Text(
                     text = "Слито воды = ${waterModel.drained_of_water} мл",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(300.dp)
+                        .width(270.dp)
                 )
 
             }
@@ -51,8 +51,8 @@ fun cardWater(waterModel: WaterModel_2, viewModel : WaterViewModel){
             Image(
                 modifier = Modifier
                     .padding(end = 5.dp)
-                    .width(50.dp)
-                    .height(50.dp)
+                    .width(35.dp)
+                    .height(35.dp)
                     .clickable {
                         viewModel.deleteWater(waterModel)
 
