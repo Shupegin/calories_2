@@ -42,6 +42,8 @@ import androidx.lifecycle.Observer
 import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.ui.theme.Black900
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
 import coil.compose.rememberImagePainter
 
@@ -76,14 +78,17 @@ fun dialogUpdateApp(dialogState: MutableState<Boolean>){
 
                 ) {
                     Text(text = "Вышла новая версия, обновите приложение",
-                        color = Black900,
                         fontSize = 20.sp,
                         textAlign = TextAlign.Center,
+                        fontFamily = sfproDisplayThinFontFamily,
+                        color = Color.Black
                         )
                     Button(onClick = { dialogState.value = false
                         context.startActivity(intent)
                     }) {
-                        Text(text = "Обновить")
+                        Text(text = "Обновить",
+                            fontFamily = sf_ui_display_semiboldFontFamily
+                        )
 
                     }
                 }

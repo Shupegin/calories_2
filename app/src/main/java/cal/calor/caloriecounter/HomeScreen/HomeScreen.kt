@@ -58,6 +58,8 @@ import androidx.room.util.query
 import cal.calor.caloriecounter.banner.App
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.ColorRed
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
 import com.example.caloriecounter.cardFood
@@ -135,6 +137,7 @@ fun HomeScreen(
                     colors = SearchBarDefaults.colors(Color.White.copy(alpha = 0.7f)),
 
 
+
                     query = textSearch,
                     onQueryChange = {text->
                         viewModel.foodListFilter.value = text
@@ -149,8 +152,11 @@ fun HomeScreen(
                     onActiveChange = {
                         active = false
                     },
-                    placeholder = { Text(text = "Пример " + "03.04.2024" )},
+                    placeholder = {
+                        Text(text = "Пример " + "03.04.2024",
+                            fontFamily =  sf_ui_display_semiboldFontFamily )},
                     leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")},
+
 
                 ) {
 
@@ -175,8 +181,14 @@ fun HomeScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Column(modifier = Modifier.background(BackgroundGray)) {
-                            Text(text = "Здесь пока ничего нет...", color = Color.White)
-                            Text(text = "Добавьте съеденную еду ", color = Color.White)
+                            Text(text = "Здесь пока ничего нет...",
+                                color = Color.White,
+                                fontFamily = sfproDisplayThinFontFamily
+                            )
+                            Text(text = "Добавьте съеденную еду ",
+                                color = Color.White,
+                                fontFamily = sfproDisplayThinFontFamily
+                            )
                         }
 
                     }
@@ -198,6 +210,7 @@ fun HomeScreen(
                                             .background(color = Сoral),
                                         textAlign = TextAlign.Center,
                                         style = MaterialTheme.typography.h6,
+                                        fontFamily =  sf_ui_display_semiboldFontFamily
                                     )
                                 }
                                 items( items = listFood, key = { it.food_id }, ) { foodModel ->
@@ -222,7 +235,8 @@ fun HomeScreen(
                                                 .background(color = Сoral)
                                                 .padding(5.dp),
                                             text = "Cумма калорий = ${calories}",
-                                            textAlign = TextAlign.Right
+                                            textAlign = TextAlign.Right,
+                                            fontFamily = sfproDisplayThinFontFamily
                                         )
 
                                         Spacer(modifier = Modifier.padding(end = 5.dp))

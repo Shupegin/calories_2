@@ -38,6 +38,8 @@ import androidx.lifecycle.LifecycleOwner
 import cal.calor.caloriecounter.WeightScreen.WeightViewModel
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
 import cal.calor.caloriecounter.ui.theme.Green
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -67,8 +69,10 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "Добавьте ваш вес",
-                        style = MaterialTheme.typography.body1,
-                        textAlign = TextAlign.Center )
+                        textAlign = TextAlign.Center,
+                        fontFamily = sfproDisplayThinFontFamily,
+                        color = Color.Black
+                    )
 
                     OutlinedTextField(
                         value = weight,
@@ -80,9 +84,8 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                         label = {
                             Text(
                                 text = "Ваш вес?",
-                                style = androidx.compose.ui.text.TextStyle(
-                                    color = Color.Black
-                                )
+                                fontFamily = sfproDisplayThinFontFamily,
+                                color = Color.Black
                             )
 
                         }, colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -108,7 +111,9 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
 
 
                     }) {
-                        Text(text = "Ok")
+                        Text(text = "Ok",
+                            fontFamily = sf_ui_display_semiboldFontFamily
+                        )
                     }
                     Button(onClick = {
                         dialogState.value = false
@@ -116,7 +121,8 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
 
 
                     }) {
-                        Text(text = "Закрыть ")
+                        Text(text = "Закрыть ",
+                            fontFamily = sf_ui_display_semiboldFontFamily)
                     }
                 }
 

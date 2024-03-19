@@ -40,6 +40,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cal.calor.caloriecounter.banner.App
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
 import com.example.caloriecounter.cardFood
@@ -108,7 +110,7 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                     onActiveChange = {
                         active = false
                     },
-                    placeholder = { Text(text = "Пример " + "03.04.2024") },
+                    placeholder = { Text(text = "Пример " + "03.04.2024", fontFamily = sf_ui_display_semiboldFontFamily)},
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Filled.Search,
@@ -131,8 +133,13 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
 
                     ) {
                         Column(modifier = Modifier.background(BackgroundGray)) {
-                            Text(text = "Здесь пока ничего нет...", color = Color.White)
-                            Text(text = "Добавьте выпитую воду ", color = Color.White)
+                            Text(text = "Здесь пока ничего нет...",
+                                color = Color.White,
+                                fontFamily = sfproDisplayThinFontFamily
+                            )
+                            Text(text = "Добавьте выпитую воду ",
+                                color = Color.White,
+                                fontFamily = sfproDisplayThinFontFamily)
                         }
 
                     }
@@ -153,6 +160,7 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                         .background(color = СolorWater),
                                     textAlign = TextAlign.Center,
                                     style = MaterialTheme.typography.h6,
+                                    fontFamily = sf_ui_display_semiboldFontFamily
 
                                     )
                             }
@@ -165,7 +173,8 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                     text = "Итого:",
                                     modifier = Modifier.fillMaxWidth(),
                                     textAlign = TextAlign.Center,
-                                    color = Color.White
+                                    color = Color.White,
+                                    fontFamily = sf_ui_display_semiboldFontFamily
                                 )
                                 Row() {
                                     val totalWater = viewModel.getWater(listWater)
@@ -180,7 +189,8 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                             .background(color = СolorWater)
                                             .padding(5.dp),
                                         text = "Выпито воды =  ${waters}",
-                                        textAlign = TextAlign.Right
+                                        textAlign = TextAlign.Right,
+                                        fontFamily = sfproDisplayThinFontFamily
                                     )
 
                                     Spacer(Modifier.weight(1f))
@@ -198,7 +208,8 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                             .padding(5.dp),
 
                                         text = "Слито воды =  ${drainedWater}",
-                                        textAlign = TextAlign.Right
+                                        textAlign = TextAlign.Right,
+                                        fontFamily = sfproDisplayThinFontFamily
 
                                     )
                                     Spacer(modifier = Modifier.padding(end = 5.dp))
@@ -206,8 +217,6 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                 }
                                 Spacer(modifier = Modifier.padding(top = 5.dp))
                             }
-
-
                         }
                     }
                 }

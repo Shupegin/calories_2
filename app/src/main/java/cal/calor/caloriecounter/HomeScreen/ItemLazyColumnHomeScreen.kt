@@ -11,12 +11,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cal.calor.caloriecounter.MainViewModel
 import cal.calor.caloriecounter.pojo.FoodModel
-
+import cal.calor.caloriecounter.ui.theme.fontName
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 
 
 @Composable
@@ -32,16 +37,19 @@ fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
 
                 Text(
                     text = "Название: ${foodModel.food}", modifier = Modifier.padding(start = 5.dp)
-                        .width(270.dp)
+                        .width(270.dp),
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
                 Text(
                     text = "Количество грамм = ${foodModel.gramm}",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(270.dp)
+                        .width(270.dp),
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
                 Text(
                     text = "Калории = ${foodModel.calories}",
-                    modifier = Modifier.padding(start = 5.dp)
+                    modifier = Modifier.padding(start = 5.dp),
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
 
             }
@@ -60,7 +68,13 @@ fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
             )
         }
     }
+
+
 }
+
+
+
+
 
 
 

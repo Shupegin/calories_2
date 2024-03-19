@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.pojo.WaterModel_2
 import cal.calor.caloriecounter.pojo.pulse.PulsePojo
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 
 @Composable
 fun cardPulse(pulseModel: PulsePojo, pulseViewModel: PulseViewModel){
@@ -33,35 +34,41 @@ fun cardPulse(pulseModel: PulsePojo, pulseViewModel: PulseViewModel){
                 Text(
                     text = "Давление/Пульс: ",
                     modifier = Modifier.width(270.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
                 Text(
                     text = "Время: ${pulseModel.time} ",
                     modifier = Modifier.width(270.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
                 Text(
                     text = "Показатели давления:",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(270.dp)
+                        .width(270.dp),
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
 
                 Text(
                     text = "Верхнее = ${pulseModel.pressureTop}",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(270.dp)
+                        .width(270.dp),
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
 
                 Text(
                     text = "Нижнее = ${pulseModel.pressureLower}",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(270.dp)
+                        .width(270.dp),
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
 
                 Text(
                     text = "Показатели пульса = ${pulseModel.pulse}",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(270.dp)
+                        .width(270.dp),
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
 
             }

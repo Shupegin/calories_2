@@ -43,3 +43,11 @@ val Typography = Typography(
     )
     */
 )
+
+val sfproDisplayThinFontFamily  =  FontFamily(
+    androidx.compose.ui.text.font.Font(R.font.sf_ui_display_regular, FontWeight.Black)
+)
+
+val sf_ui_display_semiboldFontFamily  =  FontFamily(
+    androidx.compose.ui.text.font.Font(R.font.sf_ui_display_semibold, FontWeight.Black)
+)

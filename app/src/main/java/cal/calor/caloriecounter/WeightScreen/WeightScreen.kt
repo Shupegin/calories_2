@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import cal.calor.caloriecounter.dialog.DialogWeight
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.Green
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
 
 
@@ -63,8 +64,8 @@ fun WeightScreen(viewModelWeight: WeightViewModel,
                 modifier = Modifier.padding(top = 20.dp),
                 color = Green,
                 fontSize = 20.sp,
-
-                style = MaterialTheme.typography.body1 )
+                fontFamily = sf_ui_display_semiboldFontFamily
+            )
             Spacer(modifier = Modifier.padding(top = 10.dp))
 
 

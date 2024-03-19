@@ -48,6 +48,8 @@ import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.pojo.WaterModel_2
 import cal.calor.caloriecounter.pojo.pulse.PulsePojo
 import cal.calor.caloriecounter.ui.theme.ColorRed
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 
 import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
@@ -115,11 +117,13 @@ fun pulseDialog(
 
             ) {
                 Text(text = "Добавление давление/пульс:",
-                    style = MaterialTheme.typography.body1
+                    fontFamily = sf_ui_display_semiboldFontFamily,
+                    color = Color.Black
                 )
 
                 Text(text = "Время: $timeValue ",
-                    style = MaterialTheme.typography.body1
+                    fontFamily = sfproDisplayThinFontFamily,
+                    color = Color.Black
                 )
                 OutlinedTextField(
                     value = formattedDate,
@@ -132,9 +136,8 @@ fun pulseDialog(
                     label = {
                         Text(
                             text = "Дата:",
-                            style = TextStyle(
-                                color = Color.Black
-                            )
+                            fontFamily = sfproDisplayThinFontFamily,
+                            color = Color.Black
                         )
                     },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -166,7 +169,8 @@ fun pulseDialog(
                     }
                 }
                 
-                Text(text = "Показатели давления")
+                Text(text = "Показатели давления",fontFamily = sfproDisplayThinFontFamily,
+                    color = Color.Black)
 
                 OutlinedTextField(
                     value = pressureTop,
@@ -180,9 +184,8 @@ fun pulseDialog(
                     label = {
                         Text(
                             text = "Верхнее?",
-                            style = TextStyle(
-                                color = Color.Black
-                            )
+                            fontFamily = sfproDisplayThinFontFamily,
+                            color = Color.Black
                         )
                     },
 
@@ -209,9 +212,8 @@ fun pulseDialog(
                     label = {
                         Text(
                             text = "Нижнее?",
-                            style = TextStyle(
-                                color = Color.Black
-                            )
+                            fontFamily = sfproDisplayThinFontFamily,
+                            color = Color.Black
                         )
                     },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -239,9 +241,8 @@ fun pulseDialog(
                     label = {
                         Text(
                             text = "Показатели пульса?",
-                            style = TextStyle(
-                                color = Color.Black
-                            )
+                            fontFamily = sfproDisplayThinFontFamily,
+                            color = Color.Black
                         )
                     },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -255,7 +256,8 @@ fun pulseDialog(
 
                 Row() {
                     Button(onClick = { pulseDialogState.value = false }) {
-                        Text(text = "Закрыть ")
+                        Text(text = "Закрыть ",
+                            fontFamily = sf_ui_display_semiboldFontFamily)
                     }
                     Spacer(modifier = Modifier.padding(end = 20.dp))
 
@@ -273,7 +275,8 @@ fun pulseDialog(
 
 
                     }) {
-                        Text(text = "Ок")
+                        Text(text = "Ок",
+                            fontFamily = sf_ui_display_semiboldFontFamily)
                     }
                 }
             }

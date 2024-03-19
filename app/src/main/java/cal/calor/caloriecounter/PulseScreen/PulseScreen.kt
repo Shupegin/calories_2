@@ -43,6 +43,8 @@ import cal.calor.caloriecounter.banner.App
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.ColorRed
 import cal.calor.caloriecounter.ui.theme.Green
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.СolorWater
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
@@ -104,7 +106,9 @@ fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: ()
                     onActiveChange = {
                         active = false
                     },
-                    placeholder = { Text(text = "Пример " + "03.04.2024") },
+                    placeholder = { Text(text = "Пример " + "03.04.2024",
+                        fontFamily = sf_ui_display_semiboldFontFamily
+                    ) },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Filled.Search,
@@ -131,8 +135,14 @@ fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: ()
 
                     ) {
                         Column(modifier = Modifier.background(BackgroundGray)) {
-                            Text(text = "Здесь пока ничего нет...", color = Color.White)
-                            Text(text = "Добавьте сегодняшнее давление ", color = Color.White)
+                            Text(text = "Здесь пока ничего нет...",
+                                color = Color.White,
+                                fontFamily = sfproDisplayThinFontFamily
+                            )
+                            Text(text = "Добавьте сегодняшнее давление ",
+                                color = Color.White,
+                                fontFamily = sfproDisplayThinFontFamily
+                            )
                         }
 
                     }
@@ -156,7 +166,7 @@ fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: ()
                                             .background(color = ColorRed),
                                         textAlign = TextAlign.Center,
                                         style = MaterialTheme.typography.h6,
-
+                                        fontFamily = sf_ui_display_semiboldFontFamily
                                         )
                                 }
 

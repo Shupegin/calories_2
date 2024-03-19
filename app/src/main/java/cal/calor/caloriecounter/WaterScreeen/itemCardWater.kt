@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.pojo.WaterModel_2
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 
 @Composable
 fun cardWater(waterModel: WaterModel_2, viewModel : WaterViewModel){
@@ -32,18 +33,21 @@ fun cardWater(waterModel: WaterModel_2, viewModel : WaterViewModel){
                 Text(
                     text = "Вода: ",
                     modifier = Modifier.width(270.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
                 Text(
                     text = "Выпито воды = ${waterModel.water_is_drunk} мл",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(270.dp)
+                        .width(270.dp),
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
 
                 Text(
                     text = "Слито воды = ${waterModel.drained_of_water} мл",
                     modifier = Modifier.padding(start = 5.dp)
-                        .width(270.dp)
+                        .width(270.dp),
+                    fontFamily =  sfproDisplayThinFontFamily
                 )
 
             }

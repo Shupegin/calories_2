@@ -27,6 +27,8 @@ import cal.calor.caloriecounter.MainViewModel
 import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.ui.theme.fontFamily
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
@@ -92,7 +94,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                     ) {
 
                         Text(text = "Добавление съеденной еды:",
-                            style = MaterialTheme.typography.body1
+                            fontFamily = sf_ui_display_semiboldFontFamily
                         )
 
                         OutlinedTextField(
@@ -105,9 +107,8 @@ fun dialog(dialogState: MutableState<Boolean>,
                             label = {
                                 Text(
                                     text = "Дата:",
-                                    style = androidx.compose.ui.text.TextStyle(
-                                        color = Color.Black
-                                    )
+                                    fontFamily = sfproDisplayThinFontFamily,
+                                    color = Color.Black
                                 )
                             }, colors = TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor =  Сoral,
@@ -147,9 +148,8 @@ fun dialog(dialogState: MutableState<Boolean>,
                             label = {
                                 Text(
                                     text = "что ел?",
-                                    style = androidx.compose.ui.text.TextStyle(
-                                        color = Color.Black
-                                    )
+                                    fontFamily = sfproDisplayThinFontFamily,
+                                    color = Color.Black
                                 )
                             }, colors = TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor =  Сoral,
@@ -168,9 +168,8 @@ fun dialog(dialogState: MutableState<Boolean>,
                             label = {
                                 Text(
                                     text = "количество грамм?",
-                                    style = androidx.compose.ui.text.TextStyle(
-                                        color = Color.Black
-                                    )
+                                    fontFamily = sfproDisplayThinFontFamily,
+                                    color = Color.Black
                                 )
                             }, colors = TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor =  Сoral,
@@ -200,9 +199,8 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 label = {
                                     Text(
                                         text = "калории?",
-                                        style = androidx.compose.ui.text.TextStyle(
-                                            color = Color.Black
-                                        )
+                                        fontFamily = sfproDisplayThinFontFamily,
+                                        color = Color.Black
                                     )
                                 }, colors = TextFieldDefaults.outlinedTextFieldColors(
                                     focusedBorderColor =  Сoral,
@@ -215,14 +213,14 @@ fun dialog(dialogState: MutableState<Boolean>,
                         
                         Row() {
                             Button(onClick = { dialogState.value = false}) {
-                                Text(text = "Закрыть ")
+                                Text(text = "Закрыть ",
+                                    fontFamily = sf_ui_display_semiboldFontFamily)
                             }
                             Spacer(modifier = Modifier.padding(end = 20.dp))
                             Button(onClick = {
 
                                 val _category = viewModel.splitName(userFood).lowercase().trim()
 
-                                Log.d("TESTORTIME","$formattedDate")
 
                                 val time = formattedDate
 
@@ -245,27 +243,12 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 dialogState.value = false
 
                             }) {
-                                Text(text = "Ок")
+                                Text(text = "Ок",
+                                    fontFamily = sf_ui_display_semiboldFontFamily
+                                )
                             }
                         }
 
-//                        Button(onClick = {
-//                            val _category = viewModel.splitName(userFood).lowercase().trim()
-//                            val _userfood =  userFood.lowercase().trim()
-//
-//                            val foodModel = FoodModel(
-//                                category= _category,
-//                                food = _userfood,
-//                                calories = numberOfCalories.toIntOrNull() ?: 0,
-//                                gramm = numberOfGrams.toIntOrNull() ?: 0
-//                            )
-////                            viewModel.loadFirebaseFood(foodModel)
-//                            viewModel.requestFood(foodModel)
-//                            isLoading = true
-//
-//                        }) {
-//                            Text(text = "Обновить")
-//                        }
                     }
                 }
 

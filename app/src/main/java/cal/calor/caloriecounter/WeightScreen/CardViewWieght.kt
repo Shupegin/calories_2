@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
 import cal.calor.caloriecounter.ui.theme.Green
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
 
 @Composable
@@ -38,12 +39,16 @@ fun cardViewWeight(weightPogo: WeightPogo, weightViewModel: WeightViewModel){
 
 
             weightPogo.data.let {
-               it?.let { it1 -> Text(text = it1, Modifier.padding(start = 20.dp))}
+               it?.let { it1 -> Text(text = it1, Modifier
+                   .padding(start = 20.dp),
+                   fontFamily =  sfproDisplayThinFontFamily
+               )}
            }
 
 
             weightPogo.weight.let {
-                it?.let { it1-> Text(text = it1 + " кг" ) }
+                it?.let { it1-> Text(text = it1 + " кг" ,
+                    fontFamily =  sfproDisplayThinFontFamily) }
             }
 
             Image(

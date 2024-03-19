@@ -39,6 +39,8 @@ import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.Green
 import cal.calor.caloriecounter.ui.theme.brightBlue
 import cal.calor.caloriecounter.ui.theme.orange
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
 
@@ -126,7 +128,8 @@ fun HistoryScreen(viewModel: MainViewModel,
                            .weight(1.1f)
                            .padding(start = 140.dp),
                        color = Color.White,
-                       fontSize = 25.sp
+                       fontSize = 25.sp,
+                       fontFamily = sf_ui_display_semiboldFontFamily
                    )
 
                    Image(
@@ -179,17 +182,29 @@ fun HistoryScreen(viewModel: MainViewModel,
 
 
                if(pointList.isNotEmpty()){
-                   Text(text = "График калорий", fontSize = 25.sp, color = Сoral)
+                   Text(text = "График калорий",
+                       fontSize = 25.sp,
+                       color = Сoral,
+                       fontFamily = sf_ui_display_semiboldFontFamily
+                   )
                    Chart(pointList = pointList,viewModel = viewModel, color = Сoral)
                }
 
                if(pointListWater.isNotEmpty()){
-                   Text(text = "График воды", fontSize = 25.sp, color = СolorWater)
+                   Text(text = "График воды",
+                       fontSize = 25.sp,
+                       color = СolorWater,
+                       fontFamily = sf_ui_display_semiboldFontFamily
+                   )
                    Chart(pointList = pointListWater,viewModel = viewModel, color = СolorWater)
                }
 
                if(pointListWeight.isNotEmpty()){
-                   Text(text = "График веса", fontSize = 25.sp, color = Green)
+                   Text(text = "График веса",
+                       fontSize = 25.sp,
+                       color = Green,
+                       fontFamily = sf_ui_display_semiboldFontFamily
+                   )
                    Chart(pointList = pointListWeight,viewModel = viewModel, color = Green)
                }
 

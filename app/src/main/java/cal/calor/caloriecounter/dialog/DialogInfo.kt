@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -35,6 +36,8 @@ import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
 import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.ui.theme.Brown
 import cal.calor.caloriecounter.ui.theme.Green
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
+import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 
 
 @Composable
@@ -61,12 +64,13 @@ fun dialogInfo(dialogState: MutableState<Boolean>, context: Context, historyView
                 Text(text = "Привет! Буду рад, если приложение оказалось для вас полезным." +
                         " Если у вас есть пожелания и предложения, пишите ALT7024@yandex.ru, буду рад обратной связи!" +
                         " Поддержать нас можно: номер карты",
-                    style = MaterialTheme.typography.body1,
+                    fontFamily = sfproDisplayThinFontFamily,
                     textAlign = TextAlign.Center )
 
 
                 Row {
-                    Text(text = "2200 7001 6254 5817") 
+                    Text(text = "2200 7001 6254 5817",
+                        fontFamily = sf_ui_display_semiboldFontFamily)
                     Spacer(modifier = Modifier.padding(start = 10.dp))
 
                     Button(onClick = { historyViewModel.saveCardInClipboard(context) },
@@ -80,13 +84,16 @@ fun dialogInfo(dialogState: MutableState<Boolean>, context: Context, historyView
                         )
                     }
                 }
-                Text(text = "Дмитрий Ш")
+                Text(text = "Дмитрий Ш",
+                    fontFamily = sfproDisplayThinFontFamily)
 
 
                 Button(onClick = {
                     dialogState.value = false
                 }) {
-                    Text(text = "Закрыть ")
+                    Text(text = "Закрыть ",
+                        fontFamily = sf_ui_display_semiboldFontFamily
+                    )
                 }
             }
 
