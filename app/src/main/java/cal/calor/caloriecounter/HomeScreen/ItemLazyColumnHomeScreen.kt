@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,7 +65,7 @@ fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
                         viewModel.deleteFood(foodModel)
                         viewModel.removeInFirebaseDatabase(foodModel)
                     },
-                painter = painterResource(id = cal.calor.caloriecounter.R.drawable.delete),
+                imageVector = Icons.Filled.Delete,
                 contentDescription = null,
             )
         }

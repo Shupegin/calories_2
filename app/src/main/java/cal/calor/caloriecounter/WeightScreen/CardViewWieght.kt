@@ -6,13 +6,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,8 +32,9 @@ import cal.calor.caloriecounter.ui.theme.Сoral
 fun cardViewWeight(weightPogo: WeightPogo, weightViewModel: WeightViewModel){
     Card(modifier = Modifier
         .fillMaxWidth()
+        .height(60.dp)
         .padding(6.dp),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(20.dp),
         border = BorderStroke(1.dp, color = Green)
     ) {
 
@@ -53,13 +58,12 @@ fun cardViewWeight(weightPogo: WeightPogo, weightViewModel: WeightViewModel){
 
             Image(
                 modifier = Modifier
-                    .padding(end = 5.dp)
-                    .width(40.dp)
-                    .height(40.dp)
+                    .padding(end = 10.dp)
+                    .size(30.dp)
                     .clickable {
                         weightViewModel.deleteWeight(weightPogo)
                     },
-                painter = painterResource(id = R.drawable.delete),
+                imageVector = Icons.Filled.Delete,
                 contentDescription = null,
             )
         }
