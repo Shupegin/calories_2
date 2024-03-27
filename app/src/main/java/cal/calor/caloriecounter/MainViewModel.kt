@@ -428,20 +428,32 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                                 call: Call<ItemsFood?>,
                                 response: Response<ItemsFood?>
                             ) {
-
-
                                 if (response.isSuccessful) {
                                     if (!response.body()?.items.isNullOrEmpty()){
                                         response.body()?.items?.forEach {
+
                                             val foodModelList = mapperNew.mapResponseToPosts(it)
                                             for (item in foodModelList) {
+
                                                 calories = item.calories ?: 0
                                                 calories = (foodModel.gramm ?: 0) * calories / 100
                                                 _calories.value = calories.toString()
                                                 foodModel.calories = calories
+                                                foodModel.proteinG = item.proteinG
+                                                foodModel.fatTotalG = item.fatTotalG
+                                                foodModel.fatSaturatedG = item.fatSaturatedG
+                                                foodModel.carbohydratesTotalG = item.carbohydratesTotalG
+                                                foodModel.cholesterolMg = item.cholesterolMg
+                                                foodModel.fiberG= item.fiberG
+                                                foodModel.potassiumMg = item.potassiumMg
+                                                foodModel.servingSizeG = item.servingSizeG
+                                                foodModel.sodiumMg = item.sodiumMg
+                                                foodModel.sugarG = item.sugarG
                                             }
                                             _status.value = false
                                         }
+
+
                                         addInfoFoodBtn(foodModel)
                                     }else{
                                         _status.value = false
@@ -529,6 +541,22 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             return
         }
         foodListView.value = foodListDAO.value
+    }
+
+
+    fun returnSum(list : List<FoodModel>, name : String) : Double {
+        var returnSum = 0.0
+
+        list.forEach{
+            if (it.dataCurrent == getCurrentDate()){
+                when(name){
+                    "белки" -> it.proteinG?.let { returnSum += it }
+                    "жиры" -> it.fatTotalG?.let { returnSum += it }
+                    "углеводы" -> it.carbohydratesTotalG?.let { returnSum += it }
+                }
+            }
+        }
+        return returnSum
     }
 }
 

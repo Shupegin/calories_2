@@ -70,8 +70,6 @@ fun cardFood(foodModel: FoodModel, viewModel : MainViewModel){
             )
         }
     }
-
-
 }
 
 

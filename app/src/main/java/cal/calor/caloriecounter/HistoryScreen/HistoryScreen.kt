@@ -1,6 +1,7 @@
 package cal.calor.caloriecounter.HistoryScreen
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -103,6 +104,20 @@ fun HistoryScreen(viewModel: MainViewModel,
 
     val foodList = viewModel.foodListDAO.observeAsState(listOf())
 
+    var proteinG by remember {
+        mutableStateOf(viewModel.returnSum(foodList.value,"белки"))
+    }
+
+    var fatTotalG by remember {
+        mutableStateOf(viewModel.returnSum(foodList.value, "жиры"))
+    }
+
+    var carbohydratesTotalG by remember {
+        mutableStateOf(viewModel.returnSum(foodList.value,"углеводы"))
+    }
+
+
+
     viewModel.sendSelectedOptionText("День", listFood = foodList.value)
 
     Box(modifier = Modifier
@@ -135,9 +150,9 @@ fun HistoryScreen(viewModel: MainViewModel,
                    Image(
                        painterResource(R.drawable.icon_exclamation_point_svg),
                        contentDescription = "",modifier= Modifier
-                       .weight(0.1f)
-                       .size(25.dp)
-                       .clickable {onItem.invoke()},)
+                           .weight(0.1f)
+                           .size(25.dp)
+                           .clickable { onItem.invoke() },)
 
                    Spacer(modifier = Modifier.padding(end = 10.dp))
 
@@ -148,38 +163,27 @@ fun HistoryScreen(viewModel: MainViewModel,
                    mutableStateOf(true)
                }
 
-//               Box(
-//                   modifier = Modifier
-//                       .fillMaxSize()
-//                       .padding(30.dp)
-//                   ,
-//                   contentAlignment = Alignment.TopCenter
-//               ) {
-//                   Column(
-//                       modifier = Modifier
-//                           .fillMaxSize(),
-//                       verticalArrangement = Arrangement.spacedBy(20.dp),
-//                       horizontalAlignment = Alignment.CenterHorizontally
-//                   ) {
-//
-//                       BarChart(
-//                           listOf(
-//                               BarchartInput(28, "Еда", orange),
-//                               BarchartInput(15, "Вода", brightBlue),
-//
-//                               ),
-//                           modifier = Modifier
-//                               .fillMaxWidth(),
-//                           showDescription = showDescription
-//                       )
-//                   }
-//               }
 
                Row {
                    VerticalProgressBar(viewModel = viewModel, owner = owner)
                    VerticalProgressBarWater(viewModel = waterViewModel, owner = owner)
                }
 
+               Text(text = "БЖУ",
+                   fontSize = 25.sp,
+                   color = Color.White,
+                   fontFamily = sf_ui_display_semiboldFontFamily
+               )
+
+               PieChart(
+                   data = mapOf(
+                       Pair("Белки", proteinG.toFloat()),
+                       Pair("Жиры", fatTotalG.toFloat()),
+                       Pair("Углеводы", carbohydratesTotalG.toFloat()),
+                   )
+               )
+               
+               Spacer(modifier = Modifier.padding(top = 30.dp))
 
                if(pointList.isNotEmpty()){
                    Text(text = "График калорий",

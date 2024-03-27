@@ -11,7 +11,17 @@ class MapFood {
         if (posts != null) {
 
                 val foodModel = FoodModel(
-                    calories = posts.calories?.toInt()
+                    calories = posts.calories?.toInt(),
+                    proteinG = posts.proteinG,
+                    servingSizeG = posts.servingSizeG,
+                    fatTotalG = posts.fatTotalG,
+                    sodiumMg = posts.sodiumMg,
+                    potassiumMg = posts.potassiumMg,
+                    cholesterolMg = posts.cholesterolMg,
+                    carbohydratesTotalG = posts.carbohydratesTotalG,
+                    fiberG = posts.fiberG,
+                    sugarG = posts.sugarG,
+
                 )
                 result.add(foodModel)
 
@@ -19,5 +29,6 @@ class MapFood {
         return result
     }
 }
+
 
 
