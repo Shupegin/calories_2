@@ -1,0 +1,142 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 12,
+    "identityHash": "20f5e683d7c41d46aad6ef04854a9c09",
+    "entities": [
+      {
+        "tableName": "food_name_list",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`food_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dataCurrent` TEXT, `category` TEXT, `food` TEXT, `desctription` TEXT, `calories` INTEGER, `servingSizeG` REAL, `fatTotalG` REAL, `fatSaturatedG` REAL, `proteinG` REAL, `sodiumMg` REAL, `potassiumMg` REAL, `cholesterolMg` REAL, `carbohydratesTotalG` REAL, `fiberG` REAL, `sugarG` REAL, `error` INTEGER, `eating` TEXT, `gramm` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "food_id",
+            "columnName": "food_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dataCurrent",
+            "columnName": "dataCurrent",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "food",
+            "columnName": "food",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "desctription",
+            "columnName": "desctription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "calories",
+            "columnName": "calories",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "servingSizeG",
+            "columnName": "servingSizeG",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fatTotalG",
+            "columnName": "fatTotalG",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fatSaturatedG",
+            "columnName": "fatSaturatedG",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "proteinG",
+            "columnName": "proteinG",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sodiumMg",
+            "columnName": "sodiumMg",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "potassiumMg",
+            "columnName": "potassiumMg",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cholesterolMg",
+            "columnName": "cholesterolMg",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "carbohydratesTotalG",
+            "columnName": "carbohydratesTotalG",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fiberG",
+            "columnName": "fiberG",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sugarG",
+            "columnName": "sugarG",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "error",
+            "columnName": "error",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eating",
+            "columnName": "eating",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gramm",
+            "columnName": "gramm",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "food_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '20f5e683d7c41d46aad6ef04854a9c09')"
+    ]
+  }
+}

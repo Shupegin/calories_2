@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "20f5e683d7c41d46aad6ef04854a9c09",
+    "identityHash": "16939b2d62a037accc69e5641900effe",
     "entities": [
       {
         "tableName": "food_name_list",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`food_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dataCurrent` TEXT, `category` TEXT, `food` TEXT, `desctription` TEXT, `calories` INTEGER, `servingSizeG` REAL, `fatTotalG` REAL, `fatSaturatedG` REAL, `proteinG` REAL, `sodiumMg` REAL, `potassiumMg` REAL, `cholesterolMg` REAL, `carbohydratesTotalG` REAL, `fiberG` REAL, `sugarG` REAL, `error` INTEGER, `eating` TEXT, `gramm` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`food_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dataCurrent` TEXT, `category` TEXT, `food` TEXT, `desctription` TEXT, `calories` INTEGER, `error` INTEGER, `eating` TEXT, `gramm` INTEGER)",
         "fields": [
           {
             "fieldPath": "food_id",
@@ -45,66 +45,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "servingSizeG",
-            "columnName": "servingSizeG",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "fatTotalG",
-            "columnName": "fatTotalG",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "fatSaturatedG",
-            "columnName": "fatSaturatedG",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "proteinG",
-            "columnName": "proteinG",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "sodiumMg",
-            "columnName": "sodiumMg",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "potassiumMg",
-            "columnName": "potassiumMg",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "cholesterolMg",
-            "columnName": "cholesterolMg",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "carbohydratesTotalG",
-            "columnName": "carbohydratesTotalG",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "fiberG",
-            "columnName": "fiberG",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "sugarG",
-            "columnName": "sugarG",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
             "fieldPath": "error",
             "columnName": "error",
             "affinity": "INTEGER",
@@ -136,7 +76,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '20f5e683d7c41d46aad6ef04854a9c09')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '16939b2d62a037accc69e5641900effe')"
     ]
   }
 }
