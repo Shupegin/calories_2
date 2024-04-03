@@ -2,6 +2,7 @@ package cal.calor.caloriecounter
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import android.graphics.Bitmap
 import android.preference.PreferenceManager
 import android.util.Log
@@ -18,19 +19,24 @@ import cal.calor.caloriecounter.network.ApiFactory
 import cal.calor.caloriecounter.pojo.AuthorizationPassword.AuthorizationPassword
 import cal.calor.caloriecounter.pojo.Food.ItemsFood
 import cal.calor.caloriecounter.pojo.FoodModel
+import cal.calor.caloriecounter.pojo.FoodModelAdd
 import cal.calor.caloriecounter.pojo.FoodSearchFirebase
 import cal.calor.caloriecounter.pojo.Management
 import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
 import cal.calor.caloriecounter.pojo.UserIDModel
 import cal.calor.caloriecounter.pojo.UserModelFireBase
+import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.*
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.Credentials
 import retrofit2.Call
 import retrofit2.Callback
@@ -76,6 +82,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private var firebaseDatabase : FirebaseDatabase? = null
     private var userReference : DatabaseReference? = null
     private var userIdReference : DatabaseReference? = null
+    private var userNameDishReference : DatabaseReference? = null
+    private var databaseEntry : DatabaseReference? = null
+
 //    private var auth:  FirebaseAuth? = null
 
 
@@ -93,8 +102,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _management : MutableLiveData<Management> = MutableLiveData()
     val management : LiveData<Management> =  _management
 
-
-
+    private val _advertiserID : MutableLiveData<String> = MutableLiveData()
+    val  advertiserID : LiveData<String> =  _advertiserID
 
     init {
         authorizationRequest()
@@ -103,6 +112,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         firebaseDatabase = FirebaseDatabase.getInstance()
         userReference = firebaseDatabase?.getReference("calories")
         userIdReference = firebaseDatabase?.getReference("Users")
+        userNameDishReference = firebaseDatabase?.getReference("UsersFoodName")
+        databaseEntry = firebaseDatabase?.getReference("foods")
+
 
         foodListDAO.observeForever {
             updateFoodListView()
@@ -110,6 +122,12 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         foodListFilter.observeForever {
             updateFoodListView()
         }
+
+        GlobalScope.launch {
+            getAdvertiserID(context)
+        }
+
+
     }
 
 
@@ -557,6 +575,24 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             }
         }
         return returnSum
+    }
+
+
+
+    fun saving_the_names_of_dishes(name : String){
+        userNameDishReference?.child(name)?.setValue(name)
+    }
+
+    fun databaseEntry (foodModelDish: FoodModelAdd) {
+        databaseEntry?.child(foodModelDish.name.toString())?.setValue(foodModelDish)
+    }
+
+    suspend fun getAdvertiserID(context: Context)  {
+             val ss   = withContext(Dispatchers.Default){
+             val adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context)
+                 adInfo.id.toString()
+         }
+        _advertiserID.postValue(ss)
     }
 }
 

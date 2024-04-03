@@ -45,6 +45,7 @@ import cal.calor.caloriecounter.WaterScreeen.WaterScreen
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.banner.Banner
 import cal.calor.caloriecounter.dialog.dialog
+import cal.calor.caloriecounter.dialog.dialogAddDish
 import cal.calor.caloriecounter.dialog.dialogInfo
 import cal.calor.caloriecounter.dialog.pulseDialog
 import cal.calor.caloriecounter.dialog.waterDialog
@@ -68,6 +69,10 @@ fun MainScreen(
 
 
     val dialogState = remember {
+        mutableStateOf(false)
+    }
+
+    val addDishDialogState = remember {
         mutableStateOf(false)
     }
     val waterDialogState = remember {
@@ -97,6 +102,10 @@ fun MainScreen(
     }
     if (dialogState.value){
        dialog(dialogState = dialogState, viewModel = mainViewModel, owner )
+    }
+
+    if (addDishDialogState.value){
+        dialogAddDish(dialogState = addDishDialogState, viewModel = mainViewModel, owner, context)
     }
 
     val advertisement =  mainViewModel.management.observeAsState()
@@ -143,7 +152,7 @@ fun MainScreen(
             }){ paddingValues ->
                 AppNavGraph(
                     navHostController = navigationState.navHostController,
-                    homeScreenContent = { HomeScreen(viewModel = mainViewModel, paddingValues = paddingValues, onItem = {dialogState.value = true}, owner = owner)},
+                    homeScreenContent = { HomeScreen(viewModel = mainViewModel, paddingValues = paddingValues, onItem = {dialogState.value = true}, onItemAdd = {addDishDialogState.value = true}, owner = owner, context = context)},
                     waterScreenContent = { WaterScreen(onItem = {waterDialogState.value = true}, viewModel = waterViewModel)},
                     weightScreenContent = { WeightScreen(viewModelWeight = viewModelWeight, paddingValues = paddingValues,owner,context, navController)},
                     pulseScreenContent = { PulseScreen(pulseViewModel = pulseViewModel, owner = owner, onItem = {pulseDialogState.value = true})},

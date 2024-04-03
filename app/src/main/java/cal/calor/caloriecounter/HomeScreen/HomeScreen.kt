@@ -1,89 +1,86 @@
 package cal.calor.caloriecounter
 
+
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.AsyncTask
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
-
-
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
-
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
-import androidx.room.util.query
+import androidx.lifecycle.Observer
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import cal.calor.caloriecounter.banner.App
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
-import cal.calor.caloriecounter.ui.theme.ColorRed
 import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
-import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
 import com.example.caloriecounter.cardFood
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshState
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.datetime.date.datepicker
-import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import com.google.android.gms.ads.identifier.AdvertisingIdClient
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.IOException
+
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class
 )
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "FrequentlyChangedStateReadInComposition")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "FrequentlyChangedStateReadInComposition",
+    "CoroutineCreationDuringComposition"
+)
 @Composable
 fun HomeScreen(
     viewModel: MainViewModel,
     onItem: () -> Unit,
+    onItemAdd: () -> Unit,
     paddingValues: PaddingValues,
-    owner: LifecycleOwner
+    owner: LifecycleOwner,
+    context: Context
 ){
-
+    var ADVERTISER_ID = "c4708079-d26b-4f72-962f-bbe6381e0005"
     var calories by remember { mutableStateOf(0) }
 
     var isLoading  by remember { mutableStateOf( false) }
@@ -98,6 +95,7 @@ fun HomeScreen(
 
     val list = foodList.value?.sortedByDescending { App.reverseStringDate(it.dataCurrent) + it.food_id + it.calories }?.groupBy { it.dataCurrent }
 
+    val advertisingIdClient = viewModel.advertiserID.observeAsState("")
 
     var textSearch  by remember {
         mutableStateOf("")
@@ -116,12 +114,13 @@ fun HomeScreen(
     }
 
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(BackgroundGray),
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(BackgroundGray),
 
 
-    ){
+        ){
 
         Column (modifier = Modifier
             .fillMaxSize()
@@ -213,7 +212,7 @@ fun HomeScreen(
                                         fontFamily =  sf_ui_display_semiboldFontFamily
                                     )
                                 }
-                                items( items = listFood, key = { it.food_id }, ) { foodModel ->
+                                items(items = listFood, key = { it.food_id }) { foodModel ->
                                     cardFood(foodModel = foodModel, viewModel)
                                 }
                                 item {
@@ -259,12 +258,27 @@ fun HomeScreen(
             contentAlignment = Alignment.BottomCenter
 
         ){
-
-            FloatingActionButton(onClick = {
-                onItem.invoke()
-            }) {
-                Icon(imageVector = Icons.Default.Add,contentDescription = null)
-            }
+                if (advertisingIdClient.value.equals(ADVERTISER_ID)) {
+                    Row {
+                        FloatingActionButton(onClick = {
+                            onItem.invoke()
+                        }) {
+                            Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                        }
+                        Spacer(modifier = Modifier.padding(start = 20.dp))
+                        FloatingActionButton(onClick = {
+                            onItemAdd.invoke()},
+                            backgroundColor = Color.Green) {
+                            Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                        }
+                    }
+                } else {
+                    FloatingActionButton(onClick = {
+                        onItem.invoke()
+                    }) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                    }
+                }
         }
     }
 }

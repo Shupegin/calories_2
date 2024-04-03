@@ -24,9 +24,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import cal.calor.caloriecounter.MainViewModel
-import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.pojo.FoodModel
-import cal.calor.caloriecounter.ui.theme.fontFamily
 import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
@@ -34,7 +32,6 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 
@@ -234,6 +231,8 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 )
                                 viewModel.statusLoad(true)
                                 viewModel.requestFood(foodModel)
+
+                                viewModel.saving_the_names_of_dishes(userFood.lowercase().trim())
 
 //                                viewModel.addInfoFoodBtn(foodModel)
 //                                viewModel.loadFirebaseFood(foodModel)
