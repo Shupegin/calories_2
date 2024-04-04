@@ -97,7 +97,7 @@ fun dialogAddDish(dialogState: MutableState<Boolean>,
                     maxLines = 1,
 
                     label = {
-                        androidx.compose.material3.Text(text = "Калории")
+                        androidx.compose.material3.Text(text = "Калории(Только целые числа)")
                     }
                 )
 
