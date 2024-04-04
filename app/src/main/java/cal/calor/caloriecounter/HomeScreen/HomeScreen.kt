@@ -95,7 +95,6 @@ fun HomeScreen(
 
     val list = foodList.value?.sortedByDescending { App.reverseStringDate(it.dataCurrent) + it.food_id + it.calories }?.groupBy { it.dataCurrent }
 
-    val advertisingIdClient = viewModel.advertiserID.observeAsState("")
 
     var textSearch  by remember {
         mutableStateOf("")
@@ -258,7 +257,7 @@ fun HomeScreen(
             contentAlignment = Alignment.BottomCenter
 
         ){
-                if (advertisingIdClient.value.equals(ADVERTISER_ID)) {
+                if (false) {
                     Row {
                         FloatingActionButton(onClick = {
                             onItem.invoke()

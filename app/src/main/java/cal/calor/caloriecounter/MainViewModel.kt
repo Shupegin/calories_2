@@ -25,6 +25,7 @@ import cal.calor.caloriecounter.pojo.Management
 import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
 import cal.calor.caloriecounter.pojo.UserIDModel
 import cal.calor.caloriecounter.pojo.UserModelFireBase
+import co.yml.charts.common.extensions.isNotNull
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.*
@@ -84,6 +85,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private var userIdReference : DatabaseReference? = null
     private var userNameDishReference : DatabaseReference? = null
     private var databaseEntry : DatabaseReference? = null
+    private var dataBaseFoods : DatabaseReference? = null
 
 //    private var auth:  FirebaseAuth? = null
 
@@ -102,9 +104,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _management : MutableLiveData<Management> = MutableLiveData()
     val management : LiveData<Management> =  _management
 
-    private val _advertiserID : MutableLiveData<String> = MutableLiveData()
-    val  advertiserID : LiveData<String> =  _advertiserID
-
     init {
         authorizationRequest()
         getCurrentDate()
@@ -122,11 +121,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         foodListFilter.observeForever {
             updateFoodListView()
         }
-
-        GlobalScope.launch {
-            getAdvertiserID(context)
-        }
-
 
     }
 
@@ -435,73 +429,44 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun requestFood(foodModel: FoodModel) {
 
         foodModel.food?.let { food ->
-            translator(food) { text ->
-                text?.let { foodEnglish ->
-                    viewModelScope.launch {
-                        var calories = 0
 
-                        val response = ApiFactory.getApi().getFood(foodEnglish)
-                        response?.enqueue(object : Callback<ItemsFood?> {
-                            override fun onResponse(
-                                call: Call<ItemsFood?>,
-                                response: Response<ItemsFood?>
-                            ) {
-                                if (response.isSuccessful) {
-                                    if (!response.body()?.items.isNullOrEmpty()){
-                                        response.body()?.items?.forEach {
-
-                                            val foodModelList = mapperNew.mapResponseToPosts(it)
-                                            for (item in foodModelList) {
-
-                                                calories = item.calories ?: 0
-                                                calories = (foodModel.gramm ?: 0) * calories / 100
-                                                _calories.value = calories.toString()
-                                                foodModel.calories = calories
-                                                foodModel.proteinG = item.proteinG
-                                                foodModel.fatTotalG = item.fatTotalG
-                                                foodModel.fatSaturatedG = item.fatSaturatedG
-                                                foodModel.carbohydratesTotalG = item.carbohydratesTotalG
-                                                foodModel.cholesterolMg = item.cholesterolMg
-                                                foodModel.fiberG= item.fiberG
-                                                foodModel.potassiumMg = item.potassiumMg
-                                                foodModel.servingSizeG = item.servingSizeG
-                                                foodModel.sodiumMg = item.sodiumMg
-                                                foodModel.sugarG = item.sugarG
-                                            }
-                                            _status.value = false
-                                        }
+            var calories = 0
+            dataBaseFoods = firebaseDatabase?.getReference("foods/$food")
+            dataBaseFoods?.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val value = snapshot.getValue(FoodModelAdd::class.java)
 
 
-                                        addInfoFoodBtn(foodModel)
-                                    }else{
-                                        _status.value = false
+                    if (value.isNotNull()){
+                        calories = value?.calories ?: 0
+                        calories = (foodModel.gramm ?: 0) * calories / 100
+                        _calories.value = calories.toString()
+                        foodModel.calories = calories
+                        foodModel.proteinG = value?.proteinG
+                        foodModel.fatTotalG = value?.fatTotalG
+                        foodModel.fatSaturatedG = value?.fatSaturatedG
+                        foodModel.carbohydratesTotalG = value?.carbohydratesTotalG
+                        foodModel.cholesterolMg = value?.cholesterolMg
+                        foodModel.fiberG= value?.fiberG
+                        foodModel.potassiumMg = value?.potassiumMg
+                        foodModel.sodiumMg = value?.sodiumMg
+                        foodModel.sugarG = value?.sugarG
 
-                                        Toast.makeText(
-                                            context,
-                                            "Блюдо не найдено,пример для заполнения <Хачапури с сыром>",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    }
+                        _status.value = false
 
-                                } else {
-                                    _status.value = false
-                                    Toast.makeText(
-                                        context,
-                                        "NoSuccess = ${response.code()}",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            }
-
-                            override fun onFailure(call: Call<ItemsFood?>, t: Throwable) {
-                                _status.value = false
-
-                            }
-                        })
-
+                        addInfoFoodBtn(foodModel)
+                    }else{
+                        saving_the_names_of_dishes(food.lowercase().trim())
+                        requestFoodApi(food, foodModel)
                     }
+
                 }
-            }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+
+
         }
     }
 
@@ -587,12 +552,74 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         databaseEntry?.child(foodModelDish.name.toString())?.setValue(foodModelDish)
     }
 
-    suspend fun getAdvertiserID(context: Context)  {
-             val ss   = withContext(Dispatchers.Default){
-             val adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context)
-                 adInfo.id.toString()
-         }
-        _advertiserID.postValue(ss)
+    private fun requestFoodApi(food :String, foodModel : FoodModel){
+        translator(food) { text ->
+            text?.let { foodEnglish ->
+                viewModelScope.launch {
+                    var calories = 0
+
+                    val response = ApiFactory.getApi().getFood(foodEnglish)
+                    response?.enqueue(object : Callback<ItemsFood?> {
+                        override fun onResponse(
+                            call: Call<ItemsFood?>,
+                            response: Response<ItemsFood?>
+                        ) {
+                            if (response.isSuccessful) {
+                                if (!response.body()?.items.isNullOrEmpty()){
+                                    response.body()?.items?.forEach {
+
+                                        val foodModelList = mapperNew.mapResponseToPosts(it)
+                                        for (item in foodModelList) {
+
+                                            calories = item.calories ?: 0
+                                            calories = (foodModel.gramm ?: 0) * calories / 100
+                                            _calories.value = calories.toString()
+                                            foodModel.calories = calories
+                                            foodModel.proteinG = item.proteinG
+                                            foodModel.fatTotalG = item.fatTotalG
+                                            foodModel.fatSaturatedG = item.fatSaturatedG
+                                            foodModel.carbohydratesTotalG = item.carbohydratesTotalG
+                                            foodModel.cholesterolMg = item.cholesterolMg
+                                            foodModel.fiberG= item.fiberG
+                                            foodModel.potassiumMg = item.potassiumMg
+                                            foodModel.servingSizeG = item.servingSizeG
+                                            foodModel.sodiumMg = item.sodiumMg
+                                            foodModel.sugarG = item.sugarG
+                                        }
+                                        _status.value = false
+                                    }
+
+
+                                    addInfoFoodBtn(foodModel)
+                                }else{
+                                    _status.value = false
+
+                                    Toast.makeText(
+                                        context,
+                                        "Блюдо не найдено,пример для заполнения <Хачапури с сыром>",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+
+                            } else {
+                                _status.value = false
+                                Toast.makeText(
+                                    context,
+                                    "NoSuccess = ${response.code()}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ItemsFood?>, t: Throwable) {
+                            _status.value = false
+
+                        }
+                    })
+
+                }
+            }
+        }
     }
 }
 

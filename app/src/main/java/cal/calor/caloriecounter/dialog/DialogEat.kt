@@ -215,10 +215,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                             }
                             Spacer(modifier = Modifier.padding(end = 20.dp))
                             Button(onClick = {
-
                                 val _category = viewModel.splitName(userFood).lowercase().trim()
-
-
                                 val time = formattedDate
 
                                 val foodModel = FoodModel(
@@ -232,10 +229,6 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 viewModel.statusLoad(true)
                                 viewModel.requestFood(foodModel)
 
-                                viewModel.saving_the_names_of_dishes(userFood.lowercase().trim())
-
-//                                viewModel.addInfoFoodBtn(foodModel)
-//                                viewModel.loadFirebaseFood(foodModel)
                                 isLoading = true
 
 
