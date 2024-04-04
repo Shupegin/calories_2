@@ -151,6 +151,38 @@ fun dialogAddDish(dialogState: MutableState<Boolean>,
                     }
                 )
 
+                androidx.compose.material3.OutlinedTextField(
+                    value = cholesterolMg,
+
+                    onValueChange = {
+                        it.let {
+                            cholesterolMg = it
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    maxLines = 1,
+
+                    label = {
+                        androidx.compose.material3.Text(text = "Холестерин")
+                    }
+                )
+
+                androidx.compose.material3.OutlinedTextField(
+                    value = fiber_g,
+
+                    onValueChange = {
+                        it.let {
+                            fiber_g = it
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    maxLines = 1,
+
+                    label = {
+                        androidx.compose.material3.Text(text = "Волокно")
+                    }
+                )
+
 
                 androidx.compose.material3.OutlinedTextField(
                     value = fat_saturated_g,
@@ -185,21 +217,7 @@ fun dialogAddDish(dialogState: MutableState<Boolean>,
                     }
                 )
 
-                androidx.compose.material3.OutlinedTextField(
-                    value = fiber_g,
 
-                    onValueChange = {
-                        it.let {
-                            fiber_g = it
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    maxLines = 1,
-
-                    label = {
-                        androidx.compose.material3.Text(text = "Волокно")
-                    }
-                )
 
                 androidx.compose.material3.OutlinedTextField(
                     value = potassium_mg,
@@ -235,21 +253,7 @@ fun dialogAddDish(dialogState: MutableState<Boolean>,
                 )
 
 
-                androidx.compose.material3.OutlinedTextField(
-                    value = cholesterolMg,
 
-                    onValueChange = {
-                        it.let {
-                            cholesterolMg = it
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    maxLines = 1,
-
-                    label = {
-                        androidx.compose.material3.Text(text = "Холестерин")
-                    }
-                )
 
 
                 androidx.compose.material3.Button(onClick = {
