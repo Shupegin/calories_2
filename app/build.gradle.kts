@@ -15,8 +15,8 @@ android {
         applicationId = "cal.calor.caloriecounter"
         minSdk = 26
         targetSdk = 34
-        versionCode = 43
-        versionName = "2.40"
+        versionCode = 44
+        versionName = "2.41"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -132,7 +132,7 @@ dependencies {
 
 
     //noinspection MobileAdsSdkOutdatedVersion
-    implementation("com.yandex.android:mobileads:6.4.0")
+    implementation("com.yandex.android:mobileads:7.0.0")
 
     implementation("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
