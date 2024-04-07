@@ -546,10 +546,17 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun saving_the_names_of_dishes(name : String){
         userNameDishReference?.child(name)?.setValue(name)
+//        delete_item_dateBase(name)
     }
 
     fun databaseEntry (foodModelDish: FoodModelAdd) {
         databaseEntry?.child(foodModelDish.name.toString())?.setValue(foodModelDish)
+        delete_item_dateBase(foodModelDish.name.toString())
+    }
+
+    fun  delete_item_dateBase(name : String){
+        userNameDishReference?.child(name)?.removeValue()
+
     }
 
     private fun requestFoodApi(food :String, foodModel : FoodModel){

@@ -34,6 +34,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -65,9 +66,8 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class,
-    ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class
-)
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "FrequentlyChangedStateReadInComposition",
     "CoroutineCreationDuringComposition"
 )
@@ -257,7 +257,7 @@ fun HomeScreen(
             contentAlignment = Alignment.BottomCenter
 
         ){
-                if (false) {
+                if (true) {
                     Row {
                         FloatingActionButton(onClick = {
                             onItem.invoke()
