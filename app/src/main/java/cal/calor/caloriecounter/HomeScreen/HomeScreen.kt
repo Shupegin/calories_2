@@ -257,7 +257,7 @@ fun HomeScreen(
             contentAlignment = Alignment.BottomCenter
 
         ){
-                if (true) {
+                if (false) {
                     Row {
                         FloatingActionButton(onClick = {
                             onItem.invoke()

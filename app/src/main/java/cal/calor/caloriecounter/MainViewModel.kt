@@ -427,46 +427,33 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     @SuppressLint("NewApi", "SuspiciousIndentation")
     fun requestFood(foodModel: FoodModel) {
-
         foodModel.food?.let { food ->
-
             var calories = 0
             dataBaseFoods = firebaseDatabase?.getReference("foods/$food")
-            dataBaseFoods?.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val value = snapshot.getValue(FoodModelAdd::class.java)
+            dataBaseFoods?.get()?.addOnSuccessListener {snapshot ->
+                val value = snapshot.getValue(FoodModelAdd::class.java)
+                if (value.isNotNull()){
+                    calories = value?.calories ?: 0
+                    calories = (foodModel.gramm ?: 0) * calories / 100
+                    _calories.value = calories.toString()
+                    foodModel.calories = calories
+                    foodModel.proteinG = value?.proteinG
+                    foodModel.fatTotalG = value?.fatTotalG
+                    foodModel.fatSaturatedG = value?.fatSaturatedG
+                    foodModel.carbohydratesTotalG = value?.carbohydratesTotalG
+                    foodModel.cholesterolMg = value?.cholesterolMg
+                    foodModel.fiberG= value?.fiberG
+                    foodModel.potassiumMg = value?.potassiumMg
+                    foodModel.sodiumMg = value?.sodiumMg
+                    foodModel.sugarG = value?.sugarG
 
-
-                    if (value.isNotNull()){
-                        calories = value?.calories ?: 0
-                        calories = (foodModel.gramm ?: 0) * calories / 100
-                        _calories.value = calories.toString()
-                        foodModel.calories = calories
-                        foodModel.proteinG = value?.proteinG
-                        foodModel.fatTotalG = value?.fatTotalG
-                        foodModel.fatSaturatedG = value?.fatSaturatedG
-                        foodModel.carbohydratesTotalG = value?.carbohydratesTotalG
-                        foodModel.cholesterolMg = value?.cholesterolMg
-                        foodModel.fiberG= value?.fiberG
-                        foodModel.potassiumMg = value?.potassiumMg
-                        foodModel.sodiumMg = value?.sodiumMg
-                        foodModel.sugarG = value?.sugarG
-
-                        _status.value = false
-
-                        addInfoFoodBtn(foodModel)
-                    }else{
-                        saving_the_names_of_dishes(food.lowercase().trim())
-                        requestFoodApi(food, foodModel)
-                    }
-
+                    _status.value = false
+                    addInfoFoodBtn(foodModel)
+                }else{
+                    saving_the_names_of_dishes(food.lowercase().trim())
+                    requestFoodApi(food, foodModel)
                 }
-
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
-
-
+            }
         }
     }
 
