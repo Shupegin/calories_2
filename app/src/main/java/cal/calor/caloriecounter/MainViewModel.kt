@@ -430,8 +430,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         foodModel.food?.let { food ->
             var calories = 0
             dataBaseFoods = firebaseDatabase?.getReference("foods/$food")
-            dataBaseFoods?.get()?.addOnSuccessListener {snapshot ->
-                val value = snapshot.getValue(FoodModelAdd::class.java)
+            dataBaseFoods?.get()?.addOnCompleteListener {  task ->
+                val value = task.result.getValue(FoodModelAdd::class.java)
                 if (value.isNotNull()){
                     calories = value?.calories ?: 0
                     calories = (foodModel.gramm ?: 0) * calories / 100
