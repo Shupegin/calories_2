@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -56,6 +57,7 @@ import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
+import cal.calor.caloriecounter.uiElements.GlowingCard
 import com.example.caloriecounter.cardFood
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
@@ -245,17 +247,33 @@ fun HomeScreen(
                 }
             }
         }
+
+
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 70.dp),
             contentAlignment = Alignment.BottomCenter
 
         ){
-            FloatingActionButton(onClick = {
-                onItem.invoke()
-            }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = null)
-            }
+
+
+            GlowingCard(
+                glowingColor = Color.Green,
+                modifier = Modifier.size(55.dp),
+                cornersRadius = 30.dp,
+                content = {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                        Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                    }
+                }
+            )
+
+//
+//            FloatingActionButton(onClick = {
+//                onItem.invoke()
+//            }) {
+//                Icon(imageVector = Icons.Default.Add, contentDescription = null)
+//            }
         }
     }
 }
