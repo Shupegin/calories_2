@@ -75,12 +75,10 @@ import java.io.IOException
 fun HomeScreen(
     viewModel: MainViewModel,
     onItem: () -> Unit,
-    onItemAdd: () -> Unit,
     paddingValues: PaddingValues,
     owner: LifecycleOwner,
     context: Context
 ){
-    var ADVERTISER_ID = "c4708079-d26b-4f72-962f-bbe6381e0005"
     var calories by remember { mutableStateOf(0) }
 
     var isLoading  by remember { mutableStateOf( false) }
@@ -247,37 +245,17 @@ fun HomeScreen(
                 }
             }
         }
-
-
-
-
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 70.dp),
             contentAlignment = Alignment.BottomCenter
 
         ){
-                if (false) {
-                    Row {
-                        FloatingActionButton(onClick = {
-                            onItem.invoke()
-                        }) {
-                            Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                        }
-                        Spacer(modifier = Modifier.padding(start = 20.dp))
-                        FloatingActionButton(onClick = {
-                            onItemAdd.invoke()},
-                            backgroundColor = Color.Green) {
-                            Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                        }
-                    }
-                } else {
-                    FloatingActionButton(onClick = {
-                        onItem.invoke()
-                    }) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                    }
-                }
+            FloatingActionButton(onClick = {
+                onItem.invoke()
+            }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = null)
+            }
         }
     }
 }

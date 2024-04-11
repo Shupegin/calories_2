@@ -107,7 +107,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     init {
         authorizationRequest()
         getCurrentDate()
-//        auth = FirebaseAuth.getInstance()
         firebaseDatabase = FirebaseDatabase.getInstance()
         userReference = firebaseDatabase?.getReference("calories")
         userIdReference = firebaseDatabase?.getReference("Users")
@@ -136,7 +135,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             val response = ApiFactory
                 .getApiAuthorization()
                 .requestAuthorization(auth = auth)
-            //Log.d("TESTER","request token = ${response?.accessToken}")
 
             response?.enqueue(object : Callback<AuthorizationPassword?> {
                 override fun onResponse(
@@ -162,33 +160,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
     @SuppressLint("SuspiciousIndentation")
     fun loadSearchFood(foodModel : FoodModel) {
-        val nameFood : String = foodModel.food.toString()
         viewModelScope.launch(Dispatchers.IO) {
-//            val response = ApiFactory.getApi(token?: "").loadSearchFoods(search_expression = nameFood)
-//            val foodModelList = mapper.mapResponseToPosts(response)
-//            var calories = 0
-//            for (item in foodModelList){
-//                food_id = item.food_id
-//                try {
-//                    val desctription = item.calories
-//                    calories += desctription ?: 0
-//                } catch (_ : java.lang.Exception) { }
-//            }
-//            calories /= foodModelList.size
-//            foodModel.calories = calories
-
-//            foodModel.dataCurrent = getCurrentDate()
-
             listFood.clear()
             listFood.add(foodModel)
             db.foodsInfoDao().insertFoodList(foodModel)
-
-//            var currentData  = removePunctuations(foodModel.dataCurrent.toString())
-//            val data = formatData(currentData)
-//            auth?.addAuthStateListener{
-//                it.uid?.let { it1 -> userReference?.child(it1)?.child(data)?.
-//                child(foodModel.food.toString())?.setValue(foodModel) }
-//            }
         }
     }
 
@@ -209,10 +184,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun removeInFirebaseDatabase(foodModel: FoodModel){
         var data = removePunctuations(foodModel.dataCurrent.toString())
-//        auth?.addAuthStateListener{
-//
-//            it.uid?.let { it1 -> userReference?.child(it1)?.child(data)?.child(foodModel.food.toString())?.removeValue()}
-//        }
+
     }
 
 
@@ -286,9 +258,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     }
 
-
-
-
     fun loadFirebaseData(listUser : List<UserIDModel>){
         var userReference : DatabaseReference?
         val data = removePunctuations(getCurrentDate())
@@ -310,88 +279,12 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-
-
-
-    fun loadFirebaseFood(foodModel : FoodModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            var calories = 0
-            var category = foodModel.category
-            val userReference : DatabaseReference?
-            userReference = firebaseDatabase?.getReference("food")
-            userReference?.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for(dataSnapshot in snapshot.children){
-                        val _value = dataSnapshot.key
-                        if(_value?.contains(category.toString())!!){
-
-                            val userReference = firebaseDatabase?.getReference("food/${_value}")
-                            userReference?.addValueEventListener(object : ValueEventListener {
-                                override fun onDataChange(snapshot: DataSnapshot) {
-                                    var result = 0
-                                    for (dataSnapshot in snapshot.children) {
-                                        val value = dataSnapshot.getValue(FoodSearchFirebase::class.java)
-                                        if (value?.name?.equals(foodModel.food.toString())!!) {
-                                            calories = value?.calories ?: 0
-                                        }
-                                    }
-                                    if (calories != 0) {
-                                        result = (foodModel.gramm ?: 0) * calories / 100
-                                    }
-
-                                    _calories.value = result.toString()
-                                }
-
-                                override fun onCancelled(error: DatabaseError) {
-                                }
-                            })
-                        }
-
-                    }
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
-
-        }
-    }
-
-    private fun categoryFirebase(foodModel: FoodModel, onSuccess: ValueEventListener){
-
-        var category = foodModel.category
-        val userReference : DatabaseReference?
-        userReference = firebaseDatabase?.getReference("food")
-        userReference?.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(dataSnapshot in snapshot.children){
-                    val _value = dataSnapshot.key
-                    if(_value?.contains(category.toString())!!){
-                        result = _value
-
-                    }
-
-                }
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
-    }
-
     fun splitName(name: String): String {
         val names = name.trim().split(Regex("\\s+"))
         return names.firstOrNull().toString()
     }
 
-    fun textFilter(text: String) : Int{
-        val index = text.lastIndexOf("-")
-        val filteredText = text.substring(index + 2).substringBefore("|")
-        val filterText = filteredText.filter { it.isDigit() }
-        return filterText.toInt()
-    }
+
 
     fun addInfoFoodBtn(foodModel : FoodModel) {
         loadSearchFood(foodModel)
@@ -403,21 +296,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         return dateFormat.format(Date())
     }
 
-    fun databaseEntryUser(id : String){
-        userIdReference?.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(dataSnapshot in snapshot.children){
-                    val value = dataSnapshot.getValue(UserModelFireBase::class.java)
-                    if (value?.id.equals(id)){
-                        viewModelScope.launch {
-                            entryDatabase(id)
-                        }
-                    }
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {}
-        })
-    }
+
     suspend fun entryDatabase(id: String){
         val userid = UserIDModel(userId = id)
         val listUserId = ArrayList<UserIDModel>()
