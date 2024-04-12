@@ -57,6 +57,7 @@ import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
+import cal.calor.caloriecounter.uiElements.ClickableGlowingCard
 import cal.calor.caloriecounter.uiElements.GlowingCard
 import com.example.caloriecounter.cardFood
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
@@ -249,6 +250,8 @@ fun HomeScreen(
         }
 
 
+
+
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 70.dp),
@@ -256,26 +259,27 @@ fun HomeScreen(
 
         ){
 
+            AnimatedVisibility(visible = true
 
-            GlowingCard(
-                glowingColor = Color.Green,
-                modifier = Modifier.size(55.dp),
-                cornersRadius = 30.dp,
-                content = {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                        Icon(imageVector = Icons.Default.Add, contentDescription = null)
+
+            ) {
+
+                ClickableGlowingCard(
+                    glowingColor = Color.Green,
+                    modifier = Modifier.size(55.dp),
+                    onClick = {onItem.invoke()},
+                    cornersRadius = 30.dp,
+                    content = {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                            Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                        }
                     }
-                }
-            )
+                )
+            }
 
-//
-//            FloatingActionButton(onClick = {
-//                onItem.invoke()
-//            }) {
-//                Icon(imageVector = Icons.Default.Add, contentDescription = null)
-//            }
         }
     }
 }
+
 
 
