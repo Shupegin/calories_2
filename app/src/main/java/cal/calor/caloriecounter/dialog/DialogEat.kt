@@ -177,36 +177,36 @@ fun dialog(dialogState: MutableState<Boolean>,
 
 
 
-                        if(editeTextVisibility){
-                            OutlinedTextField(
-                                value = numberOfCalories,
-
-                                onValueChange = {it.let {
-                                    numberOfCalories = it
-                                } },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                maxLines = 1,
-                                trailingIcon = {
-                                    if (isLoading) {
-                                        CircularProgressIndicator(
-                                            color = Color.Green
-                                        )
-                                    }
-                                },
-                                label = {
-                                    Text(
-                                        text = "калории?",
-                                        fontFamily = sfproDisplayThinFontFamily,
-                                        color = Color.Black
-                                    )
-                                }, colors = TextFieldDefaults.outlinedTextFieldColors(
-                                    focusedBorderColor =  Сoral,
-                                    unfocusedBorderColor = Сoral,
-                                    cursorColor = Сoral
-
-                                )
-                            )
-                        }
+//                        if(editeTextVisibility){
+//                            OutlinedTextField(
+//                                value = numberOfCalories,
+//
+//                                onValueChange = {it.let {
+//                                    numberOfCalories = it
+//                                } },
+//                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+//                                maxLines = 1,
+//                                trailingIcon = {
+//                                    if (isLoading) {
+//                                        CircularProgressIndicator(
+//                                            color = Color.Green
+//                                        )
+//                                    }
+//                                },
+//                                label = {
+//                                    Text(
+//                                        text = "калории?",
+//                                        fontFamily = sfproDisplayThinFontFamily,
+//                                        color = Color.Black
+//                                    )
+//                                }, colors = TextFieldDefaults.outlinedTextFieldColors(
+//                                    focusedBorderColor =  Сoral,
+//                                    unfocusedBorderColor = Сoral,
+//                                    cursorColor = Сoral
+//
+//                                )
+//                            )
+//                        }
                         
                         Row() {
                             Button(onClick = { dialogState.value = false}) {

@@ -114,7 +114,6 @@ fun HomeScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundGray),
 
 
         ){
@@ -230,7 +229,7 @@ fun HomeScreen(
                                                 )
                                                 .background(color = Сoral)
                                                 .padding(5.dp),
-                                            text = "Cумма калорий = ${calories}",
+                                            text = "Cумма калорий = ${calories} ккал",
                                             textAlign = TextAlign.Right,
                                             fontFamily = sfproDisplayThinFontFamily
                                         )

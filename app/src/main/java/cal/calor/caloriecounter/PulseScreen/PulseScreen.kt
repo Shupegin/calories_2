@@ -77,8 +77,7 @@ fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: ()
 
 
     Box(modifier = Modifier
-        .fillMaxSize()
-        .background(BackgroundGray),
+        .fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ) {
         Column (modifier = Modifier

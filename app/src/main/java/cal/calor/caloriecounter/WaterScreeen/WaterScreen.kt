@@ -81,7 +81,6 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundGray)
     ) {
 
 

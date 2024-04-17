@@ -121,8 +121,7 @@ fun HistoryScreen(viewModel: MainViewModel,
     viewModel.sendSelectedOptionText("День", listFood = foodList.value)
 
     Box(modifier = Modifier
-        .fillMaxSize()
-        .background(BackgroundGray),
+        .fillMaxSize(),
 
         ){
 

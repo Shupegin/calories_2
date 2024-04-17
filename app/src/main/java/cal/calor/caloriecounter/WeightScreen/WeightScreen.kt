@@ -55,8 +55,7 @@ fun WeightScreen(viewModelWeight: WeightViewModel,
     datavalue = viewModelWeight.getCurrentDate()
 
     Box(modifier = Modifier
-        .fillMaxSize()
-        .background(BackgroundGray),
+        .fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ){
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
