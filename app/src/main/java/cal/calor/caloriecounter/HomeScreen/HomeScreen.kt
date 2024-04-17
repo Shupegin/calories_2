@@ -7,6 +7,11 @@ import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -58,7 +63,6 @@ import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
 import cal.calor.caloriecounter.uiElements.ClickableGlowingCard
-import cal.calor.caloriecounter.uiElements.GlowingCard
 import com.example.caloriecounter.cardFood
 import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
@@ -259,23 +263,20 @@ fun HomeScreen(
 
         ){
 
-            AnimatedVisibility(visible = true
-
-
-            ) {
-
                 ClickableGlowingCard(
-                    glowingColor = Color.Green,
-                    modifier = Modifier.size(55.dp),
+                    glowingColor = Сoral,
+                    modifier = Modifier.size(50.dp),
                     onClick = {onItem.invoke()},
                     cornersRadius = 30.dp,
+                    mainViewModel = viewModel,
+                    owner = owner,
                     content = {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
                             Icon(imageVector = Icons.Default.Add, contentDescription = null)
                         }
                     }
                 )
-            }
+
 
         }
     }

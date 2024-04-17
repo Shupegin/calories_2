@@ -36,6 +36,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Credentials
@@ -104,6 +105,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _management : MutableLiveData<Management> = MutableLiveData()
     val management : LiveData<Management> =  _management
 
+    private val _color : MutableLiveData<Boolean> = MutableLiveData()
+    val color : LiveData<Boolean> =  _color
+
     init {
         authorizationRequest()
         getCurrentDate()
@@ -119,6 +123,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
         foodListFilter.observeForever {
             updateFoodListView()
+        }
+
+        viewModelScope.launch{
+            returnColor()
         }
 
     }
@@ -493,6 +501,26 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                 }
             }
         }
+    }
+
+
+    suspend  fun returnColor(){
+        withContext(Dispatchers.Default){
+
+            var colorReturn = false
+            while (true){
+                if (!colorReturn){
+                    delay(1500)
+                    colorReturn = true
+                }else{
+                    delay(1500)
+                    colorReturn  = false
+                }
+                _color.postValue(colorReturn)
+            }
+
+        }
+
     }
 }
 
