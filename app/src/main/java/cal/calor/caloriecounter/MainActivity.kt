@@ -13,6 +13,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.NavigationBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -97,10 +99,13 @@ class MainActivity : ComponentActivity() {
 
             CalorieCounterTheme {
 
-                    StatusBarColor(BackgroundGray)
-                    val dialogUpdateAppState = remember {
+                StatusBarColor(BackgroundGray)
+                window.navigationBarColor = MaterialTheme.colors.background.toArgb()
+
+                val dialogUpdateAppState = remember {
                         mutableStateOf(false)
                     }
+
 
                     val status by connectivityObserver.observe().collectAsState(
                         initial = ConnectivityObserver.Status.Available

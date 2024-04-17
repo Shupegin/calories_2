@@ -131,7 +131,7 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                         contentAlignment = Alignment.Center
 
                     ) {
-                        Column(modifier = Modifier.background(BackgroundGray)) {
+                        Column(modifier = Modifier) {
                             Text(text = "Здесь пока ничего нет...",
                                 color = Color.White,
                                 fontFamily = sfproDisplayThinFontFamily
