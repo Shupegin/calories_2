@@ -506,7 +506,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
             for( i in task.result.children){
                 val value = i.getValue(FoodModelAdd::class.java)
-                list.add(FoodModelAdd(name = value?.name))
+                list.add(FoodModelAdd(
+                    name = value?.name,
+                    calories = value?.calories))
             }
             loadCount(list)
         }

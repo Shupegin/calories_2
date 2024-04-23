@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.Hyphens
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.LifecycleOwner
@@ -164,9 +166,9 @@ fun dialog(dialogState: MutableState<Boolean>,
                                     true
                                 }
 
-
                                 mainList = listForFilter.value?.filter { it1 ->
-                                    it1.name?.lowercase()?.startsWith(it.lowercase()) ?: false }
+                                    it1.name?.lowercase()?.startsWith(it.lowercase()) ?: false
+                                }
                             }},
                             maxLines = 1,
                             label = {
@@ -190,11 +192,29 @@ fun dialog(dialogState: MutableState<Boolean>,
 
                             ){
                                 mainList?.let {
-                                    items(it,){ it ->
-                                            it.name?.let { text -> Text(text = text, modifier = Modifier.clickable {
+                                    items(it) { it ->
+
+                                        Row(modifier = Modifier.clickable {
+                                            it.name?.let { text ->
                                                 userFood = text
                                                 openList = false
-                                            }) }
+                                            }
+                                        }) {
+                                            Spacer(modifier = Modifier.padding(start = 5.dp))
+
+                                            it.name?.let { text ->
+                                                Text(text = text, modifier = Modifier
+                                                    .width(240.dp))
+
+                                            }
+
+                                            Spacer(modifier = Modifier.weight(1f))
+                                            it.calories?.let { text ->
+                                                Text(text = text.toString())
+                                            }
+                                            Spacer(modifier = Modifier.padding(end = 5.dp))
+
+                                        }
                                     }
                                 }
                             }
