@@ -104,6 +104,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _management : MutableLiveData<Management> = MutableLiveData()
     val management : LiveData<Management> =  _management
 
+    private val _loadListForFilter : MutableLiveData<List<FoodModelAdd>> = MutableLiveData()
+    val loadListForFilter : LiveData<List<FoodModelAdd>> =  _loadListForFilter
+
     init {
         authorizationRequest()
         getCurrentDate()
@@ -113,7 +116,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         userNameDishReference = firebaseDatabase?.getReference("UsersFoodName")
         databaseEntry = firebaseDatabase?.getReference("foods")
 
-
+        loadListFoodForFilter()
         foodListDAO.observeForever {
             updateFoodListView()
         }
@@ -493,6 +496,24 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                 }
             }
         }
+    }
+    fun  loadListFoodForFilter(){
+        var loadFoodDatabase : DatabaseReference?
+        loadFoodDatabase = firebaseDatabase?.getReference("foods")
+        var list = ArrayList<FoodModelAdd>()
+
+        loadFoodDatabase?.get()?.addOnCompleteListener{ task ->
+
+            for( i in task.result.children){
+                val value = i.getValue(FoodModelAdd::class.java)
+                list.add(FoodModelAdd(name = value?.name))
+            }
+            loadCount(list)
+        }
+    }
+
+    fun loadCount(list : List<FoodModelAdd> ){
+        _loadListForFilter.value = list
     }
 }
 

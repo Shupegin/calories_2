@@ -8,16 +8,20 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -25,6 +29,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import cal.calor.caloriecounter.MainViewModel
 import cal.calor.caloriecounter.pojo.FoodModel
+import cal.calor.caloriecounter.pojo.FoodModelAdd
 import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
@@ -48,6 +53,19 @@ fun dialog(dialogState: MutableState<Boolean>,
     var editeTextVisibility  by remember { mutableStateOf( false) }
     var numberOfGrams by remember { mutableStateOf("") }
     var numberOfCalories by remember { mutableStateOf("") }
+    var openList by remember {
+        mutableStateOf(false)
+    }
+
+    val listForFilter  = viewModel.loadListForFilter.observeAsState(null)
+
+    var mainList by remember {
+        mutableStateOf(listForFilter.value)
+    }
+
+    var mainList_2 by remember {
+        mutableStateOf(listOf("asd"))
+    }
 
     var pickDate by remember {
         mutableStateOf(LocalDate.now())
@@ -85,7 +103,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                 ){
                     Column(
                         modifier = Modifier.padding(top = 20.dp, bottom = 20.dp,start = 20.dp,end =20.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(1.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
 
                     ) {
@@ -140,6 +158,15 @@ fun dialog(dialogState: MutableState<Boolean>,
                             value = userFood,
                             onValueChange = { it.let {
                                 userFood = it
+                                openList = if(it.isEmpty()){
+                                    false
+                                }else{
+                                    true
+                                }
+
+
+                                mainList = listForFilter.value?.filter { it1 ->
+                                    it1.name?.lowercase()?.startsWith(it.lowercase()) ?: false }
                             }},
                             maxLines = 1,
                             label = {
@@ -155,59 +182,47 @@ fun dialog(dialogState: MutableState<Boolean>,
                             )
                         )
 
-                        OutlinedTextField(
-                            value = numberOfGrams,
-                            onValueChange = { it.let {
-                                numberOfGrams  = it
-                            } },
-                            maxLines = 1,
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            label = {
-                                Text(
-                                    text = "количество грамм?",
-                                    fontFamily = sfproDisplayThinFontFamily,
-                                    color = Color.Black
+                        if (openList){
+
+                            LazyColumn(modifier = Modifier
+                                .fillMaxWidth()
+                                .height(150.dp)
+
+                            ){
+                                mainList?.let {
+                                    items(it,){ it ->
+                                            it.name?.let { text -> Text(text = text, modifier = Modifier.clickable {
+                                                userFood = text
+                                                openList = false
+                                            }) }
+                                    }
+                                }
+                            }
+                        }
+
+
+                            OutlinedTextField(
+                                value = numberOfGrams,
+                                onValueChange = { it.let {
+                                    numberOfGrams  = it
+                                } },
+                                maxLines = 1,
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                label = {
+                                    Text(
+                                        text = "количество грамм?",
+                                        fontFamily = sfproDisplayThinFontFamily,
+                                        color = Color.Black
+                                    )
+                                }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    focusedBorderColor =  Сoral,
+                                    unfocusedBorderColor = Сoral,
+                                    cursorColor = Сoral
                                 )
-                            }, colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor =  Сoral,
-                                unfocusedBorderColor = Сoral,
-                                cursorColor = Сoral
                             )
-                        )
 
 
 
-//                        if(editeTextVisibility){
-//                            OutlinedTextField(
-//                                value = numberOfCalories,
-//
-//                                onValueChange = {it.let {
-//                                    numberOfCalories = it
-//                                } },
-//                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-//                                maxLines = 1,
-//                                trailingIcon = {
-//                                    if (isLoading) {
-//                                        CircularProgressIndicator(
-//                                            color = Color.Green
-//                                        )
-//                                    }
-//                                },
-//                                label = {
-//                                    Text(
-//                                        text = "калории?",
-//                                        fontFamily = sfproDisplayThinFontFamily,
-//                                        color = Color.Black
-//                                    )
-//                                }, colors = TextFieldDefaults.outlinedTextFieldColors(
-//                                    focusedBorderColor =  Сoral,
-//                                    unfocusedBorderColor = Сoral,
-//                                    cursorColor = Сoral
-//
-//                                )
-//                            )
-//                        }
-                        
                         Row() {
                             Button(onClick = { dialogState.value = false}) {
                                 Text(text = "Закрыть ",
@@ -243,7 +258,6 @@ fun dialog(dialogState: MutableState<Boolean>,
 
                     }
                 }
-
-
         }
+
 }
