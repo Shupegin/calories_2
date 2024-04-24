@@ -11,4 +11,6 @@ data class Management(
     val advertisementKey3 : String? = null,
     val advertisementKey4 : String? = null,
     val advertisementKey5 : String? = null,
+    val openButtonAddFood : Boolean? = false,
+    val addingOriginalList : Boolean? = false,
 )

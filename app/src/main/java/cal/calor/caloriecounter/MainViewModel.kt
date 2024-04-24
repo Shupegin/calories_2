@@ -2,7 +2,6 @@ package cal.calor.caloriecounter
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.Context
 import android.graphics.Bitmap
 import android.preference.PreferenceManager
 import android.util.Log
@@ -20,24 +19,18 @@ import cal.calor.caloriecounter.pojo.AuthorizationPassword.AuthorizationPassword
 import cal.calor.caloriecounter.pojo.Food.ItemsFood
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.FoodModelAdd
-import cal.calor.caloriecounter.pojo.FoodSearchFirebase
 import cal.calor.caloriecounter.pojo.Management
 import cal.calor.caloriecounter.pojo.SearchFood.UserCaloriesFirebase
 import cal.calor.caloriecounter.pojo.UserIDModel
 import cal.calor.caloriecounter.pojo.UserModelFireBase
 import co.yml.charts.common.extensions.isNotNull
-import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.*
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.Credentials
 import retrofit2.Call
 import retrofit2.Callback
@@ -84,8 +77,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private var userReference : DatabaseReference? = null
     private var userIdReference : DatabaseReference? = null
     private var userNameDishReference : DatabaseReference? = null
-    private var databaseEntry : DatabaseReference? = null
+    private var databaseEntryFoodUserNew : DatabaseReference? = null
     private var dataBaseFoods : DatabaseReference? = null
+    private var databaseEntryFoods: DatabaseReference? = null
+
 
 //    private var auth:  FirebaseAuth? = null
 
@@ -107,6 +102,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _loadListForFilter : MutableLiveData<List<FoodModelAdd>> = MutableLiveData()
     val loadListForFilter : LiveData<List<FoodModelAdd>> =  _loadListForFilter
 
+
+
+
     init {
         authorizationRequest()
         getCurrentDate()
@@ -114,7 +112,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         userReference = firebaseDatabase?.getReference("calories")
         userIdReference = firebaseDatabase?.getReference("Users")
         userNameDishReference = firebaseDatabase?.getReference("UsersFoodName")
-        databaseEntry = firebaseDatabase?.getReference("foods")
+        databaseEntryFoodUserNew = firebaseDatabase?.getReference("FoodUserNew")
+        databaseEntryFoods = firebaseDatabase?.getReference("foods")
 
         loadListFoodForFilter()
         foodListDAO.observeForever {
@@ -415,18 +414,16 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun saving_the_names_of_dishes(name : String){
         userNameDishReference?.child(name)?.setValue(name)
-//        delete_item_dateBase(name)
     }
 
-    fun databaseEntry (foodModelDish: FoodModelAdd) {
-        databaseEntry?.child(foodModelDish.name.toString())?.setValue(foodModelDish)
-        delete_item_dateBase(foodModelDish.name.toString())
+    fun databaseEntryFoodsUserNew (foodModelDish: FoodModelAdd) {
+        databaseEntryFoodUserNew?.child(foodModelDish.name.toString())?.setValue(foodModelDish)
     }
 
-    fun  delete_item_dateBase(name : String){
-        userNameDishReference?.child(name)?.removeValue()
-
+    fun databaseEntryFoods (foodModelDish: FoodModelAdd) {
+        databaseEntryFoods?.child(foodModelDish.name.toString())?.setValue(foodModelDish)
     }
+
 
     private fun requestFoodApi(food :String, foodModel : FoodModel){
         translator(food) { text ->
@@ -517,6 +514,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun loadCount(list : List<FoodModelAdd> ){
         _loadListForFilter.value = list
     }
+
+
 }
 
 

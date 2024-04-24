@@ -39,6 +39,8 @@ val brightBlue = Color(0xFF027cf5)
 val red_brown_orange = Color(0xFFCD5700)
 val dartmouth_green = Color(0xFF00693E)
 val yellow_orange = Color(0xFFFFAE42)
+val brilliant_green = Color(0xFF47A76A)
+val spring_bud_green = Color(0xFFA7FC00)
 
 
 

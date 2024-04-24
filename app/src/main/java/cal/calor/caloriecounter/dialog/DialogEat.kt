@@ -2,6 +2,7 @@ package cal.calor.caloriecounter.dialog
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
@@ -32,9 +33,11 @@ import androidx.lifecycle.Observer
 import cal.calor.caloriecounter.MainViewModel
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.FoodModelAdd
+import cal.calor.caloriecounter.ui.theme.brilliant_green
 import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
+import co.yml.charts.common.extensions.isNotNull
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
@@ -46,7 +49,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun dialog(dialogState: MutableState<Boolean>,
            viewModel: MainViewModel,
-           owner: LifecycleOwner
+           owner: LifecycleOwner,
+           context: Context
 ){
     var userFood by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("") }
@@ -59,15 +63,27 @@ fun dialog(dialogState: MutableState<Boolean>,
         mutableStateOf(false)
     }
 
+
+
+    var openDialog   =  remember { mutableStateOf( false) }
+
+    if (openDialog.value){
+        dialogAdd(dialogState = openDialog, viewModel = viewModel, owner = owner, context = context)
+    }
+
     val listForFilter  = viewModel.loadListForFilter.observeAsState(null)
+
+
+    var openButton by remember {
+        mutableStateOf(false)
+    }
+
+
 
     var mainList by remember {
         mutableStateOf(listForFilter.value)
     }
 
-    var mainList_2 by remember {
-        mutableStateOf(listOf("asd"))
-    }
 
     var pickDate by remember {
         mutableStateOf(LocalDate.now())
@@ -77,6 +93,10 @@ fun dialog(dialogState: MutableState<Boolean>,
             DateTimeFormatter.ofPattern("dd.MM.yyyy").format(pickDate)
         }
     }
+
+
+    viewModel.management()
+    val management =  viewModel.management.observeAsState()
 
     val dateDialogState  = rememberMaterialDialogState()
 
@@ -191,6 +211,14 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 .height(150.dp)
 
                             ){
+
+
+                                if(mainList.orEmpty().isEmpty()){
+                                    openButton = true
+                                }else{
+                                    openButton = false
+                                    openList
+                                }
                                 mainList?.let {
                                     items(it) { it ->
 
@@ -218,6 +246,18 @@ fun dialog(dialogState: MutableState<Boolean>,
                                     }
                                 }
                             }
+
+                           if (management.value?.openButtonAddFood == true){
+                               if (openButton) {
+                                   Button(onClick = { openDialog.value = true},
+                                       ) {
+                                       Text(text = "Добавьте позицию в базу")
+                                   }
+                               }
+                           }
+
+
+
                         }
 
 

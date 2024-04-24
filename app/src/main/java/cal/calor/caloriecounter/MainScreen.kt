@@ -99,7 +99,7 @@ fun MainScreen(
         waterDialog(waterDialogState = waterDialogState, viewModel = waterViewModel, owner )
     }
     if (dialogState.value){
-       dialog(dialogState = dialogState, viewModel = mainViewModel, owner )
+       dialog(dialogState = dialogState, viewModel = mainViewModel, owner = owner, context = context )
     }
     val advertisement =  mainViewModel.management.observeAsState()
 
