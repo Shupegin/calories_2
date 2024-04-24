@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.LifecycleOwner
@@ -38,6 +40,7 @@ import androidx.lifecycle.Observer
 import cal.calor.caloriecounter.MainViewModel
 import cal.calor.caloriecounter.pojo.FoodModelAdd
 import cal.calor.caloriecounter.ui.theme.brilliant_green
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.spring_bud_green
 import cal.calor.caloriecounter.ui.theme.white
 import cal.calor.caloriecounter.ui.theme.Сoral
@@ -95,10 +98,14 @@ fun dialogAdd(dialogState: MutableState<Boolean>,
             border = BorderStroke(1.dp, color = brilliant_green),
         ){
             Column(
-                Modifier.fillMaxWidth(),
+                Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 20.dp,start = 20.dp,end =20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
 
             ) {
+
+                Text(text = "Добавление блюд в базу:", textAlign = TextAlign.Center,
+                    fontFamily = sf_ui_display_semiboldFontFamily
+                )
                 OutlinedTextField(
                     value = name,
 
