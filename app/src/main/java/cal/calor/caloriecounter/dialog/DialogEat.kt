@@ -193,7 +193,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                             maxLines = 1,
                             label = {
                                 Text(
-                                    text = "что ел?",
+                                    text = "что ел(а)?",
                                     fontFamily = sfproDisplayThinFontFamily,
                                     color = Color.Black
                                 )
