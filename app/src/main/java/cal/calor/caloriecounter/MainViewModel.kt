@@ -102,6 +102,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _loadListForFilter : MutableLiveData<List<FoodModelAdd>> = MutableLiveData()
     val loadListForFilter : LiveData<List<FoodModelAdd>> =  _loadListForFilter
 
+    private val _count : MutableLiveData<Int> = MutableLiveData()
+    val count : MutableLiveData<Int> =  _count
+
 
 
 
@@ -116,6 +119,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         databaseEntryFoods = firebaseDatabase?.getReference("foods")
 
         loadListFoodForFilter()
+        loadCount()
         foodListDAO.observeForever {
             updateFoodListView()
         }
@@ -507,14 +511,52 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                     name = value?.name,
                     calories = value?.calories))
             }
-            loadCount(list)
+            _loadListForFilter.value = list
+
         }
     }
 
-    fun loadCount(list : List<FoodModelAdd> ){
-        _loadListForFilter.value = list
-    }
 
+
+//    fun  loadCount(){
+//        var loadFoodDatabase : DatabaseReference?
+//        loadFoodDatabase = firebaseDatabase?.getReference("foods")
+//        var list = ArrayList<FoodModelAdd>()
+//
+//        loadFoodDatabase?.get()?.addOnCompleteListener{ task ->
+//
+//            for( i in task.result.children){
+//                val value = i.getValue(FoodModelAdd::class.java)
+//                list.add(FoodModelAdd(name = value?.name))
+//
+//            }
+//            _count.value = list.size
+//        }
+//
+//    }
+
+    fun  loadCount(){
+        var loadFoodDatabase : DatabaseReference?
+        loadFoodDatabase = firebaseDatabase?.getReference("foods")
+        var list = ArrayList<FoodModelAdd>()
+
+        loadFoodDatabase?.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                list.clear()
+                for( i in snapshot.children){
+                    val value = i.getValue(FoodModelAdd::class.java)
+                    list.add(FoodModelAdd(name = value?.name))
+
+                }
+                _count.value = list.size
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
+    }
 
 }
 

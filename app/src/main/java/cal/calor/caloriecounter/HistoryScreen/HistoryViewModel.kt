@@ -10,6 +10,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -18,9 +19,11 @@ import cal.calor.caloriecounter.database.AppDatabase
 import cal.calor.caloriecounter.database.WaterDataBase_2
 import cal.calor.caloriecounter.database.WeightDataBase
 import cal.calor.caloriecounter.pojo.FoodModel
+import cal.calor.caloriecounter.pojo.FoodModelAdd
 import cal.calor.caloriecounter.pojo.WaterModel_2
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
 import co.yml.charts.common.model.Point
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
@@ -50,6 +53,8 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
 
     var _listKey : MutableLiveData<ArrayList<String>> = MutableLiveData()
     var result2 : HashMap<String, Long> = HashMap()
+
+
 
 
 
@@ -229,5 +234,4 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
         val clip = ClipData.newPlainText("card", "2200700162545817")
         clipboard?.setPrimaryClip(clip)
     }
-
 }

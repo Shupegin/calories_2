@@ -2,6 +2,7 @@ package cal.calor.caloriecounter.HistoryScreen
 
 import android.content.Context
 import android.util.Log
+import android.widget.ProgressBar
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
@@ -42,8 +44,10 @@ import cal.calor.caloriecounter.ui.theme.brightBlue
 import cal.calor.caloriecounter.ui.theme.orange
 import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
+import cal.calor.caloriecounter.ui.theme.white_green
 import cal.calor.caloriecounter.ui.theme.СolorWater
 import cal.calor.caloriecounter.ui.theme.Сoral
+import co.yml.charts.common.extensions.isNotNull
 
 import co.yml.charts.common.model.Point
 
@@ -115,10 +119,17 @@ fun HistoryScreen(viewModel: MainViewModel,
     var carbohydratesTotalG by remember {
         mutableStateOf(viewModel.returnSum(foodList.value,"углеводы"))
     }
+    var isLoading  by remember { mutableStateOf( true) }
 
 
 
     viewModel.sendSelectedOptionText("День", listFood = foodList.value)
+
+
+   val count = viewModel.count.observeAsState(null)
+    if (count.value != null){
+        isLoading = false
+    }
 
     Box(modifier = Modifier
         .fillMaxSize(),
@@ -133,6 +144,38 @@ fun HistoryScreen(viewModel: MainViewModel,
            item {
                Spacer(modifier = Modifier.padding(top = 10.dp))
 
+               Row (modifier = Modifier.fillMaxWidth(),
+                   horizontalArrangement = Arrangement.Center
+               ) {
+                   Text(
+                       text = "Позиций в базе = ",
+                       modifier = Modifier,
+                       color = Color.White,
+                       fontSize = 25.sp,
+                       fontFamily = sf_ui_display_semiboldFontFamily
+                   )
+
+                   if (isLoading){
+                       CircularProgressIndicator(
+                           color = Color.White,
+                           modifier = Modifier.size(25.dp)
+                       )
+                   }
+
+                   if (count.value != null){
+                       Text(
+                           text = "${count.value}",
+                           modifier = Modifier,
+                           color = Color.White,
+                           fontSize = 25.sp,
+                           fontFamily = sf_ui_display_semiboldFontFamily
+                       )
+                   }
+
+               }
+
+
+               Spacer(modifier = Modifier.padding(top = 10.dp))
 
                Row (modifier = Modifier.fillMaxWidth()){
 
