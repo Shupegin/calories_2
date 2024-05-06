@@ -227,7 +227,7 @@ fun dialog(dialogState: MutableState<Boolean>,
                                                 userFood = text
                                                 openList = false
                                             }
-                                        }) {
+                                        }.padding(2.dp)) {
                                             Spacer(modifier = Modifier.padding(start = 5.dp))
 
                                             it.name?.let { text ->
