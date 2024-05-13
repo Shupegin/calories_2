@@ -4,6 +4,7 @@ plugins {
     id ("kotlin-kapt")
     id ("com.google.gms.google-services")
     id ("dagger.hilt.android.plugin")
+    id("com.google.firebase.crashlytics")
 }
 
 
@@ -82,6 +83,7 @@ dependencies {
     implementation("com.google.mlkit:translate:17.0.1")
     implementation("com.google.firebase:firebase-analytics:21.0.0")
     implementation("androidx.compose.material3:material3-android:1.2.0")
+    implementation("com.google.firebase:firebase-crashlytics:19.0.0")
 
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
