@@ -55,6 +55,7 @@ import co.yml.charts.common.model.Point
 @Composable
 fun HistoryScreen(viewModel: MainViewModel,
                   onItem: () -> Unit,
+                  onItemClick: () -> Unit,
                   waterViewModel: WaterViewModel,
                   historyViewModel: HistoryViewModel,
                   paddingValues: PaddingValues,
@@ -144,35 +145,47 @@ fun HistoryScreen(viewModel: MainViewModel,
            item {
                Spacer(modifier = Modifier.padding(top = 10.dp))
 
+
                Row (modifier = Modifier.fillMaxWidth(),
-                   horizontalArrangement = Arrangement.Center
-               ) {
-                   Text(
-                       text = "Позиций в базе = ",
-                       modifier = Modifier,
-                       color = Color.White,
-                       fontSize = 25.sp,
-                       fontFamily = sf_ui_display_semiboldFontFamily
-                   )
+                   horizontalArrangement = Arrangement.Center){
+                   Spacer(modifier = Modifier.padding(start = 10.dp))
+                   Image(
+                       painterResource(R.drawable.icon_menu),
+                       contentDescription = "",modifier= Modifier
+                           .size(25.dp)
+                           .clickable { onItemClick.invoke() },)
 
-                   if (isLoading){
-                       CircularProgressIndicator(
-                           color = Color.White,
-                           modifier = Modifier.size(25.dp)
-                       )
-                   }
-
-                   if (count.value != null){
+                   Row (modifier = Modifier.weight(1.1f),
+                       horizontalArrangement = Arrangement.Center
+                   ) {
                        Text(
-                           text = "${count.value}",
+                           text = "Позиций в базе = ",
                            modifier = Modifier,
                            color = Color.White,
                            fontSize = 25.sp,
                            fontFamily = sf_ui_display_semiboldFontFamily
                        )
-                   }
 
+                       if (isLoading){
+                           CircularProgressIndicator(
+                               color = Color.White,
+                               modifier = Modifier.size(25.dp)
+                           )
+                       }
+
+                       if (count.value != null){
+                           Text(
+                               text = "${count.value}",
+                               modifier = Modifier,
+                               color = Color.White,
+                               fontSize = 25.sp,
+                               fontFamily = sf_ui_display_semiboldFontFamily
+                           )
+                       }
+
+                   }
                }
+
 
 
                Spacer(modifier = Modifier.padding(top = 10.dp))
@@ -207,7 +220,7 @@ fun HistoryScreen(viewModel: MainViewModel,
 
 
                Row {
-                   VerticalProgressBar(viewModel = viewModel, owner = owner)
+                   VerticalProgressBar(viewModel = viewModel,viewModelHistory = historyViewModel,owner = owner, context= context)
                    VerticalProgressBarWater(viewModel = waterViewModel, owner = owner)
                }
 

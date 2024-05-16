@@ -12,7 +12,9 @@
     <uses-permission android:name="com.huawei.systemmanager.permission.ACCESS_INTERFACE"/>
 
     <uses-feature android:name="android.hardware.camera" />
-
+    <meta-data
+        android:name="firebase_crashlytics_collection_enabled"
+        android:value="${crashlyticsCollectionEnabled}" />
     <application
         android:name=".banner.App"
         android:allowBackup="false"

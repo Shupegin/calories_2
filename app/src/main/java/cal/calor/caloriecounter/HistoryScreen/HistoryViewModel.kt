@@ -2,16 +2,14 @@ package cal.calor.caloriecounter.HistoryScreen
 
 //import com.google.firebase.auth.FirebaseAuth
 
-import android.R.attr.label
-import android.R.attr.text
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.graphics.Bitmap
-import android.util.Log
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,11 +17,10 @@ import cal.calor.caloriecounter.database.AppDatabase
 import cal.calor.caloriecounter.database.WaterDataBase_2
 import cal.calor.caloriecounter.database.WeightDataBase
 import cal.calor.caloriecounter.pojo.FoodModel
-import cal.calor.caloriecounter.pojo.FoodModelAdd
 import cal.calor.caloriecounter.pojo.WaterModel_2
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
 import co.yml.charts.common.model.Point
-import com.google.firebase.database.DatabaseReference
+import com.exyte.animatednavbar.animation.indendshape.Height
 import com.google.firebase.database.FirebaseDatabase
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
@@ -35,6 +32,8 @@ import java.util.Date
 class HistoryViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDatabase.getInstance(application)
     val foodListDAO = db.foodsInfoDao().getFoodsList()
+    private val context = getApplication<Application>().applicationContext
+
 
     private val dbWater = WaterDataBase_2.getInstance(application)
     val waterListDAO = dbWater.waterInfoDao_2().getWaterList()
@@ -54,6 +53,8 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     var _listKey : MutableLiveData<ArrayList<String>> = MutableLiveData()
     var result2 : HashMap<String, Long> = HashMap()
 
+    private var _сaloriesDay : MutableLiveData<String> = MutableLiveData()
+    var caloriesDay : LiveData<String> = _сaloriesDay
 
 
 
@@ -233,5 +234,29 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
         val clip = ClipData.newPlainText("card", "2200700162545817")
         clipboard?.setPrimaryClip(clip)
+    }
+
+    fun saveSharedPreference(man: Boolean, woman : Boolean,
+                             age : String, height: String,
+                             weight : String, activity : String,
+                             calories : String, bodyMassIndex : String){
+
+        val SharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = SharedPreferences.edit()
+        editor.putBoolean("man", man)
+        editor.putBoolean("woman", woman)
+        editor.putString("age", age)
+        editor.putString("height", height)
+        editor.putString("weight", weight)
+        editor.putString("activity", activity)
+        editor.putString("calories", calories)
+        editor.putString("bodyMassIndex", bodyMassIndex)
+
+
+        editor.apply()
+    }
+
+    fun caloriesDay(calories : String){
+          _сaloriesDay.value = calories
     }
 }

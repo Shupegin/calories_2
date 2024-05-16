@@ -33,10 +33,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.TextViewCompat.AutoSizeTextType
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import cal.calor.caloriecounter.HistoryScreen.HistoryScreen
 import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
+import cal.calor.caloriecounter.InfoScreen.InfoScreen
 import cal.calor.caloriecounter.PulseScreen.PulseScreen
 import cal.calor.caloriecounter.PulseScreen.PulseViewModel
 import cal.calor.caloriecounter.WeightScreen.WeightScreen
@@ -83,6 +85,13 @@ fun MainScreen(
 
     val dialogInfoState = remember {
         mutableStateOf(false)
+    }
+
+    val infoScreen = remember {
+        mutableStateOf(false)
+    }
+    if (infoScreen.value){
+       InfoScreen(infoScreenState = infoScreen, viewModel= historyViewModel,context)
     }
 
     if (pulseDialogState.value){
@@ -149,7 +158,7 @@ fun MainScreen(
                     waterScreenContent = { WaterScreen(onItem = {waterDialogState.value = true}, viewModel = waterViewModel)},
                     weightScreenContent = { WeightScreen(viewModelWeight = viewModelWeight, paddingValues = paddingValues,owner,context, navController)},
                     pulseScreenContent = { PulseScreen(pulseViewModel = pulseViewModel, owner = owner, onItem = {pulseDialogState.value = true})},
-                    historyScreenContent = { HistoryScreen(onItem = { dialogInfoState.value = true}, viewModel = mainViewModel, historyViewModel = historyViewModel, waterViewModel = waterViewModel, paddingValues = paddingValues, owner = owner, context =  context)}
+                    historyScreenContent = { HistoryScreen(onItem = { dialogInfoState.value = true}, onItemClick = {infoScreen.value = true}, viewModel = mainViewModel, historyViewModel = historyViewModel, waterViewModel = waterViewModel, paddingValues = paddingValues, owner = owner, context =  context)}
                 )
             }
 

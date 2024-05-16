@@ -42,6 +42,8 @@ val yellow_orange = Color(0xFFFFAE42)
 val brilliant_green = Color(0xFF47A76A)
 val spring_bud_green = Color(0xFFA7FC00)
 val white_green = Color(0xFFB7D9B1)
+val rust_brown = Color(0xFFB7410E)
+val tickle_me = Color(0xFFFC89AC)
 
 
 
