@@ -2,13 +2,15 @@ package cal.calor.caloriecounter.database
 
 import android.content.Context
 import androidx.compose.ui.Modifier
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import cal.calor.caloriecounter.pojo.UserIDModel
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
 
-@Database(entities = [WeightPogo::class], version = 1, exportSchema = false)
+@Database(entities = [WeightPogo::class], version = 2, exportSchema = true,
+    autoMigrations = [AutoMigration(from = 1 ,2 )])
 
 abstract class WeightDataBase : RoomDatabase() {
     companion object{
