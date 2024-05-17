@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 import cal.calor.caloriecounter.pojo.UserIDModel
 import cal.calor.caloriecounter.pojo.weight.WeightPogo
 
-@Database(entities = [WeightPogo::class], version = 1, exportSchema = false)
+@Database(entities = [WeightPogo::class], version = 1, exportSchema = true)
 
 abstract class WeightDataBase : RoomDatabase() {
     companion object{
