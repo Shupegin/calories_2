@@ -105,6 +105,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _count : MutableLiveData<Int> = MutableLiveData()
     val count : MutableLiveData<Int> =  _count
 
+    private val _nameDish : MutableLiveData<String> = MutableLiveData()
+    val nameDish : MutableLiveData<String> =  _nameDish
+
 
 
 
@@ -556,6 +559,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             }
         })
 
+    }
+
+    fun nameDish(nameDish: String){
+        _nameDish.value = nameDish
     }
 
 }

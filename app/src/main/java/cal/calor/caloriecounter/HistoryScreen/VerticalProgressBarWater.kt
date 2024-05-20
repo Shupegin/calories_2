@@ -50,69 +50,68 @@ fun VerticalProgressBarWater(viewModel: WaterViewModel,
                     easing = LinearOutSlowInEasing), label = ""
             )
 
-            Column(
-                modifier = Modifier
-                    .padding(top = 10.dp, start = 30.dp, end = 30.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-
-
-            ) {
-
-                Row(
-                    modifier = Modifier
-                        .height(150.dp)
+            Column() {
+                Text(" 2500", color = Color.White)
+                Column(
+                    verticalArrangement = Arrangement.Center,
                 ) {
-                    Box(
+                    Row(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .width(40.dp)
-                            .clip(RoundedCornerShape(9.dp))
-                            .background(Gray500),
-                        contentAlignment = Alignment.BottomEnd
+                            .height(150.dp),
                     ) {
-
 
                         Box(
                             modifier = Modifier
+                                .fillMaxHeight()
                                 .width(40.dp)
-                                .fillMaxHeight(size)
                                 .clip(RoundedCornerShape(9.dp))
-                                .background(
-                                    Brush.verticalGradient(
-                                        listOf(
-                                            Color(0xff6dd5ed),
-                                            Color(0xff2193b0)
+                                .background(Gray500),
+                            contentAlignment = Alignment.BottomEnd
+                        ) {
 
+
+                            Box(
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .fillMaxHeight(size)
+                                    .clip(RoundedCornerShape(9.dp))
+                                    .background(
+                                        Brush.verticalGradient(
+                                            listOf(
+                                                Color(0xff6dd5ed),
+                                                Color(0xff2193b0)
+
+                                            )
                                         )
                                     )
-                                )
-                                .animateContentSize(),
-                            contentAlignment = Alignment.TopCenter
+                                    .animateContentSize(),
+                                contentAlignment = Alignment.TopCenter
 
 
-                        ) {}
-                    }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(start = 3.dp, bottom = 16.dp),
-                        contentAlignment = Alignment.BottomEnd
-
-                    ) {
-                        Text(
+                            ) {}
+                        }
+                        Box(
                             modifier = Modifier
-                                .fillMaxHeight(size)
+                                .fillMaxHeight()
+                                .padding(start = 3.dp, bottom = 16.dp),
+                            contentAlignment = Alignment.BottomEnd
 
-                            // .padding(horizontal = 20.dp)
-                            //.fillMaxWidth()
-                            ,
-                            text = "${listUsers.value}",
-                            color = Color.White
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxHeight(size)
 
-                        )
+                                // .padding(horizontal = 20.dp)
+                                //.fillMaxWidth()
+                                ,
+                                text = "${listUsers.value}",
+                                color = Color.White
+
+                            )
+                        }
                     }
                 }
             }
+
 
 }

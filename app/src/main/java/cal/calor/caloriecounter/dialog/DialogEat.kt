@@ -249,7 +249,10 @@ fun dialog(dialogState: MutableState<Boolean>,
 
                            if (management.value?.openButtonAddFood == true){
                                if (openButton) {
-                                   Button(onClick = { openDialog.value = true},
+                                   Button(onClick = {
+
+                                       viewModel.nameDish(userFood)
+                                       openDialog.value = true },
                                        ) {
                                        Text(text = "Добавьте позицию в базу")
                                    }

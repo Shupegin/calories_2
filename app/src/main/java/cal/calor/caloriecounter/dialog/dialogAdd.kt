@@ -78,6 +78,9 @@ fun dialogAdd(dialogState: MutableState<Boolean>,
 //    }
 
 
+    viewModel.nameDish.observe(owner, Observer{
+        name = it
+    })
 
     viewModel.management()
     val management =  viewModel.management.observeAsState()

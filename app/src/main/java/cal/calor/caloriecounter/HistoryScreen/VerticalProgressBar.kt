@@ -76,136 +76,75 @@ fun VerticalProgressBar(viewModel: MainViewModel,
                     delayMillis = 100,
                     easing = LinearOutSlowInEasing), label = ""
             )
-
+            
+            
+            
             Column(
-                modifier = Modifier
-                    .padding(top = 10.dp, start = 30.dp, end = 30.dp),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-
-
-            ) {
-
-
-                Row(
-                    modifier = Modifier
-                        .height(150.dp)
+               ) {
+                Text(text = " $caloriesDay", color = Color.White)
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Box(
+
+
+                    Row(
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .width(40.dp)
-                            .clip(RoundedCornerShape(9.dp))
-                            .background(Gray500),
-                        contentAlignment = Alignment.BottomEnd
+                            .height(150.dp)
                     ) {
-
-
                         Box(
                             modifier = Modifier
+                                .fillMaxHeight()
                                 .width(40.dp)
-                                .fillMaxHeight(size)
                                 .clip(RoundedCornerShape(9.dp))
-                                .background(
-                                    Brush.verticalGradient(
-                                        listOf(
-                                            Color(0xffF7B42C),
-                                            Color(0xffFC575E),
+                                .background(Gray500),
+                            contentAlignment = Alignment.BottomEnd
+                        ) {
+
+
+                            Box(
+                                modifier = Modifier
+                                    .width(40.dp)
+                                    .fillMaxHeight(size)
+                                    .clip(RoundedCornerShape(9.dp))
+                                    .background(
+                                        Brush.verticalGradient(
+                                            listOf(
+                                                Color(0xffF7B42C),
+                                                Color(0xffFC575E),
+                                            )
                                         )
                                     )
-                                )
-                                .animateContentSize(),
-                            contentAlignment = Alignment.TopCenter
+                                    .animateContentSize(),
+                                contentAlignment = Alignment.TopCenter
 
 
-                        ) {}
-                    }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(start = 3.dp, bottom = 16.dp),
-                        contentAlignment = Alignment.BottomEnd
-
-                    ) {
-                        Text(
+                            ) {}
+                        }
+                        Box(
                             modifier = Modifier
-                                .fillMaxHeight(size)
+                                .fillMaxHeight()
+                                .padding(start = 3.dp, bottom = 16.dp),
+                            contentAlignment = Alignment.BottomEnd
 
-                            // .padding(horizontal = 20.dp)
-                            //.fillMaxWidth()
-                            ,
-                            text = "${it.dailyCalories}",
-                            color = Color.White
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxHeight(size)
 
-                        )
+                                // .padding(horizontal = 20.dp)
+                                //.fillMaxWidth()
+                                ,
+                                text = "${it.dailyCalories}",
+                                color = Color.White
+
+                            )
+                        }
                     }
-                }
+                } 
             }
 
-//            Column(
-//                modifier = Modifier
-//                    .padding(top = 10.dp, start = 30.dp, end = 30.dp),
-//                verticalArrangement = Arrangement.Center,
-//                horizontalAlignment = Alignment.CenterHorizontally
-//
-//
-//            ) {
-//
-//                Row(
-//                    modifier = Modifier
-//                        .height(150.dp)
-//                ) {
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxHeight()
-//                            .width(40.dp)
-//                            .clip(RoundedCornerShape(9.dp))
-//                            .background(Gray500),
-//                        contentAlignment = Alignment.BottomEnd
-//                    ) {
-//
-//
-//                        Box(
-//                            modifier = Modifier
-//                                .width(40.dp)
-//                                .fillMaxHeight(size)
-//                                .clip(RoundedCornerShape(9.dp))
-//                                .background(
-//                                    Brush.verticalGradient(
-//                                        listOf(
-//                                            Color(0xff6dd5ed),
-//                                            Color(0xff2193b0)
-//
-//                                        )
-//                                    )
-//                                )
-//                                .animateContentSize(),
-//                            contentAlignment = Alignment.TopCenter
-//
-//
-//                        ) {}
-//                    }
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxHeight()
-//                            .padding(start = 3.dp, bottom = 16.dp),
-//                        contentAlignment = Alignment.BottomEnd
-//
-//                    ) {
-//                        Text(
-//                            modifier = Modifier
-//                                .fillMaxHeight(size)
-//
-//                            // .padding(horizontal = 20.dp)
-//                            //.fillMaxWidth()
-//                            ,
-//                            text = "${it.dailyCalories}",
-//                            color = Color.White
-//
-//                        )
-//                    }
-//                }
-//            }
         }
 
     }
