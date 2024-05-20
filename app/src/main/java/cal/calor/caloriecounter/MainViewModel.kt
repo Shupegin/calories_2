@@ -2,6 +2,7 @@ package cal.calor.caloriecounter
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import android.graphics.Bitmap
 import android.preference.PreferenceManager
 import android.util.Log
@@ -563,6 +564,15 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun nameDish(nameDish: String){
         _nameDish.value = nameDish
+    }
+
+
+    fun saveSharedPreference(massage: Boolean){
+
+        val SharedPreferences = context.getSharedPreferences("error", Context.MODE_PRIVATE)
+        val editor = SharedPreferences.edit()
+        editor.putBoolean("massage", massage)
+        editor.apply()
     }
 
 }

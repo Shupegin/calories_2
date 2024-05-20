@@ -1,5 +1,7 @@
 package cal.calor.caloriecounter.dialog
 
+import androidx.compose.material3.OutlinedTextField
+
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,12 +19,15 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.Hyphens
 import androidx.compose.ui.text.style.LineBreak
@@ -31,6 +36,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import cal.calor.caloriecounter.MainViewModel
+import cal.calor.caloriecounter.R
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.FoodModelAdd
 import cal.calor.caloriecounter.ui.theme.brilliant_green
@@ -45,6 +51,8 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun dialog(dialogState: MutableState<Boolean>,
@@ -63,6 +71,10 @@ fun dialog(dialogState: MutableState<Boolean>,
         mutableStateOf(false)
     }
 
+    val SharedPreferences = context.getSharedPreferences("error", Context.MODE_PRIVATE)
+    val errorMessage = SharedPreferences.getBoolean("massage", true)
+
+
 
 
     var openDialog   =  remember { mutableStateOf( false) }
@@ -77,8 +89,11 @@ fun dialog(dialogState: MutableState<Boolean>,
     var openButton by remember {
         mutableStateOf(false)
     }
+    var openMessage by remember {
+        mutableStateOf(false)
+    }
 
-
+    openMessage = openButton
 
     var mainList by remember {
         mutableStateOf(listForFilter.value)
@@ -176,33 +191,65 @@ fun dialog(dialogState: MutableState<Boolean>,
                             }
                         }
 
+
                         OutlinedTextField(
                             value = userFood,
-                            onValueChange = { it.let {
-                                userFood = it
-                                openList = if(it.isEmpty()){
-                                    false
-                                }else{
-                                    true
-                                }
 
-                                mainList = listForFilter.value?.filter { it1 ->
-                                    it1.name?.lowercase()?.startsWith(it.lowercase()) ?: false
-                                }
+                            onValueChange = {
+                                it.let {
+                                    userFood = it
+                                    openList = if(it.isEmpty()){
+                                        false
+                                    }else{
+                                        true
+                                    }
+                                    mainList = listForFilter.value?.filter { it1 ->
+                                        it1.name?.lowercase()?.startsWith(it.lowercase()) ?: false
+                                    }
                             }},
-                            maxLines = 1,
+                            maxLines = 2,
+
                             label = {
                                 Text(
                                     text = "Введите название",
                                     fontFamily = sfproDisplayThinFontFamily,
                                     color = Color.Black
                                 )
-                            }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                            },
+
+                            trailingIcon = {
+                                if(openButton){
+                                    Icon(painter = painterResource(id = R.drawable.send),
+                                        contentDescription = "", modifier = Modifier.clickable {
+                                            viewModel.saveSharedPreference(false)
+                                            openMessage = false
+                                            viewModel.saving_the_names_of_dishes(userFood.lowercase().trim())
+                                            Toast.makeText(context, "Ваша позиция добавлена на добавление",Toast.LENGTH_SHORT).show()
+                                        } )
+                                }
+                            },
+                            colors = androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor =  Сoral,
                                 unfocusedBorderColor = Сoral,
                                 cursorColor = Сoral
-                            )
+                            ),
+
                         )
+                        if (openMessage){
+                            if(errorMessage){
+                                androidx.compose.material3.Text(
+                                    text = "Это сообщение появилось потому" +
+                                            " что нет позиции в базе, вы можете ее добвать " +
+                                            "нажав кнопку Добавьвте позицию в базу либо ввести" +
+                                            " полностью название позиции и нажать кнопку отравить (мы добавим в течении дня)",
+                                    color = MaterialTheme.colorScheme.error,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    modifier = Modifier.padding(start = 16.dp)
+                                )
+                            }
+
+                        }
+
 
                         if (openList){
 
@@ -222,12 +269,14 @@ fun dialog(dialogState: MutableState<Boolean>,
                                 mainList?.let {
                                     items(it) { it ->
 
-                                        Row(modifier = Modifier.clickable {
-                                            it.name?.let { text ->
-                                                userFood = text
-                                                openList = false
+                                        Row(modifier = Modifier
+                                            .clickable {
+                                                it.name?.let { text ->
+                                                    userFood = text
+                                                    openList = false
+                                                }
                                             }
-                                        }.padding(2.dp)) {
+                                            .padding(2.dp)) {
                                             Spacer(modifier = Modifier.padding(start = 5.dp))
 
                                             it.name?.let { text ->
@@ -250,7 +299,8 @@ fun dialog(dialogState: MutableState<Boolean>,
                            if (management.value?.openButtonAddFood == true){
                                if (openButton) {
                                    Button(onClick = {
-
+                                       viewModel.saveSharedPreference(false)
+                                       openMessage = false
                                        viewModel.nameDish(userFood)
                                        openDialog.value = true },
                                        ) {
