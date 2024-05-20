@@ -24,6 +24,7 @@ import androidx.lifecycle.LifecycleOwner
 import cal.calor.caloriecounter.MainViewModel
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.ui.theme.Gray500
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.СolorWater
 
 
@@ -51,7 +52,9 @@ fun VerticalProgressBarWater(viewModel: WaterViewModel,
             )
 
             Column() {
-                Text(" 2500", color = Color.White)
+                Text(" 2500",
+                    color = Color.White,
+                    fontFamily = sf_ui_display_semiboldFontFamily)
                 Column(
                     verticalArrangement = Arrangement.Center,
                 ) {

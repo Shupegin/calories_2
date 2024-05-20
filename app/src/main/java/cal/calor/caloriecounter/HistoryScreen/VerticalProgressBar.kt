@@ -25,6 +25,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import cal.calor.caloriecounter.MainViewModel
 import cal.calor.caloriecounter.ui.theme.Gray500
+import cal.calor.caloriecounter.ui.theme.sf_ui_display_semiboldFontFamily
 import cal.calor.caloriecounter.ui.theme.СolorWater
 
 
@@ -82,7 +83,7 @@ fun VerticalProgressBar(viewModel: MainViewModel,
             Column(
                 verticalArrangement = Arrangement.Center,
                ) {
-                Text(text = " $caloriesDay", color = Color.White)
+                Text(text = " $caloriesDay", color = Color.White, fontFamily = sf_ui_display_semiboldFontFamily)
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
