@@ -83,7 +83,7 @@ fun VerticalProgressBar(viewModel: MainViewModel,
             Column(
                 verticalArrangement = Arrangement.Center,
                ) {
-                Text(text = " $caloriesDay", color = Color.White, fontFamily = sf_ui_display_semiboldFontFamily)
+                Text(text = "$caloriesDay", color = Color.White, fontFamily = sf_ui_display_semiboldFontFamily)
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally

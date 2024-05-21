@@ -52,7 +52,7 @@ fun VerticalProgressBarWater(viewModel: WaterViewModel,
             )
 
             Column() {
-                Text(" $caloriesPerDay",
+                Text("$caloriesPerDay",
                     color = Color.White,
                     fontFamily = sf_ui_display_semiboldFontFamily)
                 Column(
