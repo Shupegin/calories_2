@@ -1,7 +1,5 @@
 package cal.calor.caloriecounter.dialog
 
-import androidx.compose.material3.OutlinedTextField
-
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -192,9 +190,10 @@ fun dialog(dialogState: MutableState<Boolean>,
                         }
 
 
+
+
                         OutlinedTextField(
                             value = userFood,
-
                             onValueChange = {
                                 it.let {
                                     userFood = it
@@ -206,9 +205,8 @@ fun dialog(dialogState: MutableState<Boolean>,
                                     mainList = listForFilter.value?.filter { it1 ->
                                         it1.name?.lowercase()?.startsWith(it.lowercase()) ?: false
                                     }
-                            }},
+                            } },
                             maxLines = 2,
-
                             label = {
                                 Text(
                                     text = "Введите название",
@@ -216,7 +214,6 @@ fun dialog(dialogState: MutableState<Boolean>,
                                     color = Color.Black
                                 )
                             },
-
                             trailingIcon = {
                                 if(openButton){
                                     Icon(painter = painterResource(id = R.drawable.send),
@@ -228,26 +225,39 @@ fun dialog(dialogState: MutableState<Boolean>,
                                         } )
                                 }
                             },
-                            colors = androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors(
+
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor =  Сoral,
                                 unfocusedBorderColor = Сoral,
                                 cursorColor = Сoral
-                            ),
-
+                            )
                         )
+
                         if (openMessage){
                             if(errorMessage){
                                 androidx.compose.material3.Text(
-                                    text = "Это сообщение появилось потому" +
-                                            " что нет позиции в базе, вы можете ее добвать " +
-                                            "нажав кнопку Добавьвте позицию в базу либо ввести" +
-                                            " полностью название позиции и нажать кнопку отравить (мы добавим в течении дня)",
+                                    text = "Это сообщение появилось, потому что введенной вами позиции нет в базе. \n" +
+                                            "Вы можете её добавить самостоятельно, нажав на кнопку «Добавить позицию в базу». " +
+                                            "Либо ввести в поле название блюда и нажать кнопку отправить, и мы добавим его в течение дня.",
                                     color = MaterialTheme.colorScheme.error,
                                     style = MaterialTheme.typography.bodySmall,
                                     modifier = Modifier.padding(start = 16.dp)
                                 )
                             }
 
+                        }
+
+                        if (management.value?.openButtonAddFood == true){
+                            if (openButton) {
+                                Button(onClick = {
+                                    viewModel.saveSharedPreference(false)
+                                    openMessage = false
+                                    viewModel.nameDish(userFood)
+                                    openDialog.value = true },
+                                ) {
+                                    Text(text = "Добавьте позицию в базу")
+                                }
+                            }
                         }
 
 
@@ -295,22 +305,6 @@ fun dialog(dialogState: MutableState<Boolean>,
                                     }
                                 }
                             }
-
-                           if (management.value?.openButtonAddFood == true){
-                               if (openButton) {
-                                   Button(onClick = {
-                                       viewModel.saveSharedPreference(false)
-                                       openMessage = false
-                                       viewModel.nameDish(userFood)
-                                       openDialog.value = true },
-                                       ) {
-                                       Text(text = "Добавьте позицию в базу")
-                                   }
-                               }
-                           }
-
-
-
                         }
 
 
