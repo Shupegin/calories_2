@@ -274,7 +274,6 @@ fun dialog(dialogState: MutableState<Boolean>,
                                     openButton = true
                                 }else{
                                     openButton = false
-                                    openList
                                 }
                                 mainList?.let {
                                     items(it) { it ->
