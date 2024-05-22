@@ -32,7 +32,7 @@ class App : Application() {
 
 
 
-        MyTracker.setDebugMode(true) // for debugging, turn off in production
+        MyTracker.setDebugMode(false) // for debugging, turn off in production
         MyTracker.getTrackerConfig().setBufferingPeriod(60)
 //        MyTracker.getTrackerParams()
 //            .setAge(22)
