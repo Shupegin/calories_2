@@ -145,6 +145,9 @@ dependencies {
 
     implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
 
-
+    implementation("com.my.tracker:mytracker-sdk:3.2.0")
+    implementation ("com.android.installreferrer:installreferrer:2.2")
+    implementation ("com.google.android.gms:play-services-ads-identifier:18.0.1")
+    implementation ("com.google.android.gms:play-services-appset:16.0.2")
 
 }
