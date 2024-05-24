@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Checkbox
@@ -115,16 +117,21 @@ fun InfoScreen(infoScreenState: MutableState<Boolean>, viewModel: HistoryViewMod
         }
     }
     fun body_mass_index(){
-        val w = if (weight.isEmpty()) 0.0 else weight.toDouble()
-        val h = if (height.isEmpty()) 0.0 else height.toDouble()
 
-        val _h = h/100
+        try {
+            val w = if (weight.isEmpty()) 0.0 else weight.toDouble()
+            val h = if (height.isEmpty()) 0.0 else height.toDouble()
+            val _h = h/100
 
-        val index_body = (w / (_h * _h))
-        val df = DecimalFormat("#.##")
-        df.roundingMode = RoundingMode.DOWN
-        val roundoff = df.format(index_body)
-        body_mass_index = roundoff.toString()
+            val index_body = (w / (_h * _h))
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.DOWN
+            val roundoff = df.format(index_body)
+            body_mass_index = roundoff.toString()
+        }catch (ex: NumberFormatException){ }
+
+
+
     }
 
    // для мужчин: 10 х вес (кг) + 6,25 x рост (см) – 5 х возраст (г) + 5 x A;
@@ -193,7 +200,10 @@ fun InfoScreen(infoScreenState: MutableState<Boolean>, viewModel: HistoryViewMod
                 .requiredWidth(LocalConfiguration.current.screenWidthDp.dp * 0.96f)
                 .padding(4.dp)
         ) {
-            Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(modifier = Modifier.fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
                 Row(
                     modifier = Modifier
@@ -453,25 +463,31 @@ fun InfoScreen(infoScreenState: MutableState<Boolean>, viewModel: HistoryViewMod
                         cursorColor = _сolor
                     ),
                 )
-                    Text(text = "ИМТ = $body_mass_index")
-                    Text(text = "Расшифровка ИМТ: ")
-                    Text(text = " 16 и менее - выраженный дефицит массы тела",
-                        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
-                    Text(text = " 16-18,5 - недостаточная (дефицит) масса тела ",
-                        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
-                    Text(text = " 18,5-25 - норма",
-                        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
-                    Text(text = " 25-30 - избыточная масса тела (предожирение)",
-                        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
-                    Text(text = " 30-35 - ожирение первой степени",
-                        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
-                    Text(text = " 35-40 - ожирение второй степени",
-                        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
-                    Text(text = " 40 и более - ожирение третьей степени (морбидное)",
-                        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
-                    Spacer(modifier = Modifier.padding(top = 10.dp))
-                    Text(text = " * Для подсчета калорий использовалась формула Миффлина-Сан Жеора 2005г",
-                    modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+                Box(modifier = Modifier.fillMaxWidth().padding(top = 10.dp,start = 25.dp, end = 25.dp)){
+                    Column (horizontalAlignment = Alignment.CenterHorizontally){
+                        Text(text = "ИМТ = $body_mass_index")
+                        Text(text = "Расшифровка ИМТ: ")
+                        Text(text = "16 и менее - выраженный дефицит массы тела",
+                            modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+                        Text(text = "16-18,5 - недостаточная (дефицит) масса тела ",
+                            modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+                        Text(text = "18,5-25 - норма",
+                            modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+                        Text(text = "25-30 - избыточная масса тела (предожирение)",
+                            modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+                        Text(text = "30-35 - ожирение первой степени",
+                            modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+                        Text(text = "35-40 - ожирение второй степени",
+                            modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+                        Text(text = "40 и более - ожирение третьей степени (морбидное)",
+                            modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+                        Spacer(modifier = Modifier.padding(top = 10.dp))
+                        Text(text = " * Для подсчета калорий использовалась формула Миффлина-Сан Жеора 2005г",
+                            modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+                    }
+
+                }
+
                 
                 Button(onClick = {
                     viewModel.saveSharedPreference(man = isCheckedMan, woman = isCheckedWoman,
