@@ -332,9 +332,10 @@ fun InfoScreen(infoScreenState: MutableState<Boolean>, viewModel: HistoryViewMod
                         cursorColor = _сolor
                     ),
                 )
-                Column {
+                Column() {
                     Text("Средняя активность")
                     ExposedDropdownMenuBox(
+                        modifier = Modifier.width(280.dp),
                         expanded = isExpanded,
                         onExpandedChange = {isExpanded = it}
                     ) {
