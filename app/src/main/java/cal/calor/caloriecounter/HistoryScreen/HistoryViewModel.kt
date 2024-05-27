@@ -188,7 +188,9 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
             for (i in listSort ){
                 ir++
 
-                listPoint.add(Point(ir.toFloat(),i.weight.let { it!!.toFloat() }))
+                try {
+                    listPoint.add(Point(ir.toFloat(),i.weight.let { it!!.toFloat() }))
+                }catch (ex: NumberFormatException){}
             }
         }
         _listPointWeight.value = listPoint
