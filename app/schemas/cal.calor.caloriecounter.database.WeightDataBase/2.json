@@ -1,0 +1,82 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "4ff3a9bcfba6cba3da9f4c425e026566",
+    "entities": [
+      {
+        "tableName": "weight_id_list",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `data` TEXT, `weight` TEXT, `breast` TEXT, `waist` TEXT, `biceps` TEXT, `belly` TEXT, `hip` TEXT, `buttocks` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "data",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "breast",
+            "columnName": "breast",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "waist",
+            "columnName": "waist",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "biceps",
+            "columnName": "biceps",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "belly",
+            "columnName": "belly",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hip",
+            "columnName": "hip",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "buttocks",
+            "columnName": "buttocks",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4ff3a9bcfba6cba3da9f4c425e026566')"
+    ]
+  }
+}
