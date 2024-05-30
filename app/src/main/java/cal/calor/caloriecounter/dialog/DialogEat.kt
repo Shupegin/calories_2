@@ -220,8 +220,17 @@ fun dialog(dialogState: MutableState<Boolean>,
                                         contentDescription = "", modifier = Modifier.clickable {
                                             viewModel.saveSharedPreference(false)
                                             openMessage = false
-                                            viewModel.saving_the_names_of_dishes(userFood.lowercase().trim())
-                                            Toast.makeText(context, "Ваша позиция добавлена на добавление",Toast.LENGTH_SHORT).show()
+                                            val containsSymbol = userFood?.let { it.findAnyOf(strings = listOf(".", "$", "#", "[", "]"), startIndex = 0, ignoreCase = false) != null}
+
+                                            containsSymbol?.let {
+                                                if (!it){
+                                                    viewModel.saving_the_names_of_dishes(userFood.lowercase().trim())
+                                                    Toast.makeText(context, "Ваша позиция добавлена на добавление",Toast.LENGTH_SHORT).show()
+                                                }else{
+                                                    Toast.makeText(context,"Нельзя использовать символы \".\", \"\$\", \"#\", \"[\", \"]\"",Toast.LENGTH_LONG).show()
+                                                }
+                                            }
+
                                         } )
                                 }
                             },

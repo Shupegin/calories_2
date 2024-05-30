@@ -441,14 +441,25 @@ fun dialogAdd(dialogState: MutableState<Boolean>,
                     }else if(foodModelAdd.carbohydratesTotalG == null){
                         isErrorСarbohydrates = true
                     }else{
-                        viewModel.databaseEntryFoodsUserNew(foodModelAdd)
 
-                        if (management.value?.addingOriginalList == true){
-                            viewModel.databaseEntryFoods(foodModelAdd)
+                        val containsSymbol = foodModelAdd.name?.let { it.findAnyOf(strings = listOf(".", "$", "#", "[", "]"), startIndex = 0, ignoreCase = false) != null}
+                        containsSymbol?.let {
+                            if (!it){
+                                viewModel.databaseEntryFoodsUserNew(foodModelAdd)
+
+                                if (management.value?.addingOriginalList == true){
+                                    viewModel.databaseEntryFoods(foodModelAdd)
+                                }
+                                Toast.makeText(context,"Блюдо добавлено в базу",Toast.LENGTH_LONG).show()
+                                viewModel.loadListFoodForFilter()
+                                dialogState.value = false
+                            }else{
+                                Toast.makeText(context,"Нельзя использовать символы \".\", \"\$\", \"#\", \"[\", \"]\"",Toast.LENGTH_LONG).show()
+                            }
                         }
-                        Toast.makeText(context,"Блюдо добавлено в базу",Toast.LENGTH_LONG).show()
-                        viewModel.loadListFoodForFilter()
-                        dialogState.value = false
+
+
+
 
                     }
                 }, colors = ButtonDefaults.buttonColors(brilliant_green)
