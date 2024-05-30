@@ -6,6 +6,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -85,8 +86,9 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                 shape = RoundedCornerShape(20.dp),
                 border = BorderStroke(1.dp, color = Green)
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Добавьте ваш вес",
+                Column(modifier = Modifier.padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "Добавьте вашы данные",
                         textAlign = TextAlign.Center,
                         fontFamily = sfproDisplayThinFontFamily,
                         color = Color.Black
@@ -124,7 +126,7 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = {
                             Text(
-                                text = "Грудь?",
+                                text = "Грудь?(cм)",
                                 fontFamily = sfproDisplayThinFontFamily,
                                 color = Color.Black
                             )
@@ -146,7 +148,7 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = {
                             Text(
-                                text = "Талия?",
+                                text = "Талия?(cм)",
                                 fontFamily = sfproDisplayThinFontFamily,
                                 color = Color.Black
                             )
@@ -168,7 +170,7 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = {
                             Text(
-                                text = "Бицепс?",
+                                text = "Бицепс?(cм)",
                                 fontFamily = sfproDisplayThinFontFamily,
                                 color = Color.Black
                             )
@@ -190,7 +192,7 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = {
                             Text(
-                                text = "Живот?",
+                                text = "Живот?(cм)",
                                 fontFamily = sfproDisplayThinFontFamily,
                                 color = Color.Black
                             )
@@ -212,7 +214,7 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = {
                             Text(
-                                text = "Бедро?",
+                                text = "Бедро?(cм)",
                                 fontFamily = sfproDisplayThinFontFamily,
                                 color = Color.Black
                             )
@@ -234,7 +236,7 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = {
                             Text(
-                                text = "Ягодицы?",
+                                text = "Ягодицы?(cм)",
                                 fontFamily = sfproDisplayThinFontFamily,
                                 color = Color.Black
                             )
