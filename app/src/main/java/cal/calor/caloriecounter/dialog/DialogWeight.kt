@@ -49,11 +49,29 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
     var weight by remember {
         mutableStateOf("")
     }
+    var hip by remember {
+        mutableStateOf("")
+    }
+    var breast by remember {
+        mutableStateOf("")
+    }
 
-    var text by remember { mutableStateOf(TextFieldValue("Text")) }
-    val keyboardController = LocalSoftwareKeyboardController.current
+    var waist by remember {
+        mutableStateOf("")
+    }
 
-    val focusManager = LocalFocusManager.current
+    var biceps by remember {
+        mutableStateOf("")
+    }
+
+    var belly by remember {
+        mutableStateOf("")
+    }
+
+    var buttocks by remember {
+        mutableStateOf("")
+    }
+
 
     Dialog(
         onDismissRequest = {
@@ -97,13 +115,152 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                     )
 
 
+                    OutlinedTextField(
+                        value = breast,
+                        onValueChange = { it.let {
+                            breast = it
+                        }},
+                        maxLines = 1,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = {
+                            Text(
+                                text = "Грудь?",
+                                fontFamily = sfproDisplayThinFontFamily,
+                                color = Color.Black
+                            )
+
+                        }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor =  Green,
+                            unfocusedBorderColor = Green,
+                            cursorColor = Green
+                        )
+
+                    )
+
+                    OutlinedTextField(
+                        value = waist,
+                        onValueChange = { it.let {
+                            waist = it
+                        }},
+                        maxLines = 1,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = {
+                            Text(
+                                text = "Талия?",
+                                fontFamily = sfproDisplayThinFontFamily,
+                                color = Color.Black
+                            )
+
+                        }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor =  Green,
+                            unfocusedBorderColor = Green,
+                            cursorColor = Green
+                        )
+
+                    )
+
+                    OutlinedTextField(
+                        value = biceps,
+                        onValueChange = { it.let {
+                            biceps = it
+                        }},
+                        maxLines = 1,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = {
+                            Text(
+                                text = "Бицепс?",
+                                fontFamily = sfproDisplayThinFontFamily,
+                                color = Color.Black
+                            )
+
+                        }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor =  Green,
+                            unfocusedBorderColor = Green,
+                            cursorColor = Green
+                        )
+
+                    )
+
+                    OutlinedTextField(
+                        value = belly,
+                        onValueChange = { it.let {
+                            belly = it
+                        }},
+                        maxLines = 1,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = {
+                            Text(
+                                text = "Живот?",
+                                fontFamily = sfproDisplayThinFontFamily,
+                                color = Color.Black
+                            )
+
+                        }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor =  Green,
+                            unfocusedBorderColor = Green,
+                            cursorColor = Green
+                        )
+
+                    )
+
+                    OutlinedTextField(
+                        value = hip,
+                        onValueChange = { it.let {
+                            hip = it
+                        }},
+                        maxLines = 1,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = {
+                            Text(
+                                text = "Бедро?",
+                                fontFamily = sfproDisplayThinFontFamily,
+                                color = Color.Black
+                            )
+
+                        }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor =  Green,
+                            unfocusedBorderColor = Green,
+                            cursorColor = Green
+                        )
+
+                    )
+
+                    OutlinedTextField(
+                        value = buttocks,
+                        onValueChange = { it.let {
+                            buttocks = it
+                        }},
+                        maxLines = 1,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = {
+                            Text(
+                                text = "Ягодицы?",
+                                fontFamily = sfproDisplayThinFontFamily,
+                                color = Color.Black
+                            )
+
+                        }, colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor =  Green,
+                            unfocusedBorderColor = Green,
+                            cursorColor = Green
+                        )
+
+                    )
+
+
 
                     Button(onClick = {
 
                         val wieght = WeightPogo(
                             data = weightViewModel.getCurrentDate(),
-                            weight = weight
-                            )
+                            weight = weight,
+                            breast = breast,
+                            waist = waist,
+                            biceps = biceps,
+                            belly = belly,
+                            hip = hip,
+                            buttocks = buttocks
+                        )
 
                         weightViewModel.addDao(wieght)
                         dialogState.value = false
@@ -117,9 +274,6 @@ fun DialogWeight(dialogState: MutableState<Boolean>, weightViewModel: WeightView
                     }
                     Button(onClick = {
                         dialogState.value = false
-
-
-
                     }) {
                         Text(text = "Закрыть ",
                             fontFamily = sf_ui_display_semiboldFontFamily)

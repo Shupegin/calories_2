@@ -81,15 +81,30 @@ fun cardViewWeight(weightPogo: WeightPogo, weightViewModel: WeightViewModel){
                     Row {
 
                         Column {
-                            Text(text = "Грудь")
-                            Text(text = "Талия")
-                            Text(text = "Бицепс")
+                            weightPogo.breast?.let {
+                                Text(text = "Грудь ${it} см")
+                            }
+                            weightPogo.waist?.let {
+                                Text(text = "Талия ${it} см" )
+
+                            }
+                            weightPogo.biceps?.let {
+                                Text(text = "Бицепс ${it} см")
+                            }
                         }
                         Spacer(modifier = Modifier.padding(start = 50.dp))
                         Column {
-                            Text(text = "Живот")
-                            Text(text = "Бедро")
-                            Text(text = "Ягодицы")
+                            weightPogo.belly?.let {
+                                Text(text = "Живот ${it} см")
+
+                            }
+                            weightPogo.hip?.let {
+                                Text(text = "Бедро ${it} см")
+                            }
+                            weightPogo.buttocks?.let {
+                                Text(text = "Ягодицы ${it} см"
+                                )
+                            }
                         }
                     }
                 }
