@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
+import cal.calor.caloriecounter.dialog.ChangeDialogWeight
 import cal.calor.caloriecounter.dialog.DialogWeight
 import cal.calor.caloriecounter.ui.theme.BackgroundGray
 import cal.calor.caloriecounter.ui.theme.Green
@@ -38,6 +39,9 @@ fun WeightScreen(viewModelWeight: WeightViewModel,
     val dialogStateWeight = remember {
         mutableStateOf(false)
     }
+    val dialogChangeStateWeight = remember {
+        mutableStateOf(false)
+    }
     val weightList = viewModelWeight.wieghtListDAO.observeAsState(listOf())
 
     val list = weightList.value.asReversed()
@@ -48,8 +52,14 @@ fun WeightScreen(viewModelWeight: WeightViewModel,
             weightViewModel= viewModelWeight,
             owner = owner,
         )
+    }
 
-
+    if (dialogChangeStateWeight.value){
+        ChangeDialogWeight(
+            dialogState = dialogChangeStateWeight,
+            weightViewModel= viewModelWeight,
+            owner = owner,
+        )
     }
 
     datavalue = viewModelWeight.getCurrentDate()
@@ -73,7 +83,10 @@ fun WeightScreen(viewModelWeight: WeightViewModel,
                 .padding(bottom = 55.dp),
             ){
                 items(list, key= { it.id!! },){ weightList ->
-                    cardViewWeight(weightPogo = weightList, weightViewModel =viewModelWeight )
+                    cardViewWeight(
+                        weightPogo = weightList,
+                        weightViewModel = viewModelWeight,
+                        onItem = {dialogChangeStateWeight.value = true} )
                 }
             }
 

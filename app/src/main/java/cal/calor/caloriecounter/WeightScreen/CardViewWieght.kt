@@ -32,14 +32,17 @@ import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 import cal.calor.caloriecounter.ui.theme.Сoral
 
 @Composable
-fun cardViewWeight(weightPogo: WeightPogo, weightViewModel: WeightViewModel){
+fun cardViewWeight(weightPogo: WeightPogo, weightViewModel: WeightViewModel, onItem: () -> Unit){
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(6.dp),
         shape = RoundedCornerShape(20.dp),
         border = BorderStroke(1.dp, color = Green)
     ) {
-        Column() {
+        Column(modifier = Modifier.clickable {
+            weightViewModel.changeData(weightPogo)
+            onItem.invoke()
+        }) {
             Row(
                 modifier = Modifier.padding(top = 20.dp),
                 verticalAlignment = Alignment.CenterVertically

@@ -29,6 +29,9 @@ class WeightViewModel (application: Application): AndroidViewModel(application) 
     private val _imageQR : MutableLiveData<Bitmap> = MutableLiveData()
     val imageQR : MutableLiveData<Bitmap> = _imageQR
 
+    private val _changeDate : MutableLiveData<WeightPogo> = MutableLiveData()
+    val changeDate : MutableLiveData<WeightPogo> =  _changeDate
+
 //    init {
 //        auth = FirebaseAuth.getInstance()
 //        auth?.addAuthStateListener{
@@ -62,10 +65,21 @@ class WeightViewModel (application: Application): AndroidViewModel(application) 
         }
     }
 
+    fun update(weightPogo: WeightPogo){
+        viewModelScope.launch {
+            db.weightInfoDao().update(weightPogo)
+
+        }
+    }
+
     fun deleteWeight(weightPogo: WeightPogo){
         viewModelScope.launch(Dispatchers.IO) {
 
             weightPogo.id?.let { db.weightInfoDao().remove(it)}
         }
+    }
+
+    fun changeData(weightPogo: WeightPogo){
+        _changeDate.value  = weightPogo
     }
 }
