@@ -524,6 +524,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun loadData(load : Boolean){
+        _statusLoading.value = load
+    }
+
 
 
 //    fun  loadCount(){

@@ -451,6 +451,7 @@ fun dialogAdd(dialogState: MutableState<Boolean>,
                                     viewModel.databaseEntryFoods(foodModelAdd)
                                 }
                                 Toast.makeText(context,"Блюдо добавлено в базу",Toast.LENGTH_LONG).show()
+                                viewModel.loadData(true)
                                 viewModel.loadListFoodForFilter()
                                 dialogState.value = false
                             }else{
