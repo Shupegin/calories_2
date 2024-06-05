@@ -92,6 +92,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _status : MutableLiveData<Boolean> = MutableLiveData()
     val status : LiveData<Boolean> =  _status
 
+    private val _statusLoading : MutableLiveData<Boolean> = MutableLiveData()
+    val statusLoading : LiveData<Boolean> =  _statusLoading
+
     private val _imageQR : MutableLiveData<Bitmap> = MutableLiveData()
     val imageQR : MutableLiveData<Bitmap> = _imageQR
 
@@ -515,6 +518,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                     name = value?.name,
                     calories = value?.calories))
             }
+            _statusLoading.value = false
             _loadListForFilter.value = list
 
         }

@@ -58,6 +58,7 @@ fun dialog(dialogState: MutableState<Boolean>,
            owner: LifecycleOwner,
            context: Context
 ){
+    var isLoadingEat  by remember { mutableStateOf( true) }
     var userFood by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("") }
     var datavalue by remember { mutableStateOf("") }
@@ -82,6 +83,9 @@ fun dialog(dialogState: MutableState<Boolean>,
     }
 
     val listForFilter  = viewModel.loadListForFilter.observeAsState(null)
+    viewModel.statusLoading.observe(owner){
+        isLoadingEat = it
+    }
 
 
     var openButton by remember {
@@ -242,6 +246,9 @@ fun dialog(dialogState: MutableState<Boolean>,
                             )
                         )
 
+                        if (isLoadingEat) {
+                            CircularProgressIndicator(color = Сoral, modifier = Modifier.size(20.dp))
+                        }
                         if (openMessage){
                             if(errorMessage){
                                 androidx.compose.material3.Text(
