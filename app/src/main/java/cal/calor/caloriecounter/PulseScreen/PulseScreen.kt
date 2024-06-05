@@ -49,7 +49,7 @@ import cal.calor.caloriecounter.ui.theme.СolorWater
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: () -> Unit){
+fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: () -> Unit, onItemChage: () -> Unit){
     var datavalue by remember { mutableStateOf("") }
 
     datavalue = pulseViewModel.getCurrentDate()
@@ -173,7 +173,8 @@ fun PulseScreen(pulseViewModel: PulseViewModel,owner: LifecycleOwner, onItem: ()
                                     Spacer(modifier = Modifier.padding(top = 5.dp))
                                     cardPulse(
                                         pulseModel = pulseList,
-                                        pulseViewModel = pulseViewModel
+                                        pulseViewModel = pulseViewModel,
+                                        onItem = onItemChage
                                     )
                                 }
                             }

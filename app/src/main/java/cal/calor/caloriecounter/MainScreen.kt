@@ -49,6 +49,7 @@ import cal.calor.caloriecounter.banner.Banner
 import cal.calor.caloriecounter.dialog.dialog
 import cal.calor.caloriecounter.dialog.dialogInfo
 import cal.calor.caloriecounter.dialog.pulseDialog
+import cal.calor.caloriecounter.dialog.pulseDialogChange
 import cal.calor.caloriecounter.dialog.waterDialog
 import cal.calor.caloriecounter.navigation.*
 import cal.calor.caloriecounter.ui.theme.BackgroundBottom
@@ -83,6 +84,10 @@ fun MainScreen(
         mutableStateOf(false)
     }
 
+    val pulseDialogStateChange = remember {
+        mutableStateOf(false)
+    }
+
     val dialogInfoState = remember {
         mutableStateOf(false)
     }
@@ -96,6 +101,12 @@ fun MainScreen(
 
     if (pulseDialogState.value){
         pulseDialog(pulseDialogState = pulseDialogState,
+            viewModel = pulseViewModel, owner =  owner,
+            context = context)
+    }
+
+    if (pulseDialogStateChange.value){
+        pulseDialogChange(pulseDialogState = pulseDialogStateChange,
             viewModel = pulseViewModel, owner =  owner,
             context = context)
     }
@@ -157,7 +168,10 @@ fun MainScreen(
                     homeScreenContent = { HomeScreen(viewModel = mainViewModel, paddingValues = paddingValues, onItem = {dialogState.value = true}, owner = owner, context = context)},
                     waterScreenContent = { WaterScreen(onItem = {waterDialogState.value = true}, viewModel = waterViewModel)},
                     weightScreenContent = { WeightScreen(viewModelWeight = viewModelWeight, paddingValues = paddingValues,owner,context, navController)},
-                    pulseScreenContent = { PulseScreen(pulseViewModel = pulseViewModel, owner = owner, onItem = {pulseDialogState.value = true})},
+                    pulseScreenContent = { PulseScreen(
+                        pulseViewModel = pulseViewModel,
+                        owner = owner, onItem = {pulseDialogState.value = true},
+                        onItemChage = {pulseDialogStateChange.value = true})},
                     historyScreenContent = { HistoryScreen(onItem = { dialogInfoState.value = true}, onItemClick = {infoScreen.value = true}, viewModel = mainViewModel, historyViewModel = historyViewModel, waterViewModel = waterViewModel, paddingValues = paddingValues, owner = owner, context =  context)}
                 )
             }

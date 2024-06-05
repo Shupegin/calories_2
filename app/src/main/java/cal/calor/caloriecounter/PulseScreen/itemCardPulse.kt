@@ -25,13 +25,19 @@ import cal.calor.caloriecounter.pojo.pulse.PulsePojo
 import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 
 @Composable
-fun cardPulse(pulseModel: PulsePojo, pulseViewModel: PulseViewModel){
-    Card(modifier = Modifier
+fun cardPulse(pulseModel: PulsePojo, pulseViewModel: PulseViewModel,onItem: () -> Unit){
+
+    Card(modifier = Modifier.clickable {
+        pulseViewModel.changeData(pulseModel)
+        onItem.invoke()
+    }
         .fillMaxWidth()
         .padding(6.dp),
         shape = RoundedCornerShape(25.dp),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(12.dp)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(12.dp)) {
             Column() {
                 Text(
                     text = "Давление/Пульс: ",

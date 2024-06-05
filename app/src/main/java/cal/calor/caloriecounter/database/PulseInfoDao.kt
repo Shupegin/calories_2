@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.pulse.PulsePojo
 
@@ -19,5 +20,7 @@ interface PulseInfoDao {
 
     @Query("DELETE FROM pulse_id_list WHERE id =:id")
     suspend fun remove(id : Int)
+    @Update
+    suspend fun update(pulseModel: PulsePojo)
 }
 

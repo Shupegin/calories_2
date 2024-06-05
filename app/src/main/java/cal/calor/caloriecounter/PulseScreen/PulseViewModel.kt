@@ -22,6 +22,9 @@ class PulseViewModel(application: Application,): AndroidViewModel(application){
     val pulseListView : MutableLiveData<List<PulsePojo>> = MutableLiveData()
     val pulseListFilter : MutableLiveData<String> = MutableLiveData()
 
+    val _changeData : MutableLiveData<PulsePojo> = MutableLiveData()
+    val changeData : MutableLiveData<PulsePojo> = _changeData
+
 
     init {
         pulseListDAO.observeForever {
@@ -43,6 +46,17 @@ class PulseViewModel(application: Application,): AndroidViewModel(application){
         viewModelScope.launch(Dispatchers.IO) {
             pulseDB.pulseInfoDao().insertPulseList(pulsePojo)
         }
+    }
+
+    fun updateDataBase (pulsePojo: PulsePojo) {
+        viewModelScope.launch(Dispatchers.IO) {
+            pulseDB.pulseInfoDao().insertPulseList(pulsePojo)
+        }
+    }
+
+
+    fun changeData (pulsePojo: PulsePojo) {
+        _changeData.value = pulsePojo
     }
 
     fun deletePulse(pulsePojo: PulsePojo){
