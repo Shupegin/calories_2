@@ -51,6 +51,7 @@ import cal.calor.caloriecounter.dialog.dialogInfo
 import cal.calor.caloriecounter.dialog.pulseDialog
 import cal.calor.caloriecounter.dialog.pulseDialogChange
 import cal.calor.caloriecounter.dialog.waterDialog
+import cal.calor.caloriecounter.dialog.waterDialogChange
 import cal.calor.caloriecounter.navigation.*
 import cal.calor.caloriecounter.ui.theme.BackgroundBottom
 
@@ -77,6 +78,10 @@ fun MainScreen(
         mutableStateOf(false)
     }
     val waterDialogState = remember {
+        mutableStateOf(false)
+    }
+
+    val waterDialogStateChange = remember {
         mutableStateOf(false)
     }
 
@@ -117,6 +122,10 @@ fun MainScreen(
 
     if (waterDialogState.value){
         waterDialog(waterDialogState = waterDialogState, viewModel = waterViewModel, owner )
+    }
+
+    if (waterDialogStateChange.value){
+        waterDialogChange(waterDialogState = waterDialogStateChange, viewModel = waterViewModel, owner )
     }
     if (dialogState.value){
        dialog(dialogState = dialogState, viewModel = mainViewModel, owner = owner, context = context )
@@ -165,14 +174,43 @@ fun MainScreen(
             }){ paddingValues ->
                 AppNavGraph(
                     navHostController = navigationState.navHostController,
-                    homeScreenContent = { HomeScreen(viewModel = mainViewModel, paddingValues = paddingValues, onItem = {dialogState.value = true}, owner = owner, context = context)},
-                    waterScreenContent = { WaterScreen(onItem = {waterDialogState.value = true}, viewModel = waterViewModel)},
-                    weightScreenContent = { WeightScreen(viewModelWeight = viewModelWeight, paddingValues = paddingValues,owner,context, navController)},
+                    homeScreenContent = {
+                        HomeScreen(
+                        viewModel = mainViewModel,
+                        paddingValues = paddingValues,
+                            onItem = {dialogState.value = true},
+                            owner = owner,
+                            context = context
+                        )},
+                    waterScreenContent = {
+                        WaterScreen(
+                            onItem = {waterDialogState.value = true},
+                            viewModel = waterViewModel,
+                            onItemChange = {waterDialogStateChange.value = true}
+                        )},
+                    weightScreenContent = {
+                        WeightScreen(
+                            viewModelWeight = viewModelWeight,
+                            paddingValues = paddingValues,owner,
+                            context= context,
+                            navController = navController
+                        )},
                     pulseScreenContent = { PulseScreen(
                         pulseViewModel = pulseViewModel,
                         owner = owner, onItem = {pulseDialogState.value = true},
-                        onItemChage = {pulseDialogStateChange.value = true})},
-                    historyScreenContent = { HistoryScreen(onItem = { dialogInfoState.value = true}, onItemClick = {infoScreen.value = true}, viewModel = mainViewModel, historyViewModel = historyViewModel, waterViewModel = waterViewModel, paddingValues = paddingValues, owner = owner, context =  context)}
+                        onItemChage = {pulseDialogStateChange.value = true}
+                    )},
+                    historyScreenContent = {
+                        HistoryScreen(
+                            onItem = { dialogInfoState.value = true},
+                            onItemClick = {infoScreen.value = true},
+                            viewModel = mainViewModel,
+                            historyViewModel = historyViewModel,
+                            waterViewModel = waterViewModel,
+                            paddingValues = paddingValues,
+                            owner = owner,
+                            context =  context
+                        )}
                 )
             }
 

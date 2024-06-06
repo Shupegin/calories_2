@@ -24,8 +24,11 @@ import cal.calor.caloriecounter.pojo.WaterModel_2
 import cal.calor.caloriecounter.ui.theme.sfproDisplayThinFontFamily
 
 @Composable
-fun cardWater(waterModel: WaterModel_2, viewModel : WaterViewModel){
-    Card(modifier = Modifier
+fun cardWater(waterModel: WaterModel_2, viewModel : WaterViewModel, onItem: () -> Unit ){
+    Card(modifier = Modifier.clickable {
+        viewModel.changeData(waterModel)
+        onItem.invoke()
+    }
         .fillMaxWidth()
         .padding(6.dp),
         shape = RoundedCornerShape(25.dp),

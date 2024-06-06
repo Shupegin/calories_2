@@ -48,7 +48,7 @@ import com.example.caloriecounter.cardFood
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
+fun WaterScreen(onItem: () -> Unit, onItemChange: () -> Unit, viewModel: WaterViewModel) {
 
     var waters by remember { mutableStateOf(0) }
     var drainedWater by remember { mutableStateOf(0) }
@@ -164,7 +164,7 @@ fun WaterScreen(onItem: () -> Unit, viewModel: WaterViewModel) {
                                     )
                             }
                             items(listWater, key = { it.waterId }) { waterModel ->
-                                cardWater(waterModel = waterModel, viewModel = viewModel)
+                                cardWater(waterModel = waterModel, viewModel = viewModel, onItem = onItemChange)
                             }
 
                             item {

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import cal.calor.caloriecounter.database.WaterDataBase_2
 import cal.calor.caloriecounter.pojo.FoodModel
 import cal.calor.caloriecounter.pojo.WaterModel_2
+import cal.calor.caloriecounter.pojo.weight.WeightPogo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -25,6 +26,9 @@ class WaterViewModel (application: Application) : AndroidViewModel(application) 
     val sumWater : LiveData<Int> =  _sumWater
 
 
+    private val _changeDate : MutableLiveData<WaterModel_2> = MutableLiveData()
+    val changeDate : MutableLiveData<WaterModel_2> = _changeDate
+
     init {
         waterListDAO.observeForever {
             updateWaterListView()
@@ -39,6 +43,12 @@ class WaterViewModel (application: Application) : AndroidViewModel(application) 
     fun addWaterDataBase (waterModel_2: WaterModel_2) {
         viewModelScope.launch(Dispatchers.IO) {
             db.waterInfoDao_2().insertWaterList(waterModel_2)
+        }
+    }
+
+    fun updateDataBase (waterModel_2: WaterModel_2) {
+        viewModelScope.launch(Dispatchers.IO) {
+            db.waterInfoDao_2().update(waterModel_2)
         }
     }
 
@@ -84,6 +94,10 @@ class WaterViewModel (application: Application) : AndroidViewModel(application) 
             return
         }
         waterListView.value = waterListDAO.value
+    }
+
+    fun changeData(waterModel: WaterModel_2){
+        _changeDate.value  = waterModel
     }
 
 
