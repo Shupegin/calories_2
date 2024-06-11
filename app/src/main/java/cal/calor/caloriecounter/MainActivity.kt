@@ -11,10 +11,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -22,16 +25,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import cal.calor.caloriecounter.AddNewFoodScreen.AddFoodScreenViewModel
 import cal.calor.caloriecounter.HistoryScreen.HistoryViewModel
@@ -39,6 +47,7 @@ import cal.calor.caloriecounter.InternetScreen.CheckInternetScreen
 import cal.calor.caloriecounter.LoginScreen.LoginViewModel
 import cal.calor.caloriecounter.PulseScreen.PulseViewModel
 import cal.calor.caloriecounter.RegistrationScreen.RegistrationViewModel
+import cal.calor.caloriecounter.SplashScreen.SplashScreen
 import cal.calor.caloriecounter.WaterScreeen.WaterViewModel
 import cal.calor.caloriecounter.WeightScreen.WeightViewModel
 import cal.calor.caloriecounter.dialog.dialogUpdateApp
@@ -93,7 +102,6 @@ class MainActivity : ComponentActivity() {
             }
             checkForAppUpdate()
         }
-
 
         setContent {
 
@@ -262,7 +270,22 @@ fun LoginApplication(viewModel: LoginViewModel,
                      context: Context){
 
     val navController = rememberNavController()
-    MainScreen(mainViewModel = mainViewModel,viewModelWeight = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , pulseViewModel = pulseViewModel, owner = owner, context = context,navController = navController)
+
+
+    NavHost(
+        navController = navController,
+        startDestination = "splash_screen",
+
+    ){
+        composable("splash_screen"){
+            SplashScreen(navController = navController)
+        }
+        composable("main_screen"){
+            MainScreen(mainViewModel = mainViewModel,viewModelWeight = viewModelProf, historyViewModel = historyViewModel, waterViewModel= waterViewModel , pulseViewModel = pulseViewModel, owner = owner, context = context,navController = navController)
+        }
+    }
+
+
 
 }
 
